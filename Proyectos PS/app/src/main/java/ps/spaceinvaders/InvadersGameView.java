@@ -8,6 +8,7 @@ import android.graphics.RectF;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.widget.Button;
 
 public class InvadersGameView extends SurfaceView implements Runnable {
 
@@ -72,6 +73,7 @@ public class InvadersGameView extends SurfaceView implements Runnable {
     }
 
     private void iniLvl(){
+
         spaceShip = new SpaceShip(context, screenX, screenY);
 
         // Prepara la bala del jugador
