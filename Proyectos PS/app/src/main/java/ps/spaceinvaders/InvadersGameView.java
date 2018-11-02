@@ -8,7 +8,6 @@ import android.graphics.RectF;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.widget.Button;
 
 public class InvadersGameView extends SurfaceView implements Runnable {
 
@@ -16,13 +15,13 @@ public class InvadersGameView extends SurfaceView implements Runnable {
 
     Context context;
 
-    private Thread mainTh = null;
+    private Thread mainTh;
 
     private SurfaceHolder holder;
 
     private volatile boolean isPlaying;
 
-    private boolean isPaused = true;
+    private boolean isPaused = false;
 
     private Canvas canvas;
     private Paint paint;
@@ -55,6 +54,9 @@ public class InvadersGameView extends SurfaceView implements Runnable {
     private long lastTime = System.currentTimeMillis();
 
     boolean lost = false;
+    private boolean changeColor=false;
+
+    private Buttons izq,der,dis,arr,abj;
 
     public InvadersGameView (Context context, int x, int y, boolean isViolent){
         super(context);
@@ -73,8 +75,12 @@ public class InvadersGameView extends SurfaceView implements Runnable {
     }
 
     private void iniLvl(){
-
         spaceShip = new SpaceShip(context, screenX, screenY);
+        izq=new Buttons(context,screenX,screenY,R.drawable.izq);
+        der=new Buttons(context,screenX,screenY,R.drawable.der);
+        dis=new Buttons(context,screenX,screenY,R.drawable.shoot);
+        arr=new Buttons(context,screenX,screenY,R.drawable.arr);
+        abj=new Buttons(context,screenX,screenY,R.drawable.abj);
 
         // Prepara la bala del jugador
         bullet = new Bullet(screenY);
@@ -86,8 +92,8 @@ public class InvadersGameView extends SurfaceView implements Runnable {
 
         // Construye la formación enemiga
         numEnemies = 0;
-        for(int column = 0; column < 6; column ++ ){
-            for(int row = 0; row < 5; row ++ ){
+        for(int column = 0; column < 4; column ++ ){
+            for(int row = 0; row < 3; row ++ ){
                 enemies[numEnemies] = new Enemy(context, row, column, screenX, screenY);
                 numEnemies ++;
             }
@@ -239,7 +245,8 @@ public class InvadersGameView extends SurfaceView implements Runnable {
                             //Ha ocurrido la colisión
                             enemyShots[i].setInactive();
                             blocks[j].destoyDefence();
-                            //soundPool.play(damageShelterID, 1, 1, 0, 0, 1);
+                            changeColor =!changeColor;
+
                         }
                     }
                 }
@@ -283,6 +290,7 @@ public class InvadersGameView extends SurfaceView implements Runnable {
 
             canvas.drawColor(Color.argb(255, 0, 0, 0));
 
+
             paint.setColor(Color.argb(255, 255, 255, 255));
 
             //Pintar la puntuación
@@ -291,7 +299,12 @@ public class InvadersGameView extends SurfaceView implements Runnable {
             canvas.drawText("Score: " + score, 30,50, paint);
 
             // Dibuja la nave espacial
-            canvas.drawBitmap(spaceShip.getBitmap(), spaceShip.getX(), screenY - 120, paint);
+            canvas.drawBitmap(spaceShip.getBitmap(), spaceShip.getX(), spaceShip.getY(), paint);
+            canvas.drawBitmap(izq.getBitmap(), 50, screenY - 200, paint);
+            canvas.drawBitmap(der.getBitmap(), 500, screenY - 200, paint);
+            canvas.drawBitmap(dis.getBitmap(), dis.getX()/2, screenY - 200, paint);
+            canvas.drawBitmap(arr.getBitmap(), screenX-690, screenY - 200, paint);
+            canvas.drawBitmap(abj.getBitmap(), screenX-240, screenY - 200, paint);
 
             // Dibuja las defensas no destruidas
             for(int i = 0; i < numDefences; i++){
@@ -300,22 +313,31 @@ public class InvadersGameView extends SurfaceView implements Runnable {
                 }
             }
 
-            // Dibuja la bala del player
+            // Dibuja la bala del jugador
             if(bullet.getStatus()){
                 paint.setColor(Color.argb(255, 255, 255, 0));
                 canvas.drawRect(bullet.getRect(), paint);
             }
 
             // Dibuja a los invaders
-            for(int i = 0; i < numEnemies; i++){
-                if(enemies[i].getVisibility()) {
-                    if(animation) {
-                        canvas.drawBitmap(enemies[i].getBitmap(), enemies[i].getX(), enemies[i].getY(), paint);
-                    }else{
-                        canvas.drawBitmap(enemies[i].getBitmap2(), enemies[i].getX(), enemies[i].getY(), paint);
+            for(int i = 0; i < numEnemies; i++) {
+                if (enemies[i].getVisibility()) {
+                    if (!changeColor) {
+                        if (animation) {
+                            canvas.drawBitmap(enemies[i].getBitmap(), enemies[i].getX(), enemies[i].getY(), paint);
+                        } else {
+                            canvas.drawBitmap(enemies[i].getBitmap2(), enemies[i].getX(), enemies[i].getY(), paint);
+                        }
+                    } else {
+                        if (animation) {
+                            canvas.drawBitmap(enemies[i].getBitmap3(), enemies[i].getX(), enemies[i].getY(), paint);
+                        } else {
+                            canvas.drawBitmap(enemies[i].getBitmap4(), enemies[i].getX(), enemies[i].getY(), paint);
+                        }
+
                     }
                 }
-            }
+              }
 
             // Dibuja las balas de los invaders
 
@@ -345,34 +367,25 @@ public class InvadersGameView extends SurfaceView implements Runnable {
 
         if(!lost) {
             switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
-
                 // El jugador ha pulsado la pantalla
                 case MotionEvent.ACTION_DOWN:
                     isPaused = false;
-
-                    if (motionEvent.getY() > screenY - screenY / 8) {
-                        if (motionEvent.getX() > screenX / 2) {
-                            spaceShip.setMovementState(spaceShip.RIGHT);
-                        } else {
-                            spaceShip.setMovementState(spaceShip.LEFT);
-                        }
-
-                    }
-
-                    if (motionEvent.getY() < screenY - screenY / 8) {
-                        // Disparos lanzados
-                        if (bullet.shoot(spaceShip.getX() + spaceShip.getLength() / 2, screenY, bullet.UP)) {
-                            // soundPool.play(shootID, 1, 1, 0, 0, 1);
-                        }
+                    if ((motionEvent.getX() < (screenX / 5)) && (motionEvent.getY() > (screenY - (screenY / 6)))) {
+                        spaceShip.setMovementState(spaceShip.LEFT); }
+                    else if ((motionEvent.getX() < (screenX / 5*2)) && (motionEvent.getY() > (screenY - (screenY / 6)))) {
+                        spaceShip.setMovementState(spaceShip.RIGHT);
+                    } else if ((motionEvent.getX() < (screenX / 5*3)) && (motionEvent.getY() > (screenY - (screenY / 6)))) {
+                        bullet.shoot(spaceShip.getX() + spaceShip.getLength() / 2, spaceShip.getY(), bullet.UP);
+                    } else if ((motionEvent.getX() < (screenX / 5*4)) && (motionEvent.getY() > (screenY - (screenY / 6)))) {
+                        spaceShip.setMovementState(spaceShip.UP);
+                    } else if ((motionEvent.getX() < ( (screenX ))) && (motionEvent.getY() > (screenY - (screenY / 6)))) {
+                        spaceShip.setMovementState(spaceShip.DOWN);
                     }
                     break;
 
                 // Deja de pulsar la pantalla
                 case MotionEvent.ACTION_UP:
-                    if (motionEvent.getY() > screenY - screenY / 10) {
-                        spaceShip.setMovementState(spaceShip.STOPPED);
-                    }
-
+                    spaceShip.setMovementState(spaceShip.STOPPED);
                     break;
             }
             return true;

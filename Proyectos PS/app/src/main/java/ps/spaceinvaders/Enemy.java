@@ -9,13 +9,15 @@ import java.util.Random;
 
 public class Enemy {
 
-    RectF rect;
+    private RectF rect;
 
     Random generator = new Random();
 
     //Bitmaps para la animación
     private Bitmap anim1;
     private Bitmap anim2;
+    private Bitmap anim3;
+    private Bitmap anim4;
 
     //Tamaño
     private float length;
@@ -64,9 +66,23 @@ public class Enemy {
                 (int) (length),
                 (int) (height),
                 false);
+        // Animaciones
+        anim3 = BitmapFactory.decodeResource(context.getResources(), R.drawable.invadestart2);
+        anim4 = BitmapFactory.decodeResource(context.getResources(), R.drawable.invaderend2);
+
+        // Ajusta el tamaño de los invaders la resolución de la pantalla
+        anim3 = Bitmap.createScaledBitmap(anim3,
+                (int) (length),
+                (int) (height),
+                false);
+
+        anim4 = Bitmap.createScaledBitmap(anim4,
+                (int) (length),
+                (int) (height),
+                false);
 
         // Velocidad en píxeles por segundo de los invaders
-        enemySpeed = 40;
+        enemySpeed = 80;
     }
 
     public void setOff(){
@@ -87,6 +103,14 @@ public class Enemy {
 
     public Bitmap getBitmap2(){
         return anim2;
+    }
+
+    public Bitmap getBitmap3(){
+        return anim3;
+    }
+
+    public Bitmap getBitmap4(){
+        return anim4;
     }
 
     public float getX(){

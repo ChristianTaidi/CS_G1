@@ -8,9 +8,11 @@ import android.graphics.RectF;
 public class SpaceShip {
 
     //Detector de impactos
-    RectF rect;
+    private RectF rect;
 
     private Bitmap bitmap;
+    private int maxX;
+    private int maxY;
 
     private float length;
     private float height;
@@ -24,6 +26,8 @@ public class SpaceShip {
     public final int STOPPED = 0;
     public final int LEFT = 1;
     public final int RIGHT = 2;
+    public final int DOWN = 3;
+    public final int UP = 4;
 
     //Estado actual de la nave
     private int shipMoving = STOPPED;
@@ -33,12 +37,15 @@ public class SpaceShip {
 
         rect = new RectF();
 
+        maxX=screenX;
+        maxY=screenY;
+
         length = screenX/10;
         height = screenY/10;
 
         // Inicia la nave en el centro de la pantalla aproximadamente
         x = screenX / 2;
-        y = screenY - 20;
+        y = screenY-height;
 
         // Inicializa el bitmap
         bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.spaceship);
@@ -50,7 +57,7 @@ public class SpaceShip {
                 false);
 
         // velocidad nave en pixeles por segundo
-        shipVel = 350;
+        shipVel = 500;
     }
 
     public RectF getRect(){
@@ -66,6 +73,9 @@ public class SpaceShip {
     public float getX(){
         return x;
     }
+    public float getY(){
+        return y;
+    }
 
     public float getLength(){
         return length;
@@ -77,12 +87,19 @@ public class SpaceShip {
     }
 
     public void update(long fps){
-        if(shipMoving == LEFT){
+        if(shipMoving == LEFT && x>0){
             x = x - shipVel / fps;
         }
 
-        if(shipMoving == RIGHT){
+        if(shipMoving == RIGHT && x<maxX){
             x = x + shipVel / fps;
+        }
+        if(shipMoving == UP && y>0){
+            y = y - shipVel / fps;
+        }
+
+        if(shipMoving == DOWN && y<maxY-height ){
+            y = y + shipVel / fps;
         }
 
         // Actualiza rect el cual es usado para detectar impactos

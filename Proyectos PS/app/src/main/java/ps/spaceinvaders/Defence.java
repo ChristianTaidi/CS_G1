@@ -19,7 +19,7 @@ public class Defence {
 
         //Número de defensas
         int shelterPadding = screenX / 9;
-        int startHeight = screenY - (screenY /8 * 2);
+        int startHeight = screenY - (screenY /8 * 3);
 
         rect = new RectF(column * width + brickPadding +
                 (shelterPadding * shelterNumber) +
