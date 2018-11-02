@@ -65,6 +65,10 @@ public class SpaceShip {
         return rect;
     }
 
+    public float getHeight() {
+        return height;
+    }
+
     // define nuestra nave espacial para que este disponible en View
     public Bitmap getBitmap(){
         return bitmap;

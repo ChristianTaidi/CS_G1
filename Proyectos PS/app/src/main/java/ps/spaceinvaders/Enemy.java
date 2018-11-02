@@ -67,7 +67,7 @@ public class Enemy {
                 (int) (height),
                 false);
         // Animaciones
-        anim3 = BitmapFactory.decodeResource(context.getResources(), R.drawable.invadestart2);
+        anim3 = BitmapFactory.decodeResource(context.getResources(), R.drawable.invaderstart2);
         anim4 = BitmapFactory.decodeResource(context.getResources(), R.drawable.invaderend2);
 
         // Ajusta el tamaño de los invaders la resolución de la pantalla
