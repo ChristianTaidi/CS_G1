@@ -4,8 +4,11 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Picture;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.graphics.drawable.Drawable;
+import android.media.Image;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -345,7 +348,10 @@ public class InvadersGameView extends SurfaceView implements Runnable {
         if (holder.getSurface().isValid()) {
             canvas = holder.lockCanvas();
 
-            canvas.drawColor(Color.argb(255, 0, 0, 0));
+            //canvas.drawColor(Color.argb(255, 0, 0, 0));
+            Drawable d = getResources().getDrawable(R.drawable.background);
+            d.setBounds(0, 0, screenX, screenY);
+            d.draw(canvas);
 
 
             paint.setColor(Color.argb(255, 255, 255, 255));
@@ -401,11 +407,6 @@ public class InvadersGameView extends SurfaceView implements Runnable {
                     canvas.drawBitmap(b.getBulletEnemy(), b.getX()-b.getLength()/2, b.getY(), paint);
                 }
             }
-            /*for(int i = 0; i < enemyShots.length; i++){
-                if(enemyShots[i].getStatus()) {
-                    canvas.drawRect(enemyShots[i].getRect(), paint);
-                }
-            }*/
 
             holder.unlockCanvasAndPost(canvas);
         }
