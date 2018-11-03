@@ -31,6 +31,8 @@ public class Bullet {
     private boolean enemyBullet;
     private boolean friend;
 
+    private int bounceCounts;
+
     public Bullet(Context context, int screenY, int screenX){
         // Inicializa el bitmap
         length = screenX/20;
@@ -53,7 +55,7 @@ public class Bullet {
                 (int) (height),
                 false);
 
-
+        bounceCounts = 0;
         enemyBullet = false;
         friend = false;
         //height = screenY /20;
@@ -137,6 +139,14 @@ public class Bullet {
         }
 
         return false;
+    }
+
+    public int getBounceCounts() {
+        return bounceCounts;
+    }
+
+    public void updateBounceCounts() {
+        bounceCounts++;
     }
 
     public void update(long fps){
