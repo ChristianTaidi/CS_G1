@@ -13,25 +13,6 @@ public class MainActivity extends AppCompatActivity {
     private EditText playerAge;
     private Button enterButton;
 
-    class ValidateThread extends Thread{
-        int n;
-
-        ValidateThread(int n) {
-            this.n = n;
-        }
-
-        @Override
-        public void run() {
-            if(n<13){
-                Intent intent = new Intent (MainActivity.this, PeacefulActivity.class);
-                startActivity(intent);
-            }else {
-                Intent intent = new Intent(MainActivity.this, ViolentActivity.class);
-                startActivity(intent);
-            }
-        }
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +33,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void validate(int numberAge){
-        ValidateThread validateTh = new ValidateThread(numberAge);
-        validateTh.start();
+        if(numberAge<13){
+            Intent intent = new Intent (MainActivity.this, PeacefulActivity.class);
+            startActivity(intent);
+        }else {
+            Intent intent = new Intent(MainActivity.this, ViolentActivity.class);
+            startActivity(intent);
+        }
     }
 }
