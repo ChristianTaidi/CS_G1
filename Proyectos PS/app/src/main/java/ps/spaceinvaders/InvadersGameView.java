@@ -4,11 +4,8 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Picture;
-import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
-import android.media.Image;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -48,6 +45,7 @@ public class InvadersGameView extends SurfaceView implements Runnable {
     //Controlar las balas
     private ArrayList<Bullet> bullets = new ArrayList();
     private ArrayList<Bullet> removedBullets = new ArrayList();
+    private boolean playerHasShot;
     //Las naves no pueden diparar mas N balas por vez
     private boolean fullCapacity;
     private int enemyBulletsCount;
@@ -91,11 +89,40 @@ public class InvadersGameView extends SurfaceView implements Runnable {
 
     //THREADS QUE VAMOS A USAR
 
+    class WaitingThread extends Thread {
+        long milis;
+        int mode;
+
+        WaitingThread(long milis) {
+            this.milis = milis;
+            this.mode = 0;
+        }
+
+        WaitingThread(long milis, int mode) {
+            this.milis = milis;
+            this.mode = mode;
+        }
+
+        @Override
+        public void run() {
+            try {
+                wait(milis);
+                if (mode == 1) {
+                    playerHasShot = false;
+                }
+            } catch (InterruptedException e) {
+                System.out.println("Algo salio mal...");
+                e.printStackTrace();
+            }
+        }
+    }
+
     //--------THREAD QUE INICIALIZA LA PARTIDA--------//
     class LoadingThread extends Thread {
         @Override
         public void run() {
             try {
+                playerHasShot = false;
                 changeColor = false;
                 killedEnemies = 0;
                 bullets.clear();
@@ -436,9 +463,15 @@ public class InvadersGameView extends SurfaceView implements Runnable {
                     else if ((motionEvent.getX() < (screenX / 5*2)) && (motionEvent.getY() > (screenY - (screenY / 6)))) {
                         spaceShip.setMovementState(spaceShip.RIGHT);
                     } else if ((motionEvent.getX() < (screenX / 5*3)) && (motionEvent.getY() > (screenY - (screenY / 6)))) {
-                        Bullet b = new Bullet(context, screenY, screenX);
-                        bullets.add(b);
-                        b.shoot(spaceShip.getX() + spaceShip.getLength() / 2, spaceShip.getY()-spaceShip.getHeight(), b.UP);
+                        if(!playerHasShot) {
+                            Bullet b = new Bullet(context, screenY, screenX);
+                            bullets.add(b);
+                            playerHasShot = true;
+                            b.shoot(spaceShip.getX() + spaceShip.getLength() / 2, spaceShip.getY() - spaceShip.getHeight(), b.UP);
+                            WaitingThread waitTh = new WaitingThread(3000, 1);
+                            waitTh.run();
+                        }
+
                     } else if ((motionEvent.getX() < (screenX / 5*4)) && (motionEvent.getY() > (screenY - (screenY / 6)))) {
                         spaceShip.setMovementState(spaceShip.UP);
                     } else if ((motionEvent.getX() < ( (screenX ))) && (motionEvent.getY() > (screenY - (screenY / 6)))) {
