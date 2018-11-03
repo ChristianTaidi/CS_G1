@@ -81,6 +81,11 @@ public class SpaceShip {
         return y;
     }
 
+    public void resetSpacechip() {
+        x = maxX / 2;
+        y = maxY-height;
+    }
+
     public float getLength(){
         return length;
     }
