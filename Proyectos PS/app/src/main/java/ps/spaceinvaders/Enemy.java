@@ -35,7 +35,7 @@ public class Enemy {
 
     // Movimiento y dirección
     private int enemyMoving = RIGHT;
-
+    private final float MAX_SPEED = 600f;
     boolean isVisible;
 
     public Enemy(Context context, int row, int column, int screenX, int screenY) {
@@ -139,24 +139,40 @@ public class Enemy {
         rect.bottom = y + height;
         rect.left = x;
         rect.right = x + length;
+    }
 
-
-
+    public void angryEnemie(int killedEnemies){
+        float aux = enemySpeed;
+        aux += killedEnemies*0.5f;
+        if(aux < MAX_SPEED) {
+            enemySpeed = aux;
+        }
+        else {
+            enemySpeed = MAX_SPEED;
+        }
     }
 
     public void enemyCicle(){
+        float aux = enemySpeed;
         if(enemyMoving == LEFT){
             enemyMoving = RIGHT;
+            x += 10;
         }else{
             enemyMoving = LEFT;
+            x -= 10;
         }
-
         y = y + height;
 
-        enemySpeed = enemySpeed * 1.18f;
+        aux *= 1.15f;
+        if(aux < MAX_SPEED) {
+            enemySpeed = aux;
+        }
+        else {
+            enemySpeed = MAX_SPEED;
+        }
     }
 
-    public boolean randomShot(float playerShipX, float playerShipLength){
+    public boolean randomShot(float playerShipX, float playerShipLength, int killedEnemies){
 
         int randomNumber = -1;
 
@@ -164,28 +180,12 @@ public class Enemy {
         if((playerShipX + playerShipLength > x &&
                 playerShipX + playerShipLength < x + length) || (playerShipX > x && playerShipX < x + length)) {
 
-<<<<<<< HEAD
-<<<<<<< HEAD
             // Una probabilidad de 1 en 150 de disparar
-            randomNumber = generator.nextInt(20);
-=======
-            // Una probabilidad de 1 en 500 de disparar
-            randomNumber = generator.nextInt(150);
->>>>>>> parent of 0eb02bf... Optimizacion, threads añadidos y mejoras en general
-=======
-            // Una probabilidad de 1 en 500 de disparar
-            randomNumber = generator.nextInt(150);
->>>>>>> parent of 0eb02bf... Optimizacion, threads añadidos y mejoras en general
+            randomNumber = generator.nextInt(35);
             if(randomNumber == 0) {
                 return true;
             }
 
-        }
-
-        // Disparo aleatorio que no depende del player en 5000
-        randomNumber = generator.nextInt(2000);
-        if(randomNumber == 0){
-            return true;
         }
 
         return false;

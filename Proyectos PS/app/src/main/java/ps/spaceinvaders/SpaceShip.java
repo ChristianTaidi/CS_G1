@@ -95,7 +95,7 @@ public class SpaceShip {
             x = x - shipVel / fps;
         }
 
-        if(shipMoving == RIGHT && x<maxX){
+        if(shipMoving == RIGHT && x<maxX-length){
             x = x + shipVel / fps;
         }
         if(shipMoving == UP && y>0){
