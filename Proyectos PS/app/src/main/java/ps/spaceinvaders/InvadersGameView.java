@@ -357,11 +357,11 @@ public class InvadersGameView extends SurfaceView implements Runnable {
 
             // Dibuja la nave espacial
             canvas.drawBitmap(spaceShip.getBitmap(), spaceShip.getX(), spaceShip.getY(), paint);
-            canvas.drawBitmap(izq.getBitmap(), 50, screenY - 200, paint);
-            canvas.drawBitmap(der.getBitmap(), 500, screenY - 200, paint);
+            canvas.drawBitmap(izq.getBitmap(), screenX/10*1, screenY - 200, paint);
+            canvas.drawBitmap(der.getBitmap(), screenX/10*3, screenY - 200, paint);
             canvas.drawBitmap(dis.getBitmap(), dis.getX()/2, screenY - 200, paint);
-            canvas.drawBitmap(arr.getBitmap(), screenX-690, screenY - 200, paint);
-            canvas.drawBitmap(abj.getBitmap(), screenX-240, screenY - 200, paint);
+            canvas.drawBitmap(arr.getBitmap(), screenX/10*7, screenY - 200, paint);
+            canvas.drawBitmap(abj.getBitmap(), screenX/10*9, screenY - 200, paint);
 
             // Dibuja las defensas no destruidas
             for(int i = 0; i < numDefences; i++){
@@ -429,17 +429,17 @@ public class InvadersGameView extends SurfaceView implements Runnable {
                 // El jugador ha pulsado la pantalla
                 case MotionEvent.ACTION_DOWN:
                     isPaused = false;
-                    if ((motionEvent.getX() < (screenX / 5)) && (motionEvent.getY() > (screenY - (screenY / 6)))) {
+                    if ((motionEvent.getX() > (screenX/10))&&(motionEvent.getX() < (screenX/10+izq.getLength())) && (motionEvent.getY() > (screenY - (screenY / 6)))) {
                         spaceShip.setMovementState(spaceShip.LEFT); }
-                    else if ((motionEvent.getX() < (screenX / 5*2)) && (motionEvent.getY() > (screenY - (screenY / 6)))) {
+                    else if ((motionEvent.getX() > (screenX/10*3))&&(motionEvent.getX() < (screenX/10*3+izq.getLength())) && (motionEvent.getY() > (screenY - (screenY / 6)))) {
                         spaceShip.setMovementState(spaceShip.RIGHT);
-                    } else if ((motionEvent.getX() < (screenX / 5*3)) && (motionEvent.getY() > (screenY - (screenY / 6)))) {
+                    } else if ((motionEvent.getX() > (screenX/10*5))&&(motionEvent.getX() < (screenX/10*5+izq.getLength())) && (motionEvent.getY() > (screenY - (screenY / 6)))) {
                         Bullet b = new Bullet(context, screenY, screenX);
                         bullets.add(b);
                         b.shoot(spaceShip.getX() + spaceShip.getLength() / 2, spaceShip.getY()-spaceShip.getHeight(), b.UP);
-                    } else if ((motionEvent.getX() < (screenX / 5*4)) && (motionEvent.getY() > (screenY - (screenY / 6)))) {
+                    } else if ((motionEvent.getX() > (screenX/10*7))&&(motionEvent.getX() < (screenX/10*7+izq.getLength())) && (motionEvent.getY() > (screenY - (screenY / 6)))) {
                         spaceShip.setMovementState(spaceShip.UP);
-                    } else if ((motionEvent.getX() < ( (screenX ))) && (motionEvent.getY() > (screenY - (screenY / 6)))) {
+                    } else if ((motionEvent.getX() > (screenX/10*9))&&(motionEvent.getX() < (screenX/10*9+izq.getLength())) && (motionEvent.getY() > (screenY - (screenY / 6)))) {
                         spaceShip.setMovementState(spaceShip.DOWN);
                     }
                     break;
