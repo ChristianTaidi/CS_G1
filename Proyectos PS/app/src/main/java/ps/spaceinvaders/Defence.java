@@ -39,6 +39,8 @@ public class Defence {
         isDefending = false;
     }
 
+    public void resetDefence() {isDefending = true; }
+
     public boolean getActive(){
         return isDefending;
     }

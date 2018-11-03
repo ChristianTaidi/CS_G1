@@ -88,11 +88,19 @@ public class InvadersGameView extends SurfaceView implements Runnable {
 
     //THREADS QUE VAMOS A USAR
 
+    //-----THREAD QUE ESPERA N SEGUNDOS----//
+
     //--------THREAD QUE INICIALIZA LA PARTIDA--------//
     class LoadingThread extends Thread {
         @Override
         public void run() {
             try {
+                spaceShip = new SpaceShip(context, screenX, screenY);
+                izq=new Buttons(context,screenX,screenY,R.drawable.izq);
+                der=new Buttons(context,screenX,screenY,R.drawable.der);
+                dis=new Buttons(context,screenX,screenY,R.drawable.scope);
+                arr=new Buttons(context,screenX,screenY,R.drawable.arr);
+                abj=new Buttons(context,screenX,screenY,R.drawable.abj);
                 changeColor = false;
                 killedEnemies = 0;
                 bullets.clear();
@@ -230,14 +238,8 @@ public class InvadersGameView extends SurfaceView implements Runnable {
     }
 
     private void iniLvl(){
-        spaceShip = new SpaceShip(context, screenX, screenY);
-        izq=new Buttons(context,screenX,screenY,R.drawable.izq);
-        der=new Buttons(context,screenX,screenY,R.drawable.der);
-        dis=new Buttons(context,screenX,screenY,R.drawable.scope);
-        arr=new Buttons(context,screenX,screenY,R.drawable.arr);
-        abj=new Buttons(context,screenX,screenY,R.drawable.abj);
         LoadingThread load = new LoadingThread();
-        load.start();
+        load.run();
         enemiesThread = new UpdateEnemiesThread();
         bulletThread = new BulletManagerThread();
     }
