@@ -165,8 +165,13 @@ public class Enemy {
                 playerShipX + playerShipLength < x + length) || (playerShipX > x && playerShipX < x + length)) {
 
 <<<<<<< HEAD
+<<<<<<< HEAD
             // Una probabilidad de 1 en 150 de disparar
             randomNumber = generator.nextInt(20);
+=======
+            // Una probabilidad de 1 en 500 de disparar
+            randomNumber = generator.nextInt(150);
+>>>>>>> parent of 0eb02bf... Optimizacion, threads añadidos y mejoras en general
 =======
             // Una probabilidad de 1 en 500 de disparar
             randomNumber = generator.nextInt(150);

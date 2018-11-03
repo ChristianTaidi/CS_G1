@@ -44,8 +44,11 @@ public class InvadersGameView extends SurfaceView implements Runnable {
     private ArrayList<Bullet> bullets = new ArrayList();
     private ArrayList<Bullet> removedBullets = new ArrayList();
 <<<<<<< HEAD
+<<<<<<< HEAD
     private boolean playerHasShot;
     //Las naves no pueden diparar mas N balas por vez
+=======
+>>>>>>> parent of 0eb02bf... Optimizacion, threads añadidos y mejoras en general
 =======
 >>>>>>> parent of 0eb02bf... Optimizacion, threads añadidos y mejoras en general
     private boolean fullCapacity;
@@ -87,6 +90,7 @@ public class InvadersGameView extends SurfaceView implements Runnable {
         iniLvl();
     }
 
+<<<<<<< HEAD
 <<<<<<< HEAD
     //THREADS QUE VAMOS A USAR
 
@@ -287,6 +291,9 @@ public class InvadersGameView extends SurfaceView implements Runnable {
                 }
 =======
     private void iniLvl(){
+=======
+    private void iniLvl(){
+>>>>>>> parent of 0eb02bf... Optimizacion, threads añadidos y mejoras en general
         bullets.clear();
         score = 0;
         spaceShip = new SpaceShip(context, screenX, screenY);
@@ -311,6 +318,9 @@ public class InvadersGameView extends SurfaceView implements Runnable {
             for(int row = 0; row < 3; row ++ ){
                 enemies[numEnemies] = new Enemy(context, row, column, screenX, screenY);
                 numEnemies ++;
+<<<<<<< HEAD
+>>>>>>> parent of 0eb02bf... Optimizacion, threads añadidos y mejoras en general
+=======
 >>>>>>> parent of 0eb02bf... Optimizacion, threads añadidos y mejoras en general
             }
         }
@@ -390,6 +400,7 @@ public class InvadersGameView extends SurfaceView implements Runnable {
                         }
                     }
                 }
+<<<<<<< HEAD
 
                 // cambia bumped a true si toca laterales de pantalla
                 if (enemies[i].getX() > screenX - enemies[i].getLength() || enemies[i].getX() < 0){
@@ -398,6 +409,16 @@ public class InvadersGameView extends SurfaceView implements Runnable {
             }
         }
 
+=======
+
+                // cambia bumped a true si toca laterales de pantalla
+                if (enemies[i].getX() > screenX - enemies[i].getLength() || enemies[i].getX() < 0){
+                    bumped = true;
+                }
+            }
+        }
+
+>>>>>>> parent of 0eb02bf... Optimizacion, threads añadidos y mejoras en general
         // Actualiza todas las balas de los enemigos activas
         //Comprueba la lista para saber si la bala llega al final de la pantalla
         //Comprueba si la bala ha tocado algo
