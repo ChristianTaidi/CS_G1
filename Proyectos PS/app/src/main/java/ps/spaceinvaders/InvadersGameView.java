@@ -251,10 +251,11 @@ public class InvadersGameView extends SurfaceView implements Runnable {
                     enemies[i].setOff();
                     removedBullets.add(b);
                     score = score + 100;
-                    if(RectF.intersects(spaceShip.getRect(), enemies[i].getRect())){
-                        lost = true;
-                    }
                     checkVictory();
+                }
+                if(RectF.intersects(enemies[i].getRect(),spaceShip.getRect())){
+                    System.out.println("aaaaaaa");
+                    lost = true;
                 }
             }
         }
