@@ -1,21 +1,16 @@
 package ps.spaceinvaders;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.view.Display;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
 public class ViolentActivity extends Activity {
 
     InvadersGameView invGameView;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,9 +19,6 @@ public class ViolentActivity extends Activity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_violent);
-        Intent intent=getIntent();
-        Bundle bundle=intent.getExtras();
-        String name=bundle.getString("name");
 
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
@@ -39,27 +31,9 @@ public class ViolentActivity extends Activity {
         display.getSize(size);
 
         // Inicializar gameView y establecerlo como la visualización
-        invGameView = new InvadersGameView(this, size.x, size.y, true,name);
-        //saveInfo(invGameView);
-        display(invGameView);
+        invGameView = new InvadersGameView(this, size.x, size.y, true);
         setContentView(invGameView);
 
-    }
-
-
-    public void saveInfo(View view){
-        SharedPreferences sharedPreferences = getSharedPreferences("Ranking", Context.MODE_PRIVATE);
-
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putInt("Rank 1",1);
-        editor.putInt("Rank 2",5);
-        editor.putInt("Rank 3",1);
-        editor.apply();
-    }
-    public void display(View view){
-        SharedPreferences sharedPreferences = getSharedPreferences("Ranking", Context.MODE_PRIVATE);
-
-        System.out.println(sharedPreferences.getInt("Rank 2",0));
     }
 
     @Override

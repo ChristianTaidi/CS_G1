@@ -1,6 +1,5 @@
 package ps.spaceinvaders;
 
-import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Point;
 import android.support.v7.app.AppCompatActivity;
@@ -16,9 +15,6 @@ public class PeacefulActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_peacefull);
-        Intent intent=getIntent();
-        Bundle bundle=intent.getExtras();
-        String name=bundle.getString("name");
 
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
@@ -31,7 +27,7 @@ public class PeacefulActivity extends AppCompatActivity {
         display.getSize(size);
 
         // Inicializar gameView y establecerlo como la visualización
-        invGameView = new InvadersGameView(this, size.x, size.y, false,name);
+        invGameView = new InvadersGameView(this, size.x, size.y, false);
         setContentView(invGameView);
 
     }
