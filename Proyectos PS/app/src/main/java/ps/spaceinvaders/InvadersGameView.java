@@ -103,7 +103,7 @@ public class InvadersGameView extends SurfaceView implements Runnable {
 
         isPaused = true;
 
-        if (getRank(this,1).compareTo("-1")==0) {
+        if (getRank(this,10).compareTo("-1")==0) {
             saveInfo(this);
         }
         iniLvl();
@@ -637,10 +637,10 @@ public class InvadersGameView extends SurfaceView implements Runnable {
         SharedPreferences sharedPreferences = context.getSharedPreferences("Ranking2", Context.MODE_PRIVATE);
 
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("Rank 1","Empty-0");
-        editor.putString("Rank 2","Empty-0");
-        editor.putString("Rank 3","Empty-0");
-        editor.apply();
+        for (int i=1;i<=10;i++) {
+            editor.putString("Rank "+i, "Empty-0");
+            editor.apply();
+        }
     }
 
     public void saveInfoR(View view,int score,String name){
@@ -650,9 +650,17 @@ public class InvadersGameView extends SurfaceView implements Runnable {
         if (name.compareTo("")==0){
             name="Anonymous";
         }
+        int pos=findPos(view, score);
+        if (pos!=-1){
+            sortPreferences(view,pos);
+            editor.putString("Rank "+pos,name+"-"+Integer.toString(score));
+            editor.apply();
+
+        }
 
 
-        if (score>=Integer.parseInt(sharedPreferences.getString("Rank 1","0").split("-")[1])){
+
+       /* if (score>=Integer.parseInt(sharedPreferences.getString("Rank 1","0").split("-")[1])){
             editor.putString("Rank 2",sharedPreferences.getString("Rank 1","0"));
             editor.putString("Rank 3",sharedPreferences.getString("Rank 2","0"));
             editor.putString("Rank 1",name+"-"+Integer.toString(score));
@@ -667,8 +675,33 @@ public class InvadersGameView extends SurfaceView implements Runnable {
             editor.putString("Rank 3",name+"-"+Integer.toString(score));
             editor.apply();
             // System.out.println('c');
+        }*/
+
+
+
+    }
+
+    public void sortPreferences(View view, int n){
+        SharedPreferences sharedPreferences = context.getSharedPreferences("Ranking2", Context.MODE_PRIVATE);
+
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        for (int i=n;i<10;i++){
+            editor.putString("Rank "+(n+1),sharedPreferences.getString("Rank "+n,"0"));
+            editor.apply();
         }
 
+    }
+    public int findPos(View view,int score){
+        int max=score;
+        int pos=-1;
+        SharedPreferences sharedPreferences = context.getSharedPreferences("Ranking2", Context.MODE_PRIVATE);
+        for (int i=1;i<=10;i++){
+            if (score>=Integer.parseInt(sharedPreferences.getString("Rank "+i,"0").split("-")[1])){
+                max=Integer.parseInt(sharedPreferences.getString("Rank "+i,"0").split("-")[1]);
+                return i;
+            }
+        }
+        return pos;
     }
 
     public void display(View view){
@@ -689,11 +722,17 @@ public class InvadersGameView extends SurfaceView implements Runnable {
             canvas = holder.lockCanvas();
             canvas.drawColor(Color.argb(255, 0, 0, 0));
             paint.setColor(Color.argb(255, 249, 129, 0));
-            canvas.drawText("RANKING TOP 3",screenX/3,screenY/6/2,paint);
-            canvas.drawText(getRank(view,1),screenX/3,screenY/6*1,paint);
-            canvas.drawText(getRank(view,2),screenX/3,screenY/6*3,paint);
-            canvas.drawText(getRank(view,3),screenX/3,screenY/6*5,paint);
-
+            canvas.drawText("RANKING TOP 3",100,screenY/20/2,paint);
+            canvas.drawText(getRank(view,1),screenX/3,screenY/20*1,paint);
+            canvas.drawText(getRank(view,2),screenX/3,screenY/20*3,paint);
+            canvas.drawText(getRank(view,3),screenX/3,screenY/20*5,paint);
+            canvas.drawText(getRank(view,4),screenX/3,screenY/20*7,paint);
+            canvas.drawText(getRank(view,5),screenX/3,screenY/20*9,paint);
+            canvas.drawText(getRank(view,6),screenX/3,screenY/20*11,paint);
+            canvas.drawText(getRank(view,7),screenX/3,screenY/20*13,paint);
+            canvas.drawText(getRank(view,8),screenX/3,screenY/20*15,paint);
+            canvas.drawText(getRank(view,9),screenX/3,screenY/20*17,paint);
+            canvas.drawText(getRank(view,10),screenX/3,screenY/20*19,paint);
 
             holder.unlockCanvasAndPost(canvas);
         }
