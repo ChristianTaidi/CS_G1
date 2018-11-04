@@ -12,6 +12,7 @@ public class MainActivity extends AppCompatActivity {
 
     private EditText playerAge;
     private Button enterButton;
+    private String Name;
 
     class ValidateThread extends Thread{
         int n;
@@ -27,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }else {
                 Intent intent = new Intent(MainActivity.this, ViolentActivity.class);
+                intent.putExtra("name",Name);
                 startActivity(intent);
             }
         }
@@ -41,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
 
         playerAge=(EditText)findViewById(R.id.ageText);
         enterButton=(Button)findViewById(R.id.enterBtn);
+        Name="pablomotos";
 
         enterButton.setOnClickListener(new View.OnClickListener () {
             @Override

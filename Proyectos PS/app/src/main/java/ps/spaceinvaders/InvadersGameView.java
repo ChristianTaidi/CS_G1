@@ -1,6 +1,7 @@
 package ps.spaceinvaders;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -9,6 +10,8 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.os.Handler;
+import android.view.View;
+
 import java.util.ArrayList;
 
 public class InvadersGameView extends SurfaceView implements Runnable {
@@ -76,11 +79,13 @@ public class InvadersGameView extends SurfaceView implements Runnable {
 
     //Botones de movimiento y disparo
     private Buttons izq,der,dis,arr,abj;
+    private String name;
 
-    public InvadersGameView (Context context, int x, int y, boolean isViolent){
+    public InvadersGameView (Context context, int x, int y, boolean isViolent,String name){
         super(context);
 
         this.context = context;
+        this.name=name;
 
         this.mode = isViolent;
 
@@ -91,6 +96,7 @@ public class InvadersGameView extends SurfaceView implements Runnable {
         screenY= y;
 
         isPaused = true;
+        //saveInfo(this);
 
         iniLvl();
     }
@@ -347,7 +353,7 @@ public class InvadersGameView extends SurfaceView implements Runnable {
 
         if(System.currentTimeMillis() >= spawnTimer+1000*increments) {
             if(spawnedEnemies.isEmpty()) {
-                System.out.println("spawn");
+                //System.out.println("spawn");
                 if(enemiesList.get(0).getRow() > 0) {
                     Enemy e = new Enemy(context, 0, 0, screenX, screenY);
                     e.setX(enemiesList.get(0).getX());
@@ -364,7 +370,7 @@ public class InvadersGameView extends SurfaceView implements Runnable {
                 }
             }
             else if (spawnCount < 4) {
-                System.out.println("poner izquieda");
+                //System.out.println("poner izquieda");
                 if (enemiesList.get(0).getRow() > 0) {
                     Enemy e = new Enemy(context, 0, 0, screenX, screenY);
                     e.setX(spawnedEnemies.get(spawnedEnemies.size()-1).getX() + lastSpawned.getLength() + spawnedEnemies.get(spawnedEnemies.size()-1).getPadding());
@@ -380,7 +386,7 @@ public class InvadersGameView extends SurfaceView implements Runnable {
                 }
             }
             else {
-                System.out.println("poner encima");
+                //System.out.println("poner encima");
                 if(enemiesList.get(0).getRow() > 0 && lastSpawned.getRow() > 0) {
                     Enemy e = new Enemy(context, 0, 0, screenX, screenY);
                     e.setX(spawnedEnemies.get(spawnedEnemies.size()-1).getX()-((spawnedEnemies.get(spawnedEnemies.size()-1).getLength()*(spawnCount-1))+(spawnedEnemies.get(spawnedEnemies.size()-1).getPadding()*(spawnCount-1))));
@@ -426,6 +432,8 @@ public class InvadersGameView extends SurfaceView implements Runnable {
 
         if(lost){
             isPaused = true;
+            saveInfoR(this,score,name);
+            display(this);
             iniLvl();
         }
     }
@@ -445,12 +453,13 @@ public class InvadersGameView extends SurfaceView implements Runnable {
             canvas.drawText("Score: " + score, 30,50, paint);
 
             // Dibuja la nave espacial
+
+            canvas.drawBitmap(izq.getBitmap(), screenX/20*1, screenY - 200, paint);
+            canvas.drawBitmap(der.getBitmap(), screenX/20*5, screenY - 200, paint);
+            canvas.drawBitmap(dis.getBitmap(), screenX/20*9, screenY - 200, paint);
+            canvas.drawBitmap(arr.getBitmap(), screenX/20*13, screenY - 200, paint);
+            canvas.drawBitmap(abj.getBitmap(), screenX/20*17, screenY - 200, paint);
             canvas.drawBitmap(spaceShip.getBitmap(), spaceShip.getX(), spaceShip.getY(), paint);
-            canvas.drawBitmap(izq.getBitmap(), screenX/10*1, screenY - 200, paint);
-            canvas.drawBitmap(der.getBitmap(), screenX/10*3, screenY - 200, paint);
-            canvas.drawBitmap(dis.getBitmap(), dis.getX()/2, screenY - 200, paint);
-            canvas.drawBitmap(arr.getBitmap(), screenX/10*7, screenY - 200, paint);
-            canvas.drawBitmap(abj.getBitmap(), screenX/10*9, screenY - 200, paint);
 
             // Dibuja las defensas no destruidas
             for(int i = 0; i < numDefences; i++){
@@ -513,12 +522,12 @@ public class InvadersGameView extends SurfaceView implements Runnable {
                 // El jugador ha pulsado la pantalla
                 case MotionEvent.ACTION_DOWN:
                     isPaused = false;
-                    if ((motionEvent.getX() > (screenX/10))&&(motionEvent.getX() < (screenX/10+izq.getLength())) && (motionEvent.getY() > (screenY - (screenY / 6)))) {
+                    if ((motionEvent.getX() > (screenX/20*1))&&(motionEvent.getX() < (screenX/20*1+izq.getLength())) && (motionEvent.getY() > (screenY - (screenY / 6)))) {
                         spaceShip.setMovementState(spaceShip.LEFT); }
-                    else if ((motionEvent.getX() > (screenX/10*3))&&(motionEvent.getX() < (screenX/10*3+izq.getLength())) && (motionEvent.getY() > (screenY - (screenY / 6)))) {
+                    else if ((motionEvent.getX() > (screenX/20*5))&&(motionEvent.getX() < (screenX/20*5+izq.getLength())) && (motionEvent.getY() > (screenY - (screenY / 6)))) {
                         spaceShip.setMovementState(spaceShip.RIGHT);
                     }
-                    if ((motionEvent.getX() > (screenX/10*5))&&(motionEvent.getX() < (screenX/10*5+izq.getLength())) && (motionEvent.getY() > (screenY - (screenY / 6)))) {
+                    if ((motionEvent.getX() > (screenX/20*9))&&(motionEvent.getX() < (screenX/20*9+izq.getLength())) && (motionEvent.getY() > (screenY - (screenY / 6)))) {
                         if(!isReloading) {
                             playerShoot();
                             spaceShip.addShootsCount();
@@ -528,10 +537,10 @@ public class InvadersGameView extends SurfaceView implements Runnable {
                             }
                         }
                     }
-                    else if ((motionEvent.getX() > (screenX/10*7))&&(motionEvent.getX() < (screenX/10*7+izq.getLength())) && (motionEvent.getY() > (screenY - (screenY / 6)))) {
+                    else if ((motionEvent.getX() > (screenX/20*13))&&(motionEvent.getX() < (screenX/20*13+izq.getLength())) && (motionEvent.getY() > (screenY - (screenY / 6)))) {
                         spaceShip.setMovementState(spaceShip.UP);
                     }
-                    else if ((motionEvent.getX() > (screenX/10*9))&&(motionEvent.getX() < (screenX/10*9+izq.getLength())) && (motionEvent.getY() > (screenY - (screenY / 6)))) {
+                    else if ((motionEvent.getX() > (screenX/20*17))&&(motionEvent.getX() < (screenX/20*17+izq.getLength())) && (motionEvent.getY() > (screenY - (screenY / 6)))) {
                         spaceShip.setMovementState(spaceShip.DOWN);
                     }
                     break;
@@ -548,6 +557,52 @@ public class InvadersGameView extends SurfaceView implements Runnable {
         }
         return true;
     }
+
+    public void saveInfo(View view){
+        SharedPreferences sharedPreferences = context.getSharedPreferences("Ranking2", Context.MODE_PRIVATE);
+
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("Rank 1","aaa-90");
+        editor.putString("Rank 2","bbb-50");
+        editor.putString("Rank 3","ccc-10");
+        editor.apply();
+    }
+
+    public void saveInfoR(View view,int score,String name){
+        SharedPreferences sharedPreferences = context.getSharedPreferences("Ranking2", Context.MODE_PRIVATE);
+
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+
+        if (score>=Integer.parseInt(sharedPreferences.getString("Rank 1","0").split("-")[1])){
+            editor.putString("Rank 2",sharedPreferences.getString("Rank 1","0"));
+            editor.putString("Rank 3",sharedPreferences.getString("Rank 2","0"));
+            editor.putString("Rank 1",name+"-"+Integer.toString(score));
+            editor.apply();
+            //System.out.println('a');
+        }else if(score>=Integer.parseInt(sharedPreferences.getString("Rank 2","0").split("-")[1])){
+            editor.putString("Rank 3",sharedPreferences.getString("Rank 2","0"));
+            editor.putString("Rank 2",name+"-"+Integer.toString(score));
+            editor.apply();
+            //System.out.println('b');
+        }else if (score>=Integer.parseInt(sharedPreferences.getString("Rank 3","0").split("-")[1])){
+            editor.putString("Rank 3",name+"-"+Integer.toString(score));
+            editor.apply();
+            // System.out.println('c');
+        }
+
+    }
+
+    public void display(View view){
+        SharedPreferences sharedPreferences = context.getSharedPreferences("Ranking2", Context.MODE_PRIVATE);
+
+        System.out.println(sharedPreferences.getString("Rank 1","0"));
+        System.out.println(sharedPreferences.getString("Rank 2","0"));
+        System.out.println(sharedPreferences.getString("Rank 3","0"));
+    }
+
+
+
 
 
 }

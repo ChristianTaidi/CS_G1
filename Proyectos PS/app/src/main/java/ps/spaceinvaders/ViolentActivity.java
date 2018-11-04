@@ -1,6 +1,7 @@
 package ps.spaceinvaders;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Point;
 import android.os.Bundle;
@@ -19,6 +20,9 @@ public class ViolentActivity extends Activity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_violent);
+        Intent intent=getIntent();
+        Bundle bundle=intent.getExtras();
+        String name=bundle.getString("name");
 
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
@@ -31,7 +35,7 @@ public class ViolentActivity extends Activity {
         display.getSize(size);
 
         // Inicializar gameView y establecerlo como la visualización
-        invGameView = new InvadersGameView(this, size.x, size.y, true);
+        invGameView = new InvadersGameView(this, size.x, size.y, true,name);
         setContentView(invGameView);
 
     }
