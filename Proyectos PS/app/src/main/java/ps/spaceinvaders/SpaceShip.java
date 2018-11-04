@@ -44,8 +44,8 @@ public class SpaceShip {
         height = screenY/10;
 
         // Inicia la nave en el centro de la pantalla aproximadamente
-        x = screenX / 2;
-        y = screenY-height;
+        x = screenX/20*9;
+        y = screenY-height*2;
 
         // Inicializa el bitmap
         bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.spaceship);
