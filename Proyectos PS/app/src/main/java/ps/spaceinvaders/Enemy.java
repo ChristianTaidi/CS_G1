@@ -27,6 +27,12 @@ public class Enemy {
     private float x;
     private float y;
 
+    private int row;
+    private int column;
+    private int padding;
+
+    boolean isSpawned;
+
     // Movimiento
     private float enemySpeed;
 
@@ -39,15 +45,18 @@ public class Enemy {
     boolean isVisible;
 
     public Enemy(Context context, int row, int column, int screenX, int screenY) {
+        isSpawned = false;
+        this.row = row;
+        this.column = column;
 
         rect = new RectF();
 
         length = screenX / 20;
         height = screenY / 20;
 
-        isVisible = true;
+        //isVisible = true;
 
-        int padding = screenX / 25;
+        this.padding = screenX / 25;
 
         x = column * (length + padding);
         y = row * (length + padding/4);
@@ -121,6 +130,52 @@ public class Enemy {
         return y;
     }
 
+    public boolean isSpawned() {
+        return isSpawned;
+    }
+
+    public int getRow() {
+        return row;
+    }
+
+    public int getColumn() {
+        return column;
+    }
+
+    public float getEnemySpeed() {
+        return enemySpeed;
+    }
+
+    public int getEnemyMoving() {
+        return enemyMoving;
+    }
+
+    public void setEnemyMoving(int dir) {
+        enemyMoving = dir;
+    }
+
+    public void setSpawned(boolean spawned) {
+        isSpawned = spawned;
+    }
+
+    public void setX(float x) {
+        this.x = x;
+    }
+
+    public void setY(float y) {
+        this.y = y;
+    }
+
+    public void setEnemySpeed(float enemySpeed) {
+        this.enemySpeed = enemySpeed;
+    }
+
+    public float getHeight() {return height;}
+
+    public int getPadding() {
+        return padding;
+    }
+
     public float getLength(){
         return length;
     }
@@ -128,10 +183,12 @@ public class Enemy {
     public void update(long fps){
         if(enemyMoving == LEFT){
             x = x - enemySpeed / fps;
+            column = (int)x/(int)(length+padding);
         }
 
         if(enemyMoving == RIGHT){
             x = x + enemySpeed / fps;
+            column = (int)x/(int)(length+padding);
         }
 
         // Actualiza rect el cual es usado para detectar impactos
@@ -143,7 +200,7 @@ public class Enemy {
 
     public void angryEnemie(int killedEnemies){
         float aux = enemySpeed;
-        aux += killedEnemies*0.5f;
+        //aux += killedEnemies*0.5f;
         if(aux < MAX_SPEED) {
             enemySpeed = aux;
         }
@@ -162,8 +219,9 @@ public class Enemy {
             x -= 10;
         }
         y = y + height;
+        row = (int)y/((int)length+padding/4);
 
-        aux *= 1.15f;
+        //aux *= 1.15f;
         if(aux < MAX_SPEED) {
             enemySpeed = aux;
         }
@@ -181,7 +239,7 @@ public class Enemy {
                 playerShipX + playerShipLength < x + length) || (playerShipX > x && playerShipX < x + length)) {
 
             // Una probabilidad de 1 en 150 de disparar
-            randomNumber = generator.nextInt(35 - killedEnemies*3);
+            randomNumber = generator.nextInt(35000 - killedEnemies*3);
             if(randomNumber == 0) {
                 return true;
             }
