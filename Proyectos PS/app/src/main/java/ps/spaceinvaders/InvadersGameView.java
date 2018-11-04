@@ -722,7 +722,7 @@ public class InvadersGameView extends SurfaceView implements Runnable {
             canvas = holder.lockCanvas();
             canvas.drawColor(Color.argb(255, 0, 0, 0));
             paint.setColor(Color.argb(255, 249, 129, 0));
-            canvas.drawText("RANKING TOP 3",100,screenY/20/2,paint);
+            canvas.drawText("RANKING TOP 10",100,screenY/20/0.5f,paint);
             canvas.drawText(getRank(view,1),screenX/3,screenY/20*1,paint);
             canvas.drawText(getRank(view,2),screenX/3,screenY/20*3,paint);
             canvas.drawText(getRank(view,3),screenX/3,screenY/20*5,paint);
