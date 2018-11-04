@@ -12,7 +12,7 @@ public class MainActivity extends AppCompatActivity {
 
     private EditText playerAge;
     private Button enterButton;
-    private String Name;
+    private EditText Name;
 
     class ValidateThread extends Thread{
         int n;
@@ -28,7 +28,8 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }else {
                 Intent intent = new Intent(MainActivity.this, ViolentActivity.class);
-                intent.putExtra("name",Name);
+                System.out.println(Name.getText().toString());
+                intent.putExtra("name",Name.getText().toString());
                 startActivity(intent);
             }
         }
@@ -42,8 +43,10 @@ public class MainActivity extends AppCompatActivity {
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         playerAge=(EditText)findViewById(R.id.ageText);
+        Name=(EditText)findViewById(R.id.nameText);
+
+
         enterButton=(Button)findViewById(R.id.enterBtn);
-        Name="pablomotos";
 
         enterButton.setOnClickListener(new View.OnClickListener () {
             @Override

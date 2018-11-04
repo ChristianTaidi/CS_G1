@@ -96,8 +96,9 @@ public class InvadersGameView extends SurfaceView implements Runnable {
         screenY= y;
 
         isPaused = true;
-        //saveInfo(this);
-
+        if (getRank(this,1).compareTo("-1")==0) {
+            saveInfo(this);
+        }
         iniLvl();
     }
 
@@ -445,7 +446,8 @@ public class InvadersGameView extends SurfaceView implements Runnable {
         if(lost){
             isPaused = true;
             saveInfoR(this,score,name);
-            display(this);
+            //display(this);
+            drawR(this);
             iniLvl();
         }
     }
@@ -574,9 +576,9 @@ public class InvadersGameView extends SurfaceView implements Runnable {
         SharedPreferences sharedPreferences = context.getSharedPreferences("Ranking2", Context.MODE_PRIVATE);
 
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("Rank 1","aaa-90");
-        editor.putString("Rank 2","bbb-50");
-        editor.putString("Rank 3","ccc-10");
+        editor.putString("Rank 1","Empty-0");
+        editor.putString("Rank 2","Empty-0");
+        editor.putString("Rank 3","Empty-0");
         editor.apply();
     }
 
@@ -584,6 +586,9 @@ public class InvadersGameView extends SurfaceView implements Runnable {
         SharedPreferences sharedPreferences = context.getSharedPreferences("Ranking2", Context.MODE_PRIVATE);
 
         SharedPreferences.Editor editor = sharedPreferences.edit();
+        if (name.compareTo("")==0){
+            name="Anonymous";
+        }
 
 
         if (score>=Integer.parseInt(sharedPreferences.getString("Rank 1","0").split("-")[1])){
@@ -608,10 +613,32 @@ public class InvadersGameView extends SurfaceView implements Runnable {
     public void display(View view){
         SharedPreferences sharedPreferences = context.getSharedPreferences("Ranking2", Context.MODE_PRIVATE);
 
-        System.out.println(sharedPreferences.getString("Rank 1","0"));
-        System.out.println(sharedPreferences.getString("Rank 2","0"));
-        System.out.println(sharedPreferences.getString("Rank 3","0"));
+        System.out.println(sharedPreferences.getString("Rank 1","-1"));
+        System.out.println(sharedPreferences.getString("Rank 2","-1"));
+        System.out.println(sharedPreferences.getString("Rank 3","-1"));
     }
+
+    public String getRank(View view,int i){
+        SharedPreferences sharedPreferences = context.getSharedPreferences("Ranking2", Context.MODE_PRIVATE);
+        return sharedPreferences.getString("Rank "+i,"-1");
+    }
+
+    private void drawR(View view){
+        if (holder.getSurface().isValid()) {
+            canvas = holder.lockCanvas();
+            canvas.drawColor(Color.argb(255, 0, 0, 0));
+            paint.setColor(Color.argb(255, 249, 129, 0));
+            canvas.drawText("RANKING TOP 3",screenX/3,screenY/6/2,paint);
+            canvas.drawText(getRank(view,1),screenX/3,screenY/6*1,paint);
+            canvas.drawText(getRank(view,2),screenX/3,screenY/6*3,paint);
+            canvas.drawText(getRank(view,3),screenX/3,screenY/6*5,paint);
+
+
+            holder.unlockCanvasAndPost(canvas);
+        }
+    }
+
+
 
 
 
