@@ -321,7 +321,8 @@ public class InvadersGameView extends SurfaceView implements Runnable {
     public void playerShoot() {
         Bullet b = new Bullet(context, screenY, screenX);
         bullets.add(b);
-        b.shoot(spaceShip.getX() + spaceShip.getLength() / 2, spaceShip.getY() - spaceShip.getHeight(), b.UP);
+        b.shoot(spaceShip.getX() + spaceShip.getLength() / 2, spaceShip.getY()
+                - spaceShip.getHeight(), b.UP);
     }
 
     @Override
@@ -350,14 +351,18 @@ public class InvadersGameView extends SurfaceView implements Runnable {
         if(!spawnedEnemies.isEmpty()){
             lastSpawned = spawnedEnemies.get(spawnedEnemies.size()-1);
         }
-
-        if(System.currentTimeMillis() >= spawnTimer+1000*increments) {
+        //No lo toques, no sabes como funciona pero lo hace, estate quieto
+        //Hace spawn una nave cada N segundos
+        if(System.currentTimeMillis() >= spawnTimer+5000*increments) {
             if(spawnedEnemies.isEmpty()) {
                 //System.out.println("spawn");
-                if(enemiesList.get(0).getRow() > 0) {
+                System.out.println("Primer If antes");
+                if(enemiesList.get(0).getRow() > 0 && enemiesList.get(0).getColumn() > 0) {
+                    System.out.println("Primer If despues");
                     Enemy e = new Enemy(context, 0, 0, screenX, screenY);
                     e.setX(enemiesList.get(0).getX());
-                    e.setY(enemiesList.get(0).getY()-enemiesList.get(0).getHeight()-enemiesList.get(0).getPadding()/2);
+                    e.setY(enemiesList.get(0).getY()-enemiesList.get(0).getHeight()
+                            -enemiesList.get(0).getPadding()/2);
                     e.setEnemySpeed(enemiesList.get(0).getEnemySpeed());
                     e.setEnemyMoving(enemiesList.get(0).getEnemyMoving());
                     e.setSpawned(true);
@@ -371,9 +376,12 @@ public class InvadersGameView extends SurfaceView implements Runnable {
             }
             else if (spawnCount < 4) {
                 //System.out.println("poner izquieda");
-                if (enemiesList.get(0).getRow() > 0) {
+                System.out.println("Segundo If antes");
+                if (enemiesList.get(0).getRow() > 0 && enemiesList.get(0).getColumn() > 0 && enemiesList.get(0).getColumn() < 10) {
+                    System.out.println("Segundo If despues");
                     Enemy e = new Enemy(context, 0, 0, screenX, screenY);
-                    e.setX(spawnedEnemies.get(spawnedEnemies.size()-1).getX() + lastSpawned.getLength() + spawnedEnemies.get(spawnedEnemies.size()-1).getPadding());
+                    e.setX(spawnedEnemies.get(spawnedEnemies.size()-1).getX() + lastSpawned.getLength() +
+                            spawnedEnemies.get(spawnedEnemies.size()-1).getPadding());
                     e.setY(spawnedEnemies.get(spawnedEnemies.size()-1).getY());
                     e.setEnemySpeed(enemiesList.get(0).getEnemySpeed());
                     e.setEnemyMoving(enemiesList.get(0).getEnemyMoving());
@@ -387,10 +395,14 @@ public class InvadersGameView extends SurfaceView implements Runnable {
             }
             else {
                 //System.out.println("poner encima");
-                if(enemiesList.get(0).getRow() > 0 && lastSpawned.getRow() > 0) {
+                System.out.println("Tercer If antes");
+                if(enemiesList.get(0).getRow() > 0 && lastSpawned.getRow() > 0 && enemiesList.get(0).getColumn() > 4 && lastSpawned.getColumn() > 4) {
+                    System.out.println("Tercer If despues");
                     Enemy e = new Enemy(context, 0, 0, screenX, screenY);
-                    e.setX(spawnedEnemies.get(spawnedEnemies.size()-1).getX()-((spawnedEnemies.get(spawnedEnemies.size()-1).getLength()*(spawnCount-1))+(spawnedEnemies.get(spawnedEnemies.size()-1).getPadding()*(spawnCount-1))));
-                    e.setY(spawnedEnemies.get(spawnedEnemies.size()-1).getY() - spawnedEnemies.get(spawnedEnemies.size()-1).getHeight() - spawnedEnemies.get(spawnedEnemies.size()-1).getPadding() / 2);
+                    e.setX(spawnedEnemies.get(spawnedEnemies.size()-1).getX()-((spawnedEnemies.get(spawnedEnemies.size()-1).getLength()
+                            *(spawnCount-1))+(spawnedEnemies.get(spawnedEnemies.size()-1).getPadding()*(spawnCount-1))));
+                    e.setY(spawnedEnemies.get(spawnedEnemies.size()-1).getY() - spawnedEnemies.get(spawnedEnemies.size()-1).getHeight()
+                            - spawnedEnemies.get(spawnedEnemies.size()-1).getPadding() / 2);
                     e.setEnemySpeed(enemiesList.get(0).getEnemySpeed());
                     e.setEnemyMoving(enemiesList.get(0).getEnemyMoving());
                     e.setSpawned(true);
