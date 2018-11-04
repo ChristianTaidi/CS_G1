@@ -5,13 +5,16 @@ import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Rect;
 import android.graphics.RectF;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+<<<<<<< HEAD
 import android.view.View;
 
+=======
+import android.os.Handler;
+>>>>>>> 4ea71b3ee9bd6e942c752fd6c7d00ceb6d84c422
 import java.util.ArrayList;
 
 public class InvadersGameView extends SurfaceView implements Runnable {
@@ -38,10 +41,14 @@ public class InvadersGameView extends SurfaceView implements Runnable {
 
     private long fps;
     private long timeFrame;
+    private long timer;
+    private long spawnTimer;
+    private  int increments = 1;
 
     //Elementos del juego
+    private ArrayList<Enemy> enemiesList = new ArrayList();
+    private ArrayList<Enemy> spawnedEnemies = new ArrayList();
     private SpaceShip spaceShip;
-    private Enemy[] enemies = new Enemy[60];
     private Defence[] blocks = new Defence[400];
 
     //Controlar las balas
@@ -52,13 +59,19 @@ public class InvadersGameView extends SurfaceView implements Runnable {
     private int enemyBulletsCount;
     private int maxEnemyBullets = 10;
 
-    int numEnemies = 0;
+    int totalEnemies = 0;
     int killedEnemies = 0;
     private int numDefences;
+    private boolean firstSpawn;
+    private int spawnCount;
+    private Enemy lastSpawned;
 
     //Puntuacion
     int score = 0;
     boolean lost = false;
+
+    Handler handler = new Handler();
+    boolean isReloading = false;
 
     private boolean animation = true;
     private long timeAnim = 1000;
@@ -101,7 +114,13 @@ public class InvadersGameView extends SurfaceView implements Runnable {
         @Override
         public void run() {
             try {
+                lastSpawned = new Enemy(context, 0, 0, screenX, screenY);
+                firstSpawn = false;
+                spawnCount = 0;
+                increments = 1;
+                isReloading = false;
                 spaceShip = new SpaceShip(context, screenX, screenY);
+                spaceShip.resetShootsCount();
                 izq=new Buttons(context,screenX,screenY,R.drawable.izq);
                 der=new Buttons(context,screenX,screenY,R.drawable.der);
                 dis=new Buttons(context,screenX,screenY,R.drawable.scope);
@@ -110,6 +129,8 @@ public class InvadersGameView extends SurfaceView implements Runnable {
                 changeColor = false;
                 killedEnemies = 0;
                 bullets.clear();
+                enemiesList.clear();
+                spawnedEnemies.clear();
                 score = 0;
 
                 fullCapacity = false;
@@ -130,14 +151,15 @@ public class InvadersGameView extends SurfaceView implements Runnable {
                 }
 
                 // Construye la formación enemiga
-                numEnemies = 0;
+                //numEnemies = 0;
                 for(int column = 0; column < 4; column ++ ){
                     for(int row = 0; row < 3; row ++ ){
-                        enemies[numEnemies] = new Enemy(context, row, column, screenX, screenY);
-                        numEnemies ++;
+                        Enemy e = new Enemy(context, row+1, column, screenX, screenY);
+                        enemiesList.add(e);
                     }
                 }
 
+                totalEnemies = enemiesList.size();
                 lost=false;
             }
             catch (Exception e) {
@@ -155,42 +177,42 @@ public class InvadersGameView extends SurfaceView implements Runnable {
             try {
                 boolean bumped = false;
                 // Actualiza todos los enemies activos
-                for (int i = 0; i < numEnemies; i++) {
-                    if(RectF.intersects(spaceShip.getRect(), enemies[i].getRect())){
+                for (int i = 0; i < enemiesList.size(); i++) {
+                    if(RectF.intersects(spaceShip.getRect(), enemiesList.get(i).getRect())){
                         lost = true;
                     }
-                    enemies[i].angryEnemie(killedEnemies);
-                    if (enemies[i].getVisibility()) {
+                    enemiesList.get(i).angryEnemie(killedEnemies);
+                    //if (enemiesList.get(i).getVisibility()) {
                         // Mueve enemy
-                        enemies[i].update(fps);
-                        checkAlienBlockCollision(enemies[i]);
+                        enemiesList.get(i).update(fps);
+                        checkAlienBlockCollision(enemiesList.get(i));
                         // ¿Quiere hacer un disparo?
-                        if (!fullCapacity && enemies[i].randomShot(spaceShip.getX(),
+                        if (!fullCapacity && enemiesList.get(i).randomShot(spaceShip.getX(),
                                 spaceShip.getLength(), killedEnemies)) {
                             Bullet b = new Bullet(context, screenY, screenX);
                             b.setEnemyBullet(true);
                             b.setFriend(true);
                             bullets.add(b);
                             enemyBulletsCount++;
-                            if (bullets.get(bullets.size() - 1).shoot(enemies[i].getX()
-                                            + enemies[i].getLength() / 2,
-                                    enemies[i].getY(), bullets.get(bullets.size() - 1).DOWN)) {
+                            if (bullets.get(bullets.size() - 1).shoot(enemiesList.get(i).getX()
+                                            + enemiesList.get(i).getLength() / 2,
+                                    enemiesList.get(i).getY(), bullets.get(bullets.size() - 1).DOWN)) {
                                 if (enemyBulletsCount == maxEnemyBullets) {
                                     fullCapacity = true;
                                 }
                             }
                         }
-                        if (enemies[i].getX() > screenX - enemies[i].getLength() || enemies[i].getX() < 0){
+                        if (enemiesList.get(i).getX() > screenX - enemiesList.get(i).getLength() || enemiesList.get(i).getX() < 0){
                             bumped = true;
                         }
-                    }
+                    //}
                 }
                 if(bumped){
                     // Mueve a todos los invaders hacia abajo y cambia la dirección
-                    for(int i = 0; i < numEnemies; i++){
-                        enemies[i].enemyCicle();
+                    for(int i = 0; i < enemiesList.size(); i++){
+                        enemiesList.get(i).enemyCicle();
                         // Han llegado abajo
-                        if((enemies[i].getY() > screenY - screenY / 10)&& enemies[i].isVisible){
+                        if((enemiesList.get(i).getY() > screenY - screenY / 10)&& enemiesList.get(i).isVisible){
                             lost = true;
                         }
                     }
@@ -248,20 +270,24 @@ public class InvadersGameView extends SurfaceView implements Runnable {
         load.run();
         enemiesThread = new UpdateEnemiesThread();
         bulletThread = new BulletManagerThread();
+        spawnTimer = -1;
     }
 
     //Si la bala choca con los enemigos
     public void checkEnemyCollision(Bullet b) {
-        for(int i = 0; i < numEnemies; i++) {
-            if (enemies[i].getVisibility()) {
-                if (!b.getFriend() && RectF.intersects(b.getRect(), enemies[i].getRect())) {
-                    killedEnemies++;
-                    enemies[i].setOff();
+        for(int i = 0; i < enemiesList.size(); i++) {
+            //if (enemiesList.get(i).getVisibility()) {
+                if (!b.getFriend() && RectF.intersects(b.getRect(), enemiesList.get(i).getRect())) {
+                    if(enemiesList.get(i).isSpawned) {
+                        spawnedEnemies.remove(enemiesList.get(i));
+                    }
+                    enemiesList.remove(enemiesList.get(i));
                     removedBullets.add(b);
                     score = score + 100;
+                    killedEnemies++;
                     checkVictory();
                 }
-            }
+            //}
         }
     }
 
@@ -291,10 +317,20 @@ public class InvadersGameView extends SurfaceView implements Runnable {
     }
 
     public void checkVictory() {
+<<<<<<< HEAD
         if(score == numEnemies * 100){
           //  saveInfoR(this,score,name);
+=======
+        if(score == totalEnemies * 100){
+>>>>>>> 4ea71b3ee9bd6e942c752fd6c7d00ceb6d84c422
             lost = true;
         }
+    }
+
+    public void playerShoot() {
+        Bullet b = new Bullet(context, screenY, screenX);
+        bullets.add(b);
+        b.shoot(spaceShip.getX() + spaceShip.getLength() / 2, spaceShip.getY() - spaceShip.getHeight(), b.UP);
     }
 
     @Override
@@ -316,13 +352,67 @@ public class InvadersGameView extends SurfaceView implements Runnable {
             if (timeFrame >= 1) {
                 fps = 1000 / timeFrame;
             }
-
-
         }
     }
 
     private void update(){
+        if(!spawnedEnemies.isEmpty()){
+            lastSpawned = spawnedEnemies.get(spawnedEnemies.size()-1);
+        }
 
+        if(System.currentTimeMillis() >= spawnTimer+1000*increments) {
+            if(spawnedEnemies.isEmpty()) {
+                System.out.println("spawn");
+                if(enemiesList.get(0).getRow() > 0) {
+                    Enemy e = new Enemy(context, 0, 0, screenX, screenY);
+                    e.setX(enemiesList.get(0).getX());
+                    e.setY(enemiesList.get(0).getY()-enemiesList.get(0).getHeight()-enemiesList.get(0).getPadding()/2);
+                    e.setEnemySpeed(enemiesList.get(0).getEnemySpeed());
+                    e.setEnemyMoving(enemiesList.get(0).getEnemyMoving());
+                    e.setSpawned(true);
+                    totalEnemies++;
+                    //firstSpawn = true;
+                    spawnCount++;
+                    //lastSpawned = e;
+                    spawnedEnemies.add(e);
+                    enemiesList.add(e);
+                }
+            }
+            else if (spawnCount < 4) {
+                System.out.println("poner izquieda");
+                if (enemiesList.get(0).getRow() > 0) {
+                    Enemy e = new Enemy(context, 0, 0, screenX, screenY);
+                    e.setX(spawnedEnemies.get(spawnedEnemies.size()-1).getX() + lastSpawned.getLength() + spawnedEnemies.get(spawnedEnemies.size()-1).getPadding());
+                    e.setY(spawnedEnemies.get(spawnedEnemies.size()-1).getY());
+                    e.setEnemySpeed(enemiesList.get(0).getEnemySpeed());
+                    e.setEnemyMoving(enemiesList.get(0).getEnemyMoving());
+                    e.setSpawned(true);
+                    totalEnemies++;
+                    spawnCount++;
+                    //lastSpawned = e;
+                    spawnedEnemies.add(e);
+                    enemiesList.add(e);
+                }
+            }
+            else {
+                System.out.println("poner encima");
+                if(enemiesList.get(0).getRow() > 0 && lastSpawned.getRow() > 0) {
+                    Enemy e = new Enemy(context, 0, 0, screenX, screenY);
+                    e.setX(spawnedEnemies.get(spawnedEnemies.size()-1).getX()-((spawnedEnemies.get(spawnedEnemies.size()-1).getLength()*(spawnCount-1))+(spawnedEnemies.get(spawnedEnemies.size()-1).getPadding()*(spawnCount-1))));
+                    e.setY(spawnedEnemies.get(spawnedEnemies.size()-1).getY() - spawnedEnemies.get(spawnedEnemies.size()-1).getHeight() - spawnedEnemies.get(spawnedEnemies.size()-1).getPadding() / 2);
+                    e.setEnemySpeed(enemiesList.get(0).getEnemySpeed());
+                    e.setEnemyMoving(enemiesList.get(0).getEnemyMoving());
+                    e.setSpawned(true);
+                    totalEnemies++;
+                    spawnCount = 1;
+                    //lastSpawned = e;
+                    spawnedEnemies.add(e);
+                    enemiesList.add(e);
+                }
+            }
+
+            increments++;
+        }
         // Mueve la nave espacial
         spaceShip.update(fps);
         //Llamada el thread que se encarga de los aliens
@@ -342,6 +432,11 @@ public class InvadersGameView extends SurfaceView implements Runnable {
 
         if (enemyBulletsCount < maxEnemyBullets) {
             fullCapacity = false;
+        }
+
+        if(System.currentTimeMillis() >= timer+2000){
+            isReloading = false;
+            spaceShip.resetShootsCount();
         }
 
         if(lost){
@@ -383,23 +478,23 @@ public class InvadersGameView extends SurfaceView implements Runnable {
             }
 
             // Dibuja a los invaders
-            for(int i = 0; i < numEnemies; i++) {
-                if (enemies[i].getVisibility()) {
+            for(int i = 0; i < enemiesList.size(); i++) {
+                //if (enemiesList.get(i).getVisibility()) {
                     if (!changeColor) {
                         if (animation) {
-                            canvas.drawBitmap(enemies[i].getBitmap(), enemies[i].getX(), enemies[i].getY(), paint);
+                            canvas.drawBitmap(enemiesList.get(i).getBitmap(), enemiesList.get(i).getX(), enemiesList.get(i).getY(), paint);
                         } else {
-                            canvas.drawBitmap(enemies[i].getBitmap2(), enemies[i].getX(), enemies[i].getY(), paint);
+                            canvas.drawBitmap(enemiesList.get(i).getBitmap2(), enemiesList.get(i).getX(), enemiesList.get(i).getY(), paint);
                         }
                     } else {
                         if (animation) {
-                            canvas.drawBitmap(enemies[i].getBitmap3(), enemies[i].getX(), enemies[i].getY(), paint);
+                            canvas.drawBitmap(enemiesList.get(i).getBitmap3(), enemiesList.get(i).getX(), enemiesList.get(i).getY(), paint);
                         } else {
-                            canvas.drawBitmap(enemies[i].getBitmap4(), enemies[i].getX(), enemies[i].getY(), paint);
+                            canvas.drawBitmap(enemiesList.get(i).getBitmap4(), enemiesList.get(i).getX(), enemiesList.get(i).getY(), paint);
                         }
 
                     }
-                }
+                //}
               }
 
             // Dibuja las balas de los invaders
@@ -413,11 +508,6 @@ public class InvadersGameView extends SurfaceView implements Runnable {
                     canvas.drawBitmap(b.getBulletEnemy(), b.getX()-b.getLength()/2, b.getY(), paint);
                 }
             }
-            /*for(int i = 0; i < enemyShots.length; i++){
-                if(enemyShots[i].getStatus()) {
-                    canvas.drawRect(enemyShots[i].getRect(), paint);
-                }
-            }*/
 
             holder.unlockCanvasAndPost(canvas);
         }
@@ -445,6 +535,7 @@ public class InvadersGameView extends SurfaceView implements Runnable {
                         spaceShip.setMovementState(spaceShip.LEFT); }
                     else if ((motionEvent.getX() > (screenX/20*5))&&(motionEvent.getX() < (screenX/20*5+izq.getLength())) && (motionEvent.getY() > (screenY - (screenY / 6)))) {
                         spaceShip.setMovementState(spaceShip.RIGHT);
+<<<<<<< HEAD
                     } else if ((motionEvent.getX() > (screenX/20*9))&&(motionEvent.getX() < (screenX/20*9+izq.getLength())) && (motionEvent.getY() > (screenY - (screenY / 6)))) {
                         Bullet b = new Bullet(context, screenY, screenX);
                         bullets.add(b);
@@ -452,6 +543,23 @@ public class InvadersGameView extends SurfaceView implements Runnable {
                     } else if ((motionEvent.getX() > (screenX/20*13))&&(motionEvent.getX() < (screenX/20*13+izq.getLength())) && (motionEvent.getY() > (screenY - (screenY / 6)))) {
                         spaceShip.setMovementState(spaceShip.UP);
                     } else if ((motionEvent.getX() > (screenX/20*17))&&(motionEvent.getX() < (screenX/20*17+izq.getLength())) && (motionEvent.getY() > (screenY - (screenY / 6)))) {
+=======
+                    }
+                    if ((motionEvent.getX() > (screenX/10*5))&&(motionEvent.getX() < (screenX/10*5+izq.getLength())) && (motionEvent.getY() > (screenY - (screenY / 6)))) {
+                        if(!isReloading) {
+                            playerShoot();
+                            spaceShip.addShootsCount();
+                            timer = System.currentTimeMillis();
+                            if(spaceShip.getShootsCount() >= 2) {
+                                isReloading = true;
+                            }
+                        }
+                    }
+                    else if ((motionEvent.getX() > (screenX/10*7))&&(motionEvent.getX() < (screenX/10*7+izq.getLength())) && (motionEvent.getY() > (screenY - (screenY / 6)))) {
+                        spaceShip.setMovementState(spaceShip.UP);
+                    }
+                    else if ((motionEvent.getX() > (screenX/10*9))&&(motionEvent.getX() < (screenX/10*9+izq.getLength())) && (motionEvent.getY() > (screenY - (screenY / 6)))) {
+>>>>>>> 4ea71b3ee9bd6e942c752fd6c7d00ceb6d84c422
                         spaceShip.setMovementState(spaceShip.DOWN);
                     }
                     break;
@@ -460,6 +568,9 @@ public class InvadersGameView extends SurfaceView implements Runnable {
                 case MotionEvent.ACTION_UP:
                     spaceShip.setMovementState(spaceShip.STOPPED);
                     break;
+            }
+            if(spawnTimer == -1) {
+                spawnTimer = System.currentTimeMillis();
             }
             return true;
         }

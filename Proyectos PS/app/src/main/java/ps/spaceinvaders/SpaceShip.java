@@ -10,6 +10,8 @@ public class SpaceShip {
     //Detector de impactos
     private RectF rect;
 
+    private int shootsCount;
+
     private Bitmap bitmap;
     private int maxX;
     private int maxY;
@@ -34,8 +36,9 @@ public class SpaceShip {
 
     public SpaceShip(Context context, int screenX, int screenY){
 
-
         rect = new RectF();
+
+        shootsCount = 0;
 
         maxX=screenX;
         maxY=screenY;
@@ -84,6 +87,18 @@ public class SpaceShip {
     public void resetSpacechip() {
         x = maxX / 2;
         y = maxY-height;
+    }
+
+    public void addShootsCount() {
+            this.shootsCount++;
+    }
+
+    public void resetShootsCount() {
+        this.shootsCount = 0;
+    }
+
+    public int getShootsCount() {
+        return this.shootsCount;
     }
 
     public float getLength(){
