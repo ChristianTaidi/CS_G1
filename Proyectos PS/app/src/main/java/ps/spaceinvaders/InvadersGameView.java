@@ -23,6 +23,11 @@ public class InvadersGameView extends SurfaceView implements Runnable {
     private Thread mainTh;
     UpdateEnemiesThread enemiesThread;
     BulletManagerThread bulletThread;
+    SpawningThread firstSpawnTh;
+    SpawningThread2 secondSpawnTh;
+    SpawningThread3 thirdSpawnTh;
+    PaintingThread paintingThread;
+    PaintingBulletThread paintingBulletThread;
 
     private SurfaceHolder holder;
 
@@ -62,6 +67,7 @@ public class InvadersGameView extends SurfaceView implements Runnable {
     private boolean firstSpawn;
     private int spawnCount;
     private Enemy lastSpawned;
+    private long jumpTimer;
 
     //Puntuacion
     int score = 0;
@@ -96,20 +102,122 @@ public class InvadersGameView extends SurfaceView implements Runnable {
         screenY= y;
 
         isPaused = true;
-        //saveInfo(this);
 
+        if (getRank(this,1).compareTo("-1")==0) {
+            saveInfo(this);
+        }
         iniLvl();
     }
 
     //THREADS QUE VAMOS A USAR
 
-    //-----THREAD QUE ESPERA N SEGUNDOS----//
+    ///-----THREAD QUE MANEJA EL DIBUJADO DE LOS ALIENS---//
+    class PaintingThread extends Thread {
+        @Override
+        public void run() {
+            for(int i = 0; i < enemiesList.size(); i++) {
+                if (!changeColor) {
+                    if (animation) {
+                        canvas.drawBitmap(enemiesList.get(i).getBitmap(), enemiesList.get(i).getX(), enemiesList.get(i).getY(), paint);
+                    } else {
+                        canvas.drawBitmap(enemiesList.get(i).getBitmap2(), enemiesList.get(i).getX(), enemiesList.get(i).getY(), paint);
+                    }
+                } else {
+                    if (animation) {
+                        canvas.drawBitmap(enemiesList.get(i).getBitmap3(), enemiesList.get(i).getX(), enemiesList.get(i).getY(), paint);
+                    } else {
+                        canvas.drawBitmap(enemiesList.get(i).getBitmap4(), enemiesList.get(i).getX(), enemiesList.get(i).getY(), paint);
+                    }
+
+                }
+            }
+        }
+    }
+
+    class PaintingBulletThread extends Thread {
+        @Override
+        public void run() {
+            if(!bullets.isEmpty()) {
+                for (Bullet b : bullets) {
+                    if (!b.getEnemyBullet()) {
+                        canvas.drawBitmap(b.getBulletSpaceship(), b.getX() - b.getLength() / 2, b.getY(), paint);
+                    } else {
+                        canvas.drawBitmap(b.getBulletEnemy(), b.getX() - b.getLength() / 2, b.getY(), paint);
+                    }
+                }
+            }
+        }
+    }
+
+    //-----THREAD QUE SE ENCARGA DEL SPAWN----//
+    class SpawningThread extends Thread {
+        @Override
+        public void run() {
+            if(enemiesList.get(0).getRow() > 0 && enemiesList.get(0).getColumn() > 0) {
+                Enemy e = new Enemy(context, 0, 0, screenX, screenY);
+                e.setX(enemiesList.get(0).getX());
+                e.setY(enemiesList.get(0).getY()-enemiesList.get(0).getHeight()
+                        -enemiesList.get(0).getPadding()/2);
+                e.setEnemySpeed(enemiesList.get(0).getEnemySpeed());
+                e.setEnemyMoving(enemiesList.get(0).getEnemyMoving());
+                e.setSpawned(true);
+                totalEnemies++;
+                //firstSpawn = true;
+                spawnCount++;
+                //lastSpawned = e;
+                spawnedEnemies.add(e);
+                enemiesList.add(e);
+            }
+        }
+    }
+
+    class SpawningThread2 extends Thread {
+        @Override
+        public void run() {
+            if (enemiesList.get(0).getRow() > 0 && enemiesList.get(0).getColumn() > 0 && lastSpawned.getColumn() < 9) {
+                Enemy e = new Enemy(context, 0, 0, screenX, screenY);
+                e.setX(spawnedEnemies.get(spawnedEnemies.size()-1).getX() + lastSpawned.getLength() +
+                        spawnedEnemies.get(spawnedEnemies.size()-1).getPadding());
+                e.setY(spawnedEnemies.get(spawnedEnemies.size()-1).getY());
+                e.setEnemySpeed(enemiesList.get(0).getEnemySpeed());
+                e.setEnemyMoving(enemiesList.get(0).getEnemyMoving());
+                e.setSpawned(true);
+                totalEnemies++;
+                spawnCount++;
+                //lastSpawned = e;
+                spawnedEnemies.add(e);
+                enemiesList.add(e);
+            }
+        }
+    }
+
+    class SpawningThread3 extends Thread {
+        @Override
+        public void run() {
+            if(enemiesList.get(0).getRow() > 0 && lastSpawned.getRow() > 0 && enemiesList.get(0).getColumn() > 4 && lastSpawned.getColumn() > 4) {
+                Enemy e = new Enemy(context, 0, 0, screenX, screenY);
+                e.setX(spawnedEnemies.get(spawnedEnemies.size()-1).getX()-((spawnedEnemies.get(spawnedEnemies.size()-1).getLength()
+                        *(spawnCount-1))+(spawnedEnemies.get(spawnedEnemies.size()-1).getPadding()*(spawnCount-1))));
+                e.setY(spawnedEnemies.get(spawnedEnemies.size()-1).getY() - spawnedEnemies.get(spawnedEnemies.size()-1).getHeight()
+                        - spawnedEnemies.get(spawnedEnemies.size()-1).getPadding() / 2);
+                e.setEnemySpeed(enemiesList.get(0).getEnemySpeed());
+                e.setEnemyMoving(enemiesList.get(0).getEnemyMoving());
+                e.setSpawned(true);
+                totalEnemies++;
+                spawnCount = 1;
+                //lastSpawned = e;
+                spawnedEnemies.add(e);
+                enemiesList.add(e);
+            }
+        }
+    }
 
     //--------THREAD QUE INICIALIZA LA PARTIDA--------//
     class LoadingThread extends Thread {
         @Override
         public void run() {
             try {
+                jumpTimer = -1;
                 lastSpawned = new Enemy(context, 0, 0, screenX, screenY);
                 firstSpawn = false;
                 spawnCount = 0;
@@ -178,7 +286,6 @@ public class InvadersGameView extends SurfaceView implements Runnable {
                         lost = true;
                     }
                     enemiesList.get(i).angryEnemie(killedEnemies);
-                    //if (enemiesList.get(i).getVisibility()) {
                         // Mueve enemy
                         enemiesList.get(i).update(fps);
                         checkAlienBlockCollision(enemiesList.get(i));
@@ -199,9 +306,16 @@ public class InvadersGameView extends SurfaceView implements Runnable {
                             }
                         }
                         if (enemiesList.get(i).getX() > screenX - enemiesList.get(i).getLength() || enemiesList.get(i).getX() < 0){
-                            bumped = true;
+                            if(jumpTimer != -1) {
+                                if(System.currentTimeMillis() > jumpTimer+1000) {
+                                    bumped = true;
+                                }
+                                jumpTimer = System.currentTimeMillis();
+                            }
+                            else  {
+                                bumped = true;
+                            }
                         }
-                    //}
                 }
                 if(bumped){
                     // Mueve a todos los invaders hacia abajo y cambia la dirección
@@ -212,6 +326,7 @@ public class InvadersGameView extends SurfaceView implements Runnable {
                             lost = true;
                         }
                     }
+                    jumpTimer = System.currentTimeMillis();
                 }
 
             }
@@ -266,6 +381,11 @@ public class InvadersGameView extends SurfaceView implements Runnable {
         load.run();
         enemiesThread = new UpdateEnemiesThread();
         bulletThread = new BulletManagerThread();
+        firstSpawnTh = new SpawningThread();
+        secondSpawnTh = new SpawningThread2();
+        thirdSpawnTh = new SpawningThread3();
+        paintingThread = new PaintingThread();
+        paintingBulletThread = new PaintingBulletThread();
         spawnTimer = -1;
     }
 
@@ -300,13 +420,17 @@ public class InvadersGameView extends SurfaceView implements Runnable {
     public void checkBlockCollision(Bullet b){
         for(int i = 0; i < numDefences; i++){
             if(blocks[i].getActive()){
-                if(RectF.intersects(b.getRect(), blocks[i].getRect())){
+                RectF r = blocks[i].getRect();
+                if(RectF.intersects(b.getRect(), r)){
                     //b.setInactive();
                     blocks[i].destoyDefence();
                     removedBullets.add(b);
                     if(b.getEnemyBullet()) {
                         changeColor =!changeColor;
                     }
+                }
+                if(RectF.intersects(r, spaceShip.getRect())) {
+                    lost = true;
                 }
             }
         }
@@ -362,57 +486,13 @@ public class InvadersGameView extends SurfaceView implements Runnable {
         //Hace spawn una nave cada N segundos
         if(System.currentTimeMillis() >= spawnTimer+5000*increments) {
             if(spawnedEnemies.isEmpty()) {
-                //System.out.println("spawn");
-                if(enemiesList.get(0).getRow() > 0 && enemiesList.get(0).getColumn() > 0) {
-                    Enemy e = new Enemy(context, 0, 0, screenX, screenY);
-                    e.setX(enemiesList.get(0).getX());
-                    e.setY(enemiesList.get(0).getY()-enemiesList.get(0).getHeight()
-                            -enemiesList.get(0).getPadding()/2);
-                    e.setEnemySpeed(enemiesList.get(0).getEnemySpeed());
-                    e.setEnemyMoving(enemiesList.get(0).getEnemyMoving());
-                    e.setSpawned(true);
-                    totalEnemies++;
-                    //firstSpawn = true;
-                    spawnCount++;
-                    //lastSpawned = e;
-                    spawnedEnemies.add(e);
-                    enemiesList.add(e);
-                }
+                firstSpawnTh.run();
             }
             else if (spawnCount < 4) {
-                //System.out.println("poner izquieda");
-                if (enemiesList.get(0).getRow() > 0 && enemiesList.get(0).getColumn() > 0 && enemiesList.get(0).getColumn() < 10) {
-                    Enemy e = new Enemy(context, 0, 0, screenX, screenY);
-                    e.setX(spawnedEnemies.get(spawnedEnemies.size()-1).getX() + lastSpawned.getLength() +
-                            spawnedEnemies.get(spawnedEnemies.size()-1).getPadding());
-                    e.setY(spawnedEnemies.get(spawnedEnemies.size()-1).getY());
-                    e.setEnemySpeed(enemiesList.get(0).getEnemySpeed());
-                    e.setEnemyMoving(enemiesList.get(0).getEnemyMoving());
-                    e.setSpawned(true);
-                    totalEnemies++;
-                    spawnCount++;
-                    //lastSpawned = e;
-                    spawnedEnemies.add(e);
-                    enemiesList.add(e);
-                }
+                secondSpawnTh.run();
             }
             else {
-                //System.out.println("poner encima");
-                if(enemiesList.get(0).getRow() > 0 && lastSpawned.getRow() > 0 && enemiesList.get(0).getColumn() > 4 && lastSpawned.getColumn() > 4) {
-                    Enemy e = new Enemy(context, 0, 0, screenX, screenY);
-                    e.setX(spawnedEnemies.get(spawnedEnemies.size()-1).getX()-((spawnedEnemies.get(spawnedEnemies.size()-1).getLength()
-                            *(spawnCount-1))+(spawnedEnemies.get(spawnedEnemies.size()-1).getPadding()*(spawnCount-1))));
-                    e.setY(spawnedEnemies.get(spawnedEnemies.size()-1).getY() - spawnedEnemies.get(spawnedEnemies.size()-1).getHeight()
-                            - spawnedEnemies.get(spawnedEnemies.size()-1).getPadding() / 2);
-                    e.setEnemySpeed(enemiesList.get(0).getEnemySpeed());
-                    e.setEnemyMoving(enemiesList.get(0).getEnemyMoving());
-                    e.setSpawned(true);
-                    totalEnemies++;
-                    spawnCount = 1;
-                    //lastSpawned = e;
-                    spawnedEnemies.add(e);
-                    enemiesList.add(e);
-                }
+                thirdSpawnTh.run();
             }
 
             increments++;
@@ -448,6 +528,7 @@ public class InvadersGameView extends SurfaceView implements Runnable {
             //drawR(this);
             isPaused = true;
             //iniLvl();
+
         }
     }
 
@@ -483,36 +564,11 @@ public class InvadersGameView extends SurfaceView implements Runnable {
             }
 
             // Dibuja a los invaders
-            for(int i = 0; i < enemiesList.size(); i++) {
-                //if (enemiesList.get(i).getVisibility()) {
-                    if (!changeColor) {
-                        if (animation) {
-                            canvas.drawBitmap(enemiesList.get(i).getBitmap(), enemiesList.get(i).getX(), enemiesList.get(i).getY(), paint);
-                        } else {
-                            canvas.drawBitmap(enemiesList.get(i).getBitmap2(), enemiesList.get(i).getX(), enemiesList.get(i).getY(), paint);
-                        }
-                    } else {
-                        if (animation) {
-                            canvas.drawBitmap(enemiesList.get(i).getBitmap3(), enemiesList.get(i).getX(), enemiesList.get(i).getY(), paint);
-                        } else {
-                            canvas.drawBitmap(enemiesList.get(i).getBitmap4(), enemiesList.get(i).getX(), enemiesList.get(i).getY(), paint);
-                        }
-
-                    }
-                //}
-              }
+            paintingThread.run();
 
             // Dibuja las balas de los invaders
-
+            paintingBulletThread.run();
             // Actualiza todas las balas de los invaders si están activas
-            for(Bullet b : bullets) {
-                if(!b.getEnemyBullet()){
-                    canvas.drawBitmap(b.getBulletSpaceship(), b.getX()-b.getLength()/2, b.getY(), paint);
-                }
-                else {
-                    canvas.drawBitmap(b.getBulletEnemy(), b.getX()-b.getLength()/2, b.getY(), paint);
-                }
-            }
 
             holder.unlockCanvasAndPost(canvas);
         }
@@ -581,9 +637,9 @@ public class InvadersGameView extends SurfaceView implements Runnable {
         SharedPreferences sharedPreferences = context.getSharedPreferences("Ranking2", Context.MODE_PRIVATE);
 
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("Rank 1","aaa-90");
-        editor.putString("Rank 2","bbb-50");
-        editor.putString("Rank 3","ccc-10");
+        editor.putString("Rank 1","Empty-0");
+        editor.putString("Rank 2","Empty-0");
+        editor.putString("Rank 3","Empty-0");
         editor.apply();
     }
 
@@ -591,6 +647,9 @@ public class InvadersGameView extends SurfaceView implements Runnable {
         SharedPreferences sharedPreferences = context.getSharedPreferences("Ranking2", Context.MODE_PRIVATE);
 
         SharedPreferences.Editor editor = sharedPreferences.edit();
+        if (name.compareTo("")==0){
+            name="Anonymous";
+        }
 
 
         if (score>=Integer.parseInt(sharedPreferences.getString("Rank 1","0").split("-")[1])){
@@ -615,9 +674,29 @@ public class InvadersGameView extends SurfaceView implements Runnable {
     public void display(View view){
         SharedPreferences sharedPreferences = context.getSharedPreferences("Ranking2", Context.MODE_PRIVATE);
 
-        System.out.println(sharedPreferences.getString("Rank 1","0"));
-        System.out.println(sharedPreferences.getString("Rank 2","0"));
-        System.out.println(sharedPreferences.getString("Rank 3","0"));
+        System.out.println(sharedPreferences.getString("Rank 1","-1"));
+        System.out.println(sharedPreferences.getString("Rank 2","-1"));
+        System.out.println(sharedPreferences.getString("Rank 3","-1"));
+    }
+
+    public String getRank(InvadersGameView view,int i){
+        SharedPreferences sharedPreferences = context.getSharedPreferences("Ranking2", Context.MODE_PRIVATE);
+        return sharedPreferences.getString("Rank "+i,"-1");
+    }
+
+    private void drawR(InvadersGameView view){
+        if (holder.getSurface().isValid()) {
+            canvas = holder.lockCanvas();
+            canvas.drawColor(Color.argb(255, 0, 0, 0));
+            paint.setColor(Color.argb(255, 249, 129, 0));
+            canvas.drawText("RANKING TOP 3",screenX/3,screenY/6/2,paint);
+            canvas.drawText(getRank(view,1),screenX/3,screenY/6*1,paint);
+            canvas.drawText(getRank(view,2),screenX/3,screenY/6*3,paint);
+            canvas.drawText(getRank(view,3),screenX/3,screenY/6*5,paint);
+
+
+            holder.unlockCanvasAndPost(canvas);
+        }
     }
 
 
@@ -639,6 +718,8 @@ public class InvadersGameView extends SurfaceView implements Runnable {
             holder.unlockCanvasAndPost(canvas);
         }
     }
+
+
 
 
 
