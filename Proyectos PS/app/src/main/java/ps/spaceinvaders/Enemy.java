@@ -41,7 +41,8 @@ public class Enemy {
 
     // Movimiento y dirección
     private int enemyMoving = RIGHT;
-    private final float MAX_SPEED = 600f;
+    private final float MAX_SPEED = 350f;
+    private final int MAX_PROBABILITY = 15;
     boolean isVisible;
 
     public Enemy(Context context, int row, int column, int screenX, int screenY) {
@@ -200,7 +201,7 @@ public class Enemy {
 
     public void angryEnemie(int killedEnemies){
         float aux = enemySpeed;
-        //aux += killedEnemies*0.5f;
+        aux += killedEnemies*0.5f;
         if(aux < MAX_SPEED) {
             enemySpeed = aux;
         }
@@ -239,7 +240,11 @@ public class Enemy {
                 playerShipX + playerShipLength < x + length) || (playerShipX > x && playerShipX < x + length)) {
 
             // Una probabilidad de 1 en 150 de disparar
-            randomNumber = generator.nextInt(35000 - killedEnemies*3);
+            randomNumber = generator.nextInt(40-killedEnemies);
+            if(randomNumber < 0){
+                randomNumber = generator.nextInt(MAX_PROBABILITY);
+            }
+
             if(randomNumber == 0) {
                 return true;
             }

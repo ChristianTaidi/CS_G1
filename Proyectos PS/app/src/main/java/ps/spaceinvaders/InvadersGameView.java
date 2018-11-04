@@ -208,7 +208,7 @@ public class InvadersGameView extends SurfaceView implements Runnable {
                     for(int i = 0; i < enemiesList.size(); i++){
                         enemiesList.get(i).enemyCicle();
                         // Han llegado abajo
-                        if((enemiesList.get(i).getY() > screenY - screenY / 10)&& enemiesList.get(i).isVisible){
+                        if((enemiesList.get(i).getY() > screenY - screenY / 10)){
                             lost = true;
                         }
                     }
@@ -339,7 +339,14 @@ public class InvadersGameView extends SurfaceView implements Runnable {
                     animation = !animation;
                 }
             }
-            draw();
+            if(!lost){
+                draw();
+            }
+            else {
+                drawR(this);
+            }
+
+
             timeFrame = System.currentTimeMillis() - iniFrameTime;
             if (timeFrame >= 1) {
                 fps = 1000 / timeFrame;
@@ -356,9 +363,7 @@ public class InvadersGameView extends SurfaceView implements Runnable {
         if(System.currentTimeMillis() >= spawnTimer+5000*increments) {
             if(spawnedEnemies.isEmpty()) {
                 //System.out.println("spawn");
-                System.out.println("Primer If antes");
                 if(enemiesList.get(0).getRow() > 0 && enemiesList.get(0).getColumn() > 0) {
-                    System.out.println("Primer If despues");
                     Enemy e = new Enemy(context, 0, 0, screenX, screenY);
                     e.setX(enemiesList.get(0).getX());
                     e.setY(enemiesList.get(0).getY()-enemiesList.get(0).getHeight()
@@ -376,9 +381,7 @@ public class InvadersGameView extends SurfaceView implements Runnable {
             }
             else if (spawnCount < 4) {
                 //System.out.println("poner izquieda");
-                System.out.println("Segundo If antes");
                 if (enemiesList.get(0).getRow() > 0 && enemiesList.get(0).getColumn() > 0 && enemiesList.get(0).getColumn() < 10) {
-                    System.out.println("Segundo If despues");
                     Enemy e = new Enemy(context, 0, 0, screenX, screenY);
                     e.setX(spawnedEnemies.get(spawnedEnemies.size()-1).getX() + lastSpawned.getLength() +
                             spawnedEnemies.get(spawnedEnemies.size()-1).getPadding());
@@ -395,9 +398,7 @@ public class InvadersGameView extends SurfaceView implements Runnable {
             }
             else {
                 //System.out.println("poner encima");
-                System.out.println("Tercer If antes");
                 if(enemiesList.get(0).getRow() > 0 && lastSpawned.getRow() > 0 && enemiesList.get(0).getColumn() > 4 && lastSpawned.getColumn() > 4) {
-                    System.out.println("Tercer If despues");
                     Enemy e = new Enemy(context, 0, 0, screenX, screenY);
                     e.setX(spawnedEnemies.get(spawnedEnemies.size()-1).getX()-((spawnedEnemies.get(spawnedEnemies.size()-1).getLength()
                             *(spawnCount-1))+(spawnedEnemies.get(spawnedEnemies.size()-1).getPadding()*(spawnCount-1))));
@@ -443,12 +444,13 @@ public class InvadersGameView extends SurfaceView implements Runnable {
         }
 
         if(lost){
-            isPaused = true;
             saveInfoR(this,score,name);
-            display(this);
-            iniLvl();
+            //drawR(this);
+            isPaused = true;
+            //iniLvl();
         }
     }
+
 
     private void draw(){
         if (holder.getSurface().isValid()) {
@@ -567,6 +569,11 @@ public class InvadersGameView extends SurfaceView implements Runnable {
             }
             return true;
         }
+        if(lost) {
+            if(motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                iniLvl();
+            }
+        }
         return true;
     }
 
@@ -614,6 +621,24 @@ public class InvadersGameView extends SurfaceView implements Runnable {
     }
 
 
+    public String getRank(View view,int i){
+        SharedPreferences sharedPreferences = context.getSharedPreferences("Ranking2", Context.MODE_PRIVATE);
+        return sharedPreferences.getString("Rank "+i,"0");
+    }
+
+    private void drawR(View view){
+        if (holder.getSurface().isValid()) {
+            canvas = holder.lockCanvas();
+            canvas.drawColor(Color.argb(255, 0, 0, 0));
+            paint.setColor(Color.argb(255, 249, 129, 0));
+            canvas.drawText(getRank(view,1),screenX/3,screenY/6*1,paint);
+            canvas.drawText(getRank(view,2),screenX/3,screenY/6*3,paint);
+            canvas.drawText(getRank(view,3),screenX/3,screenY/6*5,paint);
+
+
+            holder.unlockCanvasAndPost(canvas);
+        }
+    }
 
 
 
