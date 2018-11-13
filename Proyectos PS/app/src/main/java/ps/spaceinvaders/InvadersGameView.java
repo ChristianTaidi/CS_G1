@@ -2,6 +2,8 @@ package ps.spaceinvaders;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -26,8 +28,6 @@ public class InvadersGameView extends SurfaceView implements Runnable {
     SpawningThread firstSpawnTh;
     SpawningThread2 secondSpawnTh;
     SpawningThread3 thirdSpawnTh;
-    PaintingThread paintingThread;
-    PaintingBulletThread paintingBulletThread;
 
     private SurfaceHolder holder;
 
@@ -83,12 +83,26 @@ public class InvadersGameView extends SurfaceView implements Runnable {
 
     private boolean changeColor=false;
 
+    private Bitmap bulletBitmap, enemyAnim1Bitmap,enemyAnim2Bitmap,enemyAnim3Bitmap,enemyAnim4Bitmap, spaceshipBitmap;
+
     //Botones de movimiento y disparo
     private Buttons izq,der,dis,arr,abj;
     private String name;
 
     public InvadersGameView (Context context, int x, int y, boolean isViolent,String name){
         super(context);
+        spaceshipBitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.spaceship), x/10, y/10, false);
+        bulletBitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.bullet1), x/20, y/20, false);
+        enemyAnim1Bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.invaderstart), x/20, y/20, false);
+        enemyAnim2Bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.invaderend), x/20, y/20, false);
+        enemyAnim3Bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.invaderstart2), x/20, y/20, false);
+        enemyAnim4Bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.invaderend2), x/20, y/20, false);
+
+        izq=new Buttons(context,x,y,R.drawable.izq);
+        der=new Buttons(context,x,y,R.drawable.der);
+        dis=new Buttons(context,x,y,R.drawable.scope);
+        arr=new Buttons(context,x,y,R.drawable.arr);
+        abj=new Buttons(context,x,y,R.drawable.abj);
 
         this.context = context;
         this.name=name;
@@ -111,50 +125,12 @@ public class InvadersGameView extends SurfaceView implements Runnable {
 
     //THREADS QUE VAMOS A USAR
 
-    ///-----THREAD QUE MANEJA EL DIBUJADO DE LOS ALIENS---//
-    class PaintingThread extends Thread {
-        @Override
-        public void run() {
-            for(int i = 0; i < enemiesList.size(); i++) {
-                if (!changeColor) {
-                    if (animation) {
-                        canvas.drawBitmap(enemiesList.get(i).getBitmap(), enemiesList.get(i).getX(), enemiesList.get(i).getY(), paint);
-                    } else {
-                        canvas.drawBitmap(enemiesList.get(i).getBitmap2(), enemiesList.get(i).getX(), enemiesList.get(i).getY(), paint);
-                    }
-                } else {
-                    if (animation) {
-                        canvas.drawBitmap(enemiesList.get(i).getBitmap3(), enemiesList.get(i).getX(), enemiesList.get(i).getY(), paint);
-                    } else {
-                        canvas.drawBitmap(enemiesList.get(i).getBitmap4(), enemiesList.get(i).getX(), enemiesList.get(i).getY(), paint);
-                    }
-
-                }
-            }
-        }
-    }
-
-    class PaintingBulletThread extends Thread {
-        @Override
-        public void run() {
-            if(!bullets.isEmpty()) {
-                for (Bullet b : bullets) {
-                    if (!b.getEnemyBullet()) {
-                        canvas.drawBitmap(b.getBulletSpaceship(), b.getX() - b.getLength() / 2, b.getY(), paint);
-                    } else {
-                        canvas.drawBitmap(b.getBulletEnemy(), b.getX() - b.getLength() / 2, b.getY(), paint);
-                    }
-                }
-            }
-        }
-    }
-
     //-----THREAD QUE SE ENCARGA DEL SPAWN----//
     class SpawningThread extends Thread {
         @Override
         public void run() {
             if(enemiesList.get(0).getRow() > 0 && enemiesList.get(0).getColumn() > 0) {
-                Enemy e = new Enemy(context, 0, 0, screenX, screenY);
+                Enemy e = new Enemy(context, 0, 0, screenX, screenY, enemyAnim1Bitmap, enemyAnim2Bitmap, enemyAnim3Bitmap, enemyAnim4Bitmap);
                 e.setX(enemiesList.get(0).getX());
                 e.setY(enemiesList.get(0).getY()-enemiesList.get(0).getHeight()
                         -enemiesList.get(0).getPadding()/2);
@@ -162,9 +138,7 @@ public class InvadersGameView extends SurfaceView implements Runnable {
                 e.setEnemyMoving(enemiesList.get(0).getEnemyMoving());
                 e.setSpawned(true);
                 totalEnemies++;
-                //firstSpawn = true;
                 spawnCount++;
-                //lastSpawned = e;
                 spawnedEnemies.add(e);
                 enemiesList.add(e);
             }
@@ -175,7 +149,7 @@ public class InvadersGameView extends SurfaceView implements Runnable {
         @Override
         public void run() {
             if (enemiesList.get(0).getRow() > 0 && enemiesList.get(0).getColumn() > 0 && lastSpawned.getColumn() < 9) {
-                Enemy e = new Enemy(context, 0, 0, screenX, screenY);
+                Enemy e = new Enemy(context, 0, 0, screenX, screenY, enemyAnim1Bitmap, enemyAnim2Bitmap, enemyAnim3Bitmap, enemyAnim4Bitmap);
                 e.setX(spawnedEnemies.get(spawnedEnemies.size()-1).getX() + lastSpawned.getLength() +
                         spawnedEnemies.get(spawnedEnemies.size()-1).getPadding());
                 e.setY(spawnedEnemies.get(spawnedEnemies.size()-1).getY());
@@ -184,7 +158,6 @@ public class InvadersGameView extends SurfaceView implements Runnable {
                 e.setSpawned(true);
                 totalEnemies++;
                 spawnCount++;
-                //lastSpawned = e;
                 spawnedEnemies.add(e);
                 enemiesList.add(e);
             }
@@ -195,7 +168,7 @@ public class InvadersGameView extends SurfaceView implements Runnable {
         @Override
         public void run() {
             if(enemiesList.get(0).getRow() > 0 && lastSpawned.getRow() > 0 && enemiesList.get(0).getColumn() > 4 && lastSpawned.getColumn() > 4) {
-                Enemy e = new Enemy(context, 0, 0, screenX, screenY);
+                Enemy e = new Enemy(context, 0, 0, screenX, screenY, enemyAnim1Bitmap, enemyAnim2Bitmap, enemyAnim3Bitmap, enemyAnim4Bitmap);
                 e.setX(spawnedEnemies.get(spawnedEnemies.size()-1).getX()-((spawnedEnemies.get(spawnedEnemies.size()-1).getLength()
                         *(spawnCount-1))+(spawnedEnemies.get(spawnedEnemies.size()-1).getPadding()*(spawnCount-1))));
                 e.setY(spawnedEnemies.get(spawnedEnemies.size()-1).getY() - spawnedEnemies.get(spawnedEnemies.size()-1).getHeight()
@@ -205,7 +178,6 @@ public class InvadersGameView extends SurfaceView implements Runnable {
                 e.setSpawned(true);
                 totalEnemies++;
                 spawnCount = 1;
-                //lastSpawned = e;
                 spawnedEnemies.add(e);
                 enemiesList.add(e);
             }
@@ -218,18 +190,13 @@ public class InvadersGameView extends SurfaceView implements Runnable {
         public void run() {
             try {
                 jumpTimer = -1;
-                lastSpawned = new Enemy(context, 0, 0, screenX, screenY);
+                lastSpawned = new Enemy(context, 0, 0, screenX, screenY, enemyAnim1Bitmap, enemyAnim2Bitmap, enemyAnim3Bitmap, enemyAnim4Bitmap);
                 firstSpawn = false;
                 spawnCount = 0;
                 increments = 1;
                 isReloading = false;
-                spaceShip = new SpaceShip(context, screenX, screenY);
+                spaceShip = new SpaceShip(context, screenX, screenY, spaceshipBitmap);
                 spaceShip.resetShootsCount();
-                izq=new Buttons(context,screenX,screenY,R.drawable.izq);
-                der=new Buttons(context,screenX,screenY,R.drawable.der);
-                dis=new Buttons(context,screenX,screenY,R.drawable.scope);
-                arr=new Buttons(context,screenX,screenY,R.drawable.arr);
-                abj=new Buttons(context,screenX,screenY,R.drawable.abj);
                 changeColor = false;
                 killedEnemies = 0;
                 bullets.clear();
@@ -258,7 +225,7 @@ public class InvadersGameView extends SurfaceView implements Runnable {
                 //numEnemies = 0;
                 for(int column = 0; column < 4; column ++ ){
                     for(int row = 0; row < 3; row ++ ){
-                        Enemy e = new Enemy(context, row+1, column, screenX, screenY);
+                        Enemy e = new Enemy(context, row, column, screenX, screenY, enemyAnim1Bitmap, enemyAnim2Bitmap, enemyAnim3Bitmap, enemyAnim4Bitmap);
                         enemiesList.add(e);
                     }
                 }
@@ -292,7 +259,8 @@ public class InvadersGameView extends SurfaceView implements Runnable {
                         // ¿Quiere hacer un disparo?
                         if (!fullCapacity && enemiesList.get(i).randomShot(spaceShip.getX(),
                                 spaceShip.getLength(), killedEnemies)) {
-                            Bullet b = new Bullet(context, screenY, screenX);
+                            bulletBitmap = Bitmap.createScaledBitmap(bulletBitmap, screenX/20, screenY/20, false);
+                            Bullet b = new Bullet(context, screenY, screenX, bulletBitmap);
                             b.setEnemyBullet(true);
                             b.setFriend(true);
                             bullets.add(b);
@@ -376,7 +344,7 @@ public class InvadersGameView extends SurfaceView implements Runnable {
         }
     }
 
-    private void iniLvl(){
+    void iniLvl(){
         LoadingThread load = new LoadingThread();
         load.run();
         enemiesThread = new UpdateEnemiesThread();
@@ -384,8 +352,6 @@ public class InvadersGameView extends SurfaceView implements Runnable {
         firstSpawnTh = new SpawningThread();
         secondSpawnTh = new SpawningThread2();
         thirdSpawnTh = new SpawningThread3();
-        paintingThread = new PaintingThread();
-        paintingBulletThread = new PaintingBulletThread();
         spawnTimer = -1;
     }
 
@@ -443,7 +409,8 @@ public class InvadersGameView extends SurfaceView implements Runnable {
     }
 
     public void playerShoot() {
-        Bullet b = new Bullet(context, screenY, screenX);
+        //bulletBitmap = Bitmap.createScaledBitmap(bulletBitmap, screenX/20, screenY/20, false);
+        Bullet b = new Bullet(context, screenY, screenX, bulletBitmap);
         bullets.add(b);
         b.shoot(spaceShip.getX() + spaceShip.getLength() / 2, spaceShip.getY()
                 - spaceShip.getHeight(), b.UP);
@@ -564,10 +531,33 @@ public class InvadersGameView extends SurfaceView implements Runnable {
             }
 
             // Dibuja a los invaders
-            paintingThread.run();
+            for(int i = 0; i < enemiesList.size(); i++) {
+                if (!changeColor) {
+                    if (animation) {
+                        canvas.drawBitmap(enemiesList.get(i).getBitmap(), enemiesList.get(i).getX(), enemiesList.get(i).getY(), paint);
+                    } else {
+                        canvas.drawBitmap(enemiesList.get(i).getBitmap2(), enemiesList.get(i).getX(), enemiesList.get(i).getY(), paint);
+                    }
+                } else {
+                    if (animation) {
+                        canvas.drawBitmap(enemiesList.get(i).getBitmap3(), enemiesList.get(i).getX(), enemiesList.get(i).getY(), paint);
+                    } else {
+                        canvas.drawBitmap(enemiesList.get(i).getBitmap4(), enemiesList.get(i).getX(), enemiesList.get(i).getY(), paint);
+                    }
+
+                }
+            }
 
             // Dibuja las balas de los invaders
-            paintingBulletThread.run();
+            if(!bullets.isEmpty()) {
+                for (Bullet b : bullets) {
+                    if (!b.getEnemyBullet()) {
+                        canvas.drawBitmap(b.getBitmap(), b.getX() - b.getLength() / 2, b.getY(), paint);
+                    } else {
+                        canvas.drawBitmap(b.getBitmap(), b.getX() - b.getLength() / 2, b.getY(), paint);
+                    }
+                }
+            }
             // Actualiza todas las balas de los invaders si están activas
 
             holder.unlockCanvasAndPost(canvas);

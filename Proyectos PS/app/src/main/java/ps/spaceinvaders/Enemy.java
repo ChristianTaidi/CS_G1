@@ -45,7 +45,7 @@ public class Enemy {
     private final int MAX_PROBABILITY = 15;
     boolean isVisible;
 
-    public Enemy(Context context, int row, int column, int screenX, int screenY) {
+    public Enemy(Context context, int row, int column, int screenX, int screenY, Bitmap a1, Bitmap a2, Bitmap a3, Bitmap a4) {
         isSpawned = false;
         this.row = row;
         this.column = column;
@@ -62,36 +62,14 @@ public class Enemy {
         x = column * (length + padding);
         y = row * (length + padding/4);
 
-        // Animaciones
-        anim1 = BitmapFactory.decodeResource(context.getResources(), R.drawable.invaderstart);
-        anim2 = BitmapFactory.decodeResource(context.getResources(), R.drawable.invaderend);
+        anim1 = a1;
 
-        // Ajusta el tamaño de los invaders la resolución de la pantalla
-        anim1 = Bitmap.createScaledBitmap(anim1,
-                (int) (length),
-                (int) (height),
-                false);
+        anim2 = a2;
 
-        anim2 = Bitmap.createScaledBitmap(anim2,
-                (int) (length),
-                (int) (height),
-                false);
-        // Animaciones
-        anim3 = BitmapFactory.decodeResource(context.getResources(), R.drawable.invaderstart2);
-        anim4 = BitmapFactory.decodeResource(context.getResources(), R.drawable.invaderend2);
+        anim3 = a3;
 
-        // Ajusta el tamaño de los invaders la resolución de la pantalla
-        anim3 = Bitmap.createScaledBitmap(anim3,
-                (int) (length),
-                (int) (height),
-                false);
+        anim4 = a4;
 
-        anim4 = Bitmap.createScaledBitmap(anim4,
-                (int) (length),
-                (int) (height),
-                false);
-
-        // Velocidad en píxeles por segundo de los invaders
         enemySpeed = 80;
     }
 
