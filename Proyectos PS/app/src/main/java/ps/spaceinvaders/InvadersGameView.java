@@ -2,6 +2,8 @@ package ps.spaceinvaders;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -657,28 +659,6 @@ public class InvadersGameView extends SurfaceView implements Runnable {
             editor.apply();
 
         }
-
-
-
-       /* if (score>=Integer.parseInt(sharedPreferences.getString("Rank 1","0").split("-")[1])){
-            editor.putString("Rank 2",sharedPreferences.getString("Rank 1","0"));
-            editor.putString("Rank 3",sharedPreferences.getString("Rank 2","0"));
-            editor.putString("Rank 1",name+"-"+Integer.toString(score));
-            editor.apply();
-            //System.out.println('a');
-        }else if(score>=Integer.parseInt(sharedPreferences.getString("Rank 2","0").split("-")[1])){
-            editor.putString("Rank 3",sharedPreferences.getString("Rank 2","0"));
-            editor.putString("Rank 2",name+"-"+Integer.toString(score));
-            editor.apply();
-            //System.out.println('b');
-        }else if (score>=Integer.parseInt(sharedPreferences.getString("Rank 3","0").split("-")[1])){
-            editor.putString("Rank 3",name+"-"+Integer.toString(score));
-            editor.apply();
-            // System.out.println('c');
-        }*/
-
-
-
     }
 
     public void sortPreferences(View view, int n){
@@ -722,44 +702,41 @@ public class InvadersGameView extends SurfaceView implements Runnable {
             canvas = holder.lockCanvas();
             canvas.drawColor(Color.argb(255, 0, 0, 0));
             paint.setColor(Color.argb(255, 249, 129, 0));
-            canvas.drawText("RANKING TOP 10",100,screenY/20/0.5f,paint);
-            canvas.drawText(getRank(view,1),screenX/3,screenY/20*1,paint);
-            canvas.drawText(getRank(view,2),screenX/3,screenY/20*3,paint);
-            canvas.drawText(getRank(view,3),screenX/3,screenY/20*5,paint);
-            canvas.drawText(getRank(view,4),screenX/3,screenY/20*7,paint);
-            canvas.drawText(getRank(view,5),screenX/3,screenY/20*9,paint);
-            canvas.drawText(getRank(view,6),screenX/3,screenY/20*11,paint);
-            canvas.drawText(getRank(view,7),screenX/3,screenY/20*13,paint);
-            canvas.drawText(getRank(view,8),screenX/3,screenY/20*15,paint);
-            canvas.drawText(getRank(view,9),screenX/3,screenY/20*17,paint);
-            canvas.drawText(getRank(view,10),screenX/3,screenY/20*19,paint);
+            Bitmap gameOver;
+            Bitmap replay;
+            Bitmap ranking;
+            Bitmap home;
+
+            gameOver = BitmapFactory.decodeResource(context.getResources(), R.drawable.gameover);
+            replay = BitmapFactory.decodeResource(context.getResources(), R.drawable.replay);
+            ranking = BitmapFactory.decodeResource(context.getResources(), R.drawable.trophy);
+            home = BitmapFactory.decodeResource(context.getResources(), R.drawable.home);
+
+            // Ajusta el bitmap a un tamaño proporcionado a la resolución de la pantalla
+            gameOver = Bitmap.createScaledBitmap(gameOver,
+                    (int) (screenX/2),
+                    (int) (screenY/2),
+                    false);
+            replay = Bitmap.createScaledBitmap(replay,
+                    (int) (screenX/10),
+                    (int) (screenY/10),
+                    false);
+            ranking = Bitmap.createScaledBitmap(ranking,
+                    (int) (screenX/10),
+                    (int) (screenY/10),
+                    false);
+            home = Bitmap.createScaledBitmap(home,
+                    (int) (screenX/10),
+                    (int) (screenY/10),
+                    false);
+            canvas.drawBitmap(gameOver, screenX/8*2.5f, screenY/8, paint);
+            if(score >= 500) {
+                canvas.drawBitmap(replay, screenX/8*4, screenY/8*6, paint);
+            }
+            canvas.drawBitmap(ranking, screenX/4*3, screenY/8*6, paint);
+            canvas.drawBitmap(home, screenX/4, screenY/8*6, paint);
 
             holder.unlockCanvasAndPost(canvas);
         }
     }
-
-
-    public String getRank(View view,int i){
-        SharedPreferences sharedPreferences = context.getSharedPreferences("Ranking2", Context.MODE_PRIVATE);
-        return sharedPreferences.getString("Rank "+i,"0");
-    }
-
-    private void drawR(View view){
-        if (holder.getSurface().isValid()) {
-            canvas = holder.lockCanvas();
-            canvas.drawColor(Color.argb(255, 0, 0, 0));
-            paint.setColor(Color.argb(255, 249, 129, 0));
-            canvas.drawText(getRank(view,1),screenX/3,screenY/6*1,paint);
-            canvas.drawText(getRank(view,2),screenX/3,screenY/6*3,paint);
-            canvas.drawText(getRank(view,3),screenX/3,screenY/6*5,paint);
-
-
-            holder.unlockCanvasAndPost(canvas);
-        }
-    }
-
-
-
-
-
 }
