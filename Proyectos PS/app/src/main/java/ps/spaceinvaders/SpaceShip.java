@@ -34,7 +34,7 @@ public class SpaceShip {
     //Estado actual de la nave
     private int shipMoving = STOPPED;
 
-    public SpaceShip(Context context, int screenX, int screenY){
+    public SpaceShip(Context context, int screenX, int screenY, Bitmap b){
 
         rect = new RectF();
 
@@ -51,13 +51,7 @@ public class SpaceShip {
         y = screenY-height*2;
 
         // Inicializa el bitmap
-        bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.spaceship);
-
-        // Ajusta el bitmap a un tamaño proporcionado a la resolución de la pantalla
-        bitmap = Bitmap.createScaledBitmap(bitmap,
-                (int) (length),
-                (int) (height),
-                false);
+        bitmap = b;
 
         // velocidad nave en pixeles por segundo
         shipVel = 500;

@@ -11,8 +11,7 @@ public class Bullet {
 
     private RectF rect;
 
-    private Bitmap bulletEnemy;
-    private Bitmap bulletSpaceship;
+    private Bitmap bitmap;
 
     //Dirección de disparo
     public final int UP = 0;
@@ -33,27 +32,12 @@ public class Bullet {
 
     private int bounceCounts;
 
-    public Bullet(Context context, int screenY, int screenX){
+    public Bullet(Context context, int screenY, int screenX, Bitmap b){
         // Inicializa el bitmap
         length = screenX/20;
         height = screenY/20;
 
-        bulletEnemy = BitmapFactory.decodeResource(context.getResources(), R.drawable.bullet1);
-
-        // Ajusta el bitmap a un tamaño proporcionado a la resolución de la pantalla
-        bulletEnemy = Bitmap.createScaledBitmap(bulletEnemy,
-                (int) (length),
-                (int) (height),
-                false);
-        // Inicializa el bitmap
-
-        bulletSpaceship = BitmapFactory.decodeResource(context.getResources(), R.drawable.bullet2);
-
-        // Ajusta el bitmap a un tamaño proporcionado a la resolución de la pantalla
-        bulletSpaceship = Bitmap.createScaledBitmap(bulletSpaceship,
-                (int) (length),
-                (int) (height),
-                false);
+        bitmap = b;
 
         bounceCounts = 0;
         enemyBullet = false;
@@ -93,12 +77,8 @@ public class Bullet {
         friend = a;
     }
 
-    public Bitmap getBulletEnemy() {
-        return bulletEnemy;
-    }
-
-    public Bitmap getBulletSpaceship() {
-        return bulletSpaceship;
+    public Bitmap getBitmap() {
+        return bitmap;
     }
 
     public void setEnemyBullet(boolean active) {
