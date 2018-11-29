@@ -8,6 +8,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.media.MediaPlayer;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -72,6 +73,7 @@ public class InvadersGameView extends SurfaceView implements Runnable {
     //Puntuacion
     int score = 0;
     boolean lost = false;
+    boolean win = false;
 
     Handler handler = new Handler();
     boolean isReloading = false;
@@ -83,11 +85,17 @@ public class InvadersGameView extends SurfaceView implements Runnable {
 
     private boolean changeColor=false;
 
-    private Bitmap bulletBitmap, enemyAnim1Bitmap,enemyAnim2Bitmap,enemyAnim3Bitmap,enemyAnim4Bitmap, spaceshipBitmap;
+    private Bitmap bulletBitmap, enemyAnim1Bitmap,enemyAnim2Bitmap,enemyAnim3Bitmap,enemyAnim4Bitmap, spaceshipBitmap,
+                    gameOver, gameWon;
 
     //Botones de movimiento y disparo
     private Buttons izq,der,dis,arr,abj;
+    private Buttons restart, home, ranking;
     private String name;
+
+    //Musica
+
+    //private MediaPlayer mp;
 
     public InvadersGameView (Context context, int x, int y, boolean isViolent,String name){
         super(context);
@@ -98,11 +106,20 @@ public class InvadersGameView extends SurfaceView implements Runnable {
         enemyAnim3Bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.invaderstart2), x/20, y/20, false);
         enemyAnim4Bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.invaderend2), x/20, y/20, false);
 
+        //mp = MediaPlayer.create(this,R.raw.FF7);
+
         izq=new Buttons(context,x,y,R.drawable.izq);
         der=new Buttons(context,x,y,R.drawable.der);
         dis=new Buttons(context,x,y,R.drawable.scope);
         arr=new Buttons(context,x,y,R.drawable.arr);
         abj=new Buttons(context,x,y,R.drawable.abj);
+
+        gameOver = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.gameover), x/2, y/2, false);
+        gameWon = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.win), x/2, y/2, false);
+
+        restart = new Buttons(context,x,y,R.drawable.replay);
+        home = new Buttons(context,x,y,R.drawable.home);
+        ranking = new Buttons(context,x,y,R.drawable.trophy);
 
         this.context = context;
         this.name=name;
@@ -232,6 +249,7 @@ public class InvadersGameView extends SurfaceView implements Runnable {
 
                 totalEnemies = enemiesList.size();
                 lost=false;
+                win=false;
             }
             catch (Exception e) {
                 System.out.println("Error while loading the game");
@@ -328,13 +346,12 @@ public class InvadersGameView extends SurfaceView implements Runnable {
                     //Si la bala choca con los enemigos
                     checkEnemyCollision(b);
 
-                    //Si la bala choca con los bloques
-                    checkBlockCollision(b);
-
                     //Si la bala choca con el jugador
                     if (RectF.intersects(b.getRect(), spaceShip.getRect())) {
                         lost = true;
                     }
+
+                    checkBlockCollision(b);
                 }
             }
             catch (Exception e){
@@ -383,6 +400,17 @@ public class InvadersGameView extends SurfaceView implements Runnable {
         }
     }
 
+    public void checkPlayerBlockCollision(){
+        for(int i = 0; i < numDefences; i++){
+            if(blocks[i].getActive()){
+                RectF r = blocks[i].getRect();
+                if(RectF.intersects(r, spaceShip.getRect())) {
+                    lost = true;
+                }
+            }
+        }
+    }
+
     public void checkBlockCollision(Bullet b){
         for(int i = 0; i < numDefences; i++){
             if(blocks[i].getActive()){
@@ -395,9 +423,6 @@ public class InvadersGameView extends SurfaceView implements Runnable {
                         changeColor =!changeColor;
                     }
                 }
-                if(RectF.intersects(r, spaceShip.getRect())) {
-                    lost = true;
-                }
             }
         }
     }
@@ -405,6 +430,7 @@ public class InvadersGameView extends SurfaceView implements Runnable {
     public void checkVictory() {
         if(score == totalEnemies * 100){
             lost = true;
+            win = true;
         }
     }
 
@@ -446,6 +472,7 @@ public class InvadersGameView extends SurfaceView implements Runnable {
     }
 
     private void update(){
+        checkPlayerBlockCollision();
         if(!spawnedEnemies.isEmpty()){
             lastSpawned = spawnedEnemies.get(spawnedEnemies.size()-1);
         }
@@ -690,39 +717,19 @@ public class InvadersGameView extends SurfaceView implements Runnable {
             canvas = holder.lockCanvas();
             canvas.drawColor(Color.argb(255, 0, 0, 0));
             paint.setColor(Color.argb(255, 249, 129, 0));
-            Bitmap gameOver;
-            Bitmap replay;
-            Bitmap ranking;
-            Bitmap home;
-
-            gameOver = BitmapFactory.decodeResource(context.getResources(), R.drawable.gameover);
-            replay = BitmapFactory.decodeResource(context.getResources(), R.drawable.replay);
-            ranking = BitmapFactory.decodeResource(context.getResources(), R.drawable.trophy);
-            home = BitmapFactory.decodeResource(context.getResources(), R.drawable.home);
 
             // Ajusta el bitmap a un tamaño proporcionado a la resolución de la pantalla
-            gameOver = Bitmap.createScaledBitmap(gameOver,
-                    (int) (screenX/2),
-                    (int) (screenY/2),
-                    false);
-            replay = Bitmap.createScaledBitmap(replay,
-                    (int) (screenX/10),
-                    (int) (screenY/10),
-                    false);
-            ranking = Bitmap.createScaledBitmap(ranking,
-                    (int) (screenX/10),
-                    (int) (screenY/10),
-                    false);
-            home = Bitmap.createScaledBitmap(home,
-                    (int) (screenX/10),
-                    (int) (screenY/10),
-                    false);
-            canvas.drawBitmap(gameOver, screenX/8*2.5f, screenY/8, paint);
-            if(score >= 500) {
-                canvas.drawBitmap(replay, screenX/8*4, screenY/8*6, paint);
+            if(win){
+                canvas.drawBitmap(gameWon, screenX/8*2.5f, screenY/8, paint);
             }
-            canvas.drawBitmap(ranking, screenX/4*3, screenY/8*6, paint);
-            canvas.drawBitmap(home, screenX/4, screenY/8*6, paint);
+            else {
+                canvas.drawBitmap(gameOver, screenX/8*2.5f, screenY/8, paint);
+            }
+            if(score >= 500) {
+                canvas.drawBitmap(this.restart.getBitmap(), screenX/8*4, screenY/8*6, paint);
+            }
+            canvas.drawBitmap(this.ranking.getBitmap(), screenX/4*3, screenY/8*6, paint);
+            canvas.drawBitmap(this.home.getBitmap(), screenX/4, screenY/8*6, paint);
 
             holder.unlockCanvasAndPost(canvas);
         }
