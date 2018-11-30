@@ -23,6 +23,7 @@ public class ViolentActivity extends Activity {
         Intent intent=getIntent();
         Bundle bundle=intent.getExtras();
         String name=bundle.getString("name");
+        String profilePicEncoded = bundle.getString("profilePic");
 
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
@@ -35,7 +36,7 @@ public class ViolentActivity extends Activity {
         display.getSize(size);
 
         // Inicializar gameView y establecerlo como la visualización
-        invGameView = new InvadersGameView(this, size.x, size.y, true,name);
+        invGameView = new InvadersGameView(this, size.x, size.y, true,name, profilePicEncoded);
         setContentView(invGameView);
 
     }

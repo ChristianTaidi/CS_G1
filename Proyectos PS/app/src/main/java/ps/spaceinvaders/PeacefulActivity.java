@@ -19,6 +19,7 @@ public class PeacefulActivity extends AppCompatActivity {
         Intent intent=getIntent();
         Bundle bundle=intent.getExtras();
         String name=bundle.getString("name");
+        String profilePicEncoded = bundle.getString("profilePic");
 
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
@@ -31,7 +32,7 @@ public class PeacefulActivity extends AppCompatActivity {
         display.getSize(size);
 
         // Inicializar gameView y establecerlo como la visualización
-        invGameView = new InvadersGameView(this, size.x, size.y, false,name);
+        invGameView = new InvadersGameView(this, size.x, size.y, false,name, profilePicEncoded);
 
         setContentView(invGameView);
 

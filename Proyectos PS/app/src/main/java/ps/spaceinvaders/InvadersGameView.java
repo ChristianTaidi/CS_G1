@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.media.MediaPlayer;
+import android.util.Base64;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -20,6 +21,8 @@ import java.util.ArrayList;
 public class InvadersGameView extends SurfaceView implements Runnable {
 
     private boolean mode;
+
+    private MediaPlayer mp;
 
     Context context;
 
@@ -52,6 +55,7 @@ public class InvadersGameView extends SurfaceView implements Runnable {
     private ArrayList<Enemy> enemiesList = new ArrayList();
     private ArrayList<Enemy> spawnedEnemies = new ArrayList();
     private SpaceShip spaceShip;
+    private SpecialEnemy specialEnemy;
     private Defence[] blocks = new Defence[400];
 
     //Controlar las balas
@@ -72,6 +76,7 @@ public class InvadersGameView extends SurfaceView implements Runnable {
 
     //Puntuacion
     int score = 0;
+    int bonus = 0;
     boolean lost = false;
     boolean win = false;
 
@@ -82,31 +87,30 @@ public class InvadersGameView extends SurfaceView implements Runnable {
     private long timeAnim = 1000;
 
     private long lastTime = System.currentTimeMillis();
+    private long lastSpecialSpawned;
 
     private boolean changeColor=false;
 
     private Bitmap bulletBitmap, enemyAnim1Bitmap,enemyAnim2Bitmap,enemyAnim3Bitmap,enemyAnim4Bitmap, spaceshipBitmap,
-                    gameOver, gameWon;
+            gameOver, gameWon , specialEnemyBitMap;
 
     //Botones de movimiento y disparo
-    private Buttons izq,der,dis,arr,abj;
-    private Buttons restart, home, ranking;
+    private Buttons izq,der,dis,arr,abj, home, ranking, restart;
+    //Elementos a guardar en el shared Preferences que llegan desde mainActivity
     private String name;
+    private String proFilePicEncoded;
 
-    //Musica
-
-    private MediaPlayer mp;
-
-    public InvadersGameView (Context context, int x, int y, boolean isViolent,String name){
+    public InvadersGameView (Context context, int x, int y, boolean isViolent,String name, String profilePicEncoded){
         super(context);
+        mp = MediaPlayer.create(context,R.raw.sound);
+        //mp.setLooping(true);
+        specialEnemyBitMap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.ufo), x/10, y/10, false);
         spaceshipBitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.spaceship), x/10, y/10, false);
         bulletBitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.bullet1), x/20, y/20, false);
         enemyAnim1Bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.invaderstart), x/20, y/20, false);
         enemyAnim2Bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.invaderend), x/20, y/20, false);
         enemyAnim3Bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.invaderstart2), x/20, y/20, false);
         enemyAnim4Bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.invaderend2), x/20, y/20, false);
-
-        mp = MediaPlayer.create(context,R.raw.sound);
 
         izq=new Buttons(context,x,y,R.drawable.izq);
         der=new Buttons(context,x,y,R.drawable.der);
@@ -123,6 +127,7 @@ public class InvadersGameView extends SurfaceView implements Runnable {
 
         this.context = context;
         this.name=name;
+        this.proFilePicEncoded = profilePicEncoded;
 
         this.mode = isViolent;
 
@@ -206,6 +211,7 @@ public class InvadersGameView extends SurfaceView implements Runnable {
         @Override
         public void run() {
             try {
+                win = false;
                 jumpTimer = -1;
                 lastSpawned = new Enemy(context, 0, 0, screenX, screenY, enemyAnim1Bitmap, enemyAnim2Bitmap, enemyAnim3Bitmap, enemyAnim4Bitmap);
                 firstSpawn = false;
@@ -213,6 +219,7 @@ public class InvadersGameView extends SurfaceView implements Runnable {
                 increments = 1;
                 isReloading = false;
                 spaceShip = new SpaceShip(context, screenX, screenY, spaceshipBitmap);
+                specialEnemy = new SpecialEnemy(context,screenX, screenY, specialEnemyBitMap);
                 spaceShip.resetShootsCount();
                 changeColor = false;
                 killedEnemies = 0;
@@ -220,10 +227,11 @@ public class InvadersGameView extends SurfaceView implements Runnable {
                 enemiesList.clear();
                 spawnedEnemies.clear();
                 score = 0;
+                bonus = 0;
+                lastSpecialSpawned = System.currentTimeMillis();
 
                 fullCapacity = false;
                 enemyBulletsCount = 0;
-
 
                 // Construye las defensas
                 numDefences= 0;
@@ -242,7 +250,7 @@ public class InvadersGameView extends SurfaceView implements Runnable {
                 // Construye la formación enemiga
                 //numEnemies = 0;
                 for(int column = 0; column < 4; column ++ ){
-                    for(int row = 0; row < 3; row ++ ){
+                    for(int row = 2; row <= 4; row ++ ){
                         Enemy e = new Enemy(context, row, column, screenX, screenY, enemyAnim1Bitmap, enemyAnim2Bitmap, enemyAnim3Bitmap, enemyAnim4Bitmap);
                         enemiesList.add(e);
                     }
@@ -250,7 +258,6 @@ public class InvadersGameView extends SurfaceView implements Runnable {
 
                 totalEnemies = enemiesList.size();
                 lost=false;
-                win=false;
             }
             catch (Exception e) {
                 System.out.println("Error while loading the game");
@@ -304,6 +311,9 @@ public class InvadersGameView extends SurfaceView implements Runnable {
                             }
                         }
                 }
+                if(specialEnemy.isSpawned()) {
+                    specialEnemy.update(fps);
+                }
                 if(bumped){
                     // Mueve a todos los invaders hacia abajo y cambia la dirección
                     for(int i = 0; i < enemiesList.size(); i++){
@@ -331,6 +341,16 @@ public class InvadersGameView extends SurfaceView implements Runnable {
             try {
                 for (Bullet b : bullets) {
 
+                    if(specialEnemy.isSpawned()) {
+                        if(RectF.intersects(b.getRect(), specialEnemy.getRect())) {
+                            removedBullets.add(b);
+                            bonus +=500;
+                            score+=500;
+                            specialEnemy.setSpawned(false);
+                            continue;
+                        }
+                    }
+
                     b.update(fps);
 
                     //Comprueba limites pantalla
@@ -347,12 +367,13 @@ public class InvadersGameView extends SurfaceView implements Runnable {
                     //Si la bala choca con los enemigos
                     checkEnemyCollision(b);
 
+                    //Si la bala choca con los bloques
+                    checkBlockBulletCollision(b);
+
                     //Si la bala choca con el jugador
                     if (RectF.intersects(b.getRect(), spaceShip.getRect())) {
                         lost = true;
                     }
-
-                    checkBlockCollision(b);
                 }
             }
             catch (Exception e){
@@ -364,7 +385,6 @@ public class InvadersGameView extends SurfaceView implements Runnable {
 
     void iniLvl(){
         LoadingThread load = new LoadingThread();
-
         load.run();
         enemiesThread = new UpdateEnemiesThread();
         bulletThread = new BulletManagerThread();
@@ -372,8 +392,6 @@ public class InvadersGameView extends SurfaceView implements Runnable {
         secondSpawnTh = new SpawningThread2();
         thirdSpawnTh = new SpawningThread3();
         spawnTimer = -1;
-
-
     }
 
     //Si la bala choca con los enemigos
@@ -415,7 +433,7 @@ public class InvadersGameView extends SurfaceView implements Runnable {
         }
     }
 
-    public void checkBlockCollision(Bullet b){
+    public void checkBlockBulletCollision(Bullet b){
         for(int i = 0; i < numDefences; i++){
             if(blocks[i].getActive()){
                 RectF r = blocks[i].getRect();
@@ -432,7 +450,7 @@ public class InvadersGameView extends SurfaceView implements Runnable {
     }
 
     public void checkVictory() {
-        if(score == totalEnemies * 100){
+        if(score-bonus == totalEnemies * 100){
             lost = true;
             win = true;
         }
@@ -459,13 +477,25 @@ public class InvadersGameView extends SurfaceView implements Runnable {
 
                     animation = !animation;
                 }
+
+                if((iniFrameTime - lastSpecialSpawned) > 10000) {
+                    lastSpecialSpawned = System.currentTimeMillis();
+                    specialEnemy = new SpecialEnemy(context,screenX, screenY, specialEnemyBitMap);
+                    specialEnemy.setSpawned(true);
+                }
+
             }
             if(!lost){
                 draw();
             }
             else {
                 mp.stop();
-                mp.prepareAsync();
+                try {
+                    mp.prepare();
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
                 drawR(this);
             }
 
@@ -481,8 +511,10 @@ public class InvadersGameView extends SurfaceView implements Runnable {
         if (!mp.isPlaying()){
             mp.start();
         }
-
         checkPlayerBlockCollision();
+        if(RectF.intersects(spaceShip.getRect(), specialEnemy.getRect())) {
+            lost = true;
+        }
         if(!spawnedEnemies.isEmpty()){
             lastSpawned = spawnedEnemies.get(spawnedEnemies.size()-1);
         }
@@ -528,7 +560,7 @@ public class InvadersGameView extends SurfaceView implements Runnable {
         }
 
         if(lost){
-            saveInfoR(this,score,name);
+            saveInfoR(this,score,name,proFilePicEncoded);
             //drawR(this);
             isPaused = true;
             //iniLvl();
@@ -559,7 +591,9 @@ public class InvadersGameView extends SurfaceView implements Runnable {
             canvas.drawBitmap(arr.getBitmap(), screenX/20*13, screenY - 200, paint);
             canvas.drawBitmap(abj.getBitmap(), screenX/20*17, screenY - 200, paint);
             canvas.drawBitmap(spaceShip.getBitmap(), spaceShip.getX(), spaceShip.getY(), paint);
-
+            if(specialEnemy.isSpawned()) {
+                canvas.drawBitmap(specialEnemy.getBitmap(), specialEnemy.getX(), specialEnemy.getY(), paint);
+            }
             // Dibuja las defensas no destruidas
             for(int i = 0; i < numDefences; i++){
                 if(blocks[i].getActive()) {
@@ -659,7 +693,6 @@ public class InvadersGameView extends SurfaceView implements Runnable {
         }
         return true;
     }
-
     public void saveInfo(View view){
         SharedPreferences sharedPreferences = context.getSharedPreferences("Ranking2", Context.MODE_PRIVATE);
 
@@ -670,32 +703,6 @@ public class InvadersGameView extends SurfaceView implements Runnable {
         }
     }
 
-    public void saveInfoR(View view,int score,String name){
-        SharedPreferences sharedPreferences = context.getSharedPreferences("Ranking2", Context.MODE_PRIVATE);
-
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        if (name.compareTo("")==0){
-            name="Anonymous";
-        }
-        int pos=findPos(view, score);
-        if (pos!=-1){
-            sortPreferences(view,pos);
-            editor.putString("Rank "+pos,name+"-"+Integer.toString(score));
-            editor.apply();
-
-        }
-    }
-
-    public void sortPreferences(View view, int n){
-        SharedPreferences sharedPreferences = context.getSharedPreferences("Ranking2", Context.MODE_PRIVATE);
-
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        for (int i=n;i<10;i++){
-            editor.putString("Rank "+(n+1),sharedPreferences.getString("Rank "+n,"0"));
-            editor.apply();
-        }
-
-    }
     public int findPos(View view,int score){
         int max=score;
         int pos=-1;
@@ -709,6 +716,30 @@ public class InvadersGameView extends SurfaceView implements Runnable {
         return pos;
     }
 
+    public void saveInfoR(View view,int score,String name, String proFilePicEncoded){
+        SharedPreferences sharedPreferences = context.getSharedPreferences("Ranking2", Context.MODE_PRIVATE);
+        System.out.println(proFilePicEncoded);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        if (name.compareTo("")==0){
+            name="Anonymous";
+        }
+        int pos=findPos(view, score);
+        if (pos!=-1){
+            sortPreferences(view,pos);
+            editor.putString("Rank "+pos,name+"-"+Integer.toString(score)+"-"+proFilePicEncoded);
+            editor.apply();
+        }
+    }
+
+    public void sortPreferences(View view, int n){
+        SharedPreferences sharedPreferences = context.getSharedPreferences("Ranking2", Context.MODE_PRIVATE);
+
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        for (int i=n;i<10;i++){
+            editor.putString("Rank "+(n+1),sharedPreferences.getString("Rank "+n,"0"));
+            editor.apply();
+        }
+    }
     public void display(View view){
         SharedPreferences sharedPreferences = context.getSharedPreferences("Ranking2", Context.MODE_PRIVATE);
 
@@ -721,7 +752,6 @@ public class InvadersGameView extends SurfaceView implements Runnable {
         SharedPreferences sharedPreferences = context.getSharedPreferences("Ranking2", Context.MODE_PRIVATE);
         return sharedPreferences.getString("Rank "+i,"-1");
     }
-
     private void drawR(InvadersGameView view){
         if (holder.getSurface().isValid()) {
             canvas = holder.lockCanvas();
@@ -738,10 +768,21 @@ public class InvadersGameView extends SurfaceView implements Runnable {
             if(score >= 500) {
                 canvas.drawBitmap(this.restart.getBitmap(), screenX/8*4, screenY/8*6, paint);
             }
+            canvas.drawBitmap(decodeBase64(proFilePicEncoded),screenX/4*3, screenY/8*6, paint);
             canvas.drawBitmap(this.ranking.getBitmap(), screenX/4*3, screenY/8*6, paint);
             canvas.drawBitmap(this.home.getBitmap(), screenX/4, screenY/8*6, paint);
 
             holder.unlockCanvasAndPost(canvas);
         }
+
     }
+
+
+    public static Bitmap decodeBase64(String input) {
+        byte[] decodedByte = Base64.decode(input, 0);
+        return BitmapFactory
+                .decodeByteArray(decodedByte, 0, decodedByte.length);
+    }
+
+
 }

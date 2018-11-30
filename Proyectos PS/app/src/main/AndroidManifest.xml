@@ -20,5 +20,4 @@
         <activity android:name=".PeacefulActivity"/>
         <activity android:name=".ViolentActivity"></activity>
     </application>
-
 </manifest>
