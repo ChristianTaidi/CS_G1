@@ -95,7 +95,7 @@ public class InvadersGameView extends SurfaceView implements Runnable {
 
     //Musica
 
-    //private MediaPlayer mp;
+    private MediaPlayer mp;
 
     public InvadersGameView (Context context, int x, int y, boolean isViolent,String name){
         super(context);
@@ -106,7 +106,7 @@ public class InvadersGameView extends SurfaceView implements Runnable {
         enemyAnim3Bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.invaderstart2), x/20, y/20, false);
         enemyAnim4Bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.invaderend2), x/20, y/20, false);
 
-        //mp = MediaPlayer.create(this,R.raw.FF7);
+        mp = MediaPlayer.create(context,R.raw.sound);
 
         izq=new Buttons(context,x,y,R.drawable.izq);
         der=new Buttons(context,x,y,R.drawable.der);
@@ -223,6 +223,7 @@ public class InvadersGameView extends SurfaceView implements Runnable {
 
                 fullCapacity = false;
                 enemyBulletsCount = 0;
+
 
                 // Construye las defensas
                 numDefences= 0;
@@ -363,6 +364,7 @@ public class InvadersGameView extends SurfaceView implements Runnable {
 
     void iniLvl(){
         LoadingThread load = new LoadingThread();
+
         load.run();
         enemiesThread = new UpdateEnemiesThread();
         bulletThread = new BulletManagerThread();
@@ -370,6 +372,8 @@ public class InvadersGameView extends SurfaceView implements Runnable {
         secondSpawnTh = new SpawningThread2();
         thirdSpawnTh = new SpawningThread3();
         spawnTimer = -1;
+
+
     }
 
     //Si la bala choca con los enemigos
@@ -460,6 +464,8 @@ public class InvadersGameView extends SurfaceView implements Runnable {
                 draw();
             }
             else {
+                mp.stop();
+                mp.prepareAsync();
                 drawR(this);
             }
 
@@ -472,6 +478,10 @@ public class InvadersGameView extends SurfaceView implements Runnable {
     }
 
     private void update(){
+        if (!mp.isPlaying()){
+            mp.start();
+        }
+
         checkPlayerBlockCollision();
         if(!spawnedEnemies.isEmpty()){
             lastSpawned = spawnedEnemies.get(spawnedEnemies.size()-1);
