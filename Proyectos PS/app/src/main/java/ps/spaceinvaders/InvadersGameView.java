@@ -10,12 +10,14 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 import android.media.MediaPlayer;
 import android.util.Base64;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.os.Handler;
 import android.view.View;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
 public class InvadersGameView extends SurfaceView implements Runnable {
@@ -92,7 +94,7 @@ public class InvadersGameView extends SurfaceView implements Runnable {
     private boolean changeColor=false;
 
     private Bitmap bulletBitmap, enemyAnim1Bitmap,enemyAnim2Bitmap,enemyAnim3Bitmap,enemyAnim4Bitmap, spaceshipBitmap,
-            gameOver, gameWon , specialEnemyBitMap;
+            gameOver, gameWon , specialEnemyBitMap, avatarEmpty;
 
     //Botones de movimiento y disparo
     private Buttons izq,der,dis,arr,abj, home, ranking, restart;
@@ -111,6 +113,8 @@ public class InvadersGameView extends SurfaceView implements Runnable {
         enemyAnim2Bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.invaderend), x/20, y/20, false);
         enemyAnim3Bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.invaderstart2), x/20, y/20, false);
         enemyAnim4Bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.invaderend2), x/20, y/20, false);
+
+        avatarEmpty = Bitmap.createBitmap(BitmapFactory.decodeResource(context.getResources(),R.drawable.avatarvacio));
 
         izq=new Buttons(context,x,y,R.drawable.izq);
         der=new Buttons(context,x,y,R.drawable.der);
@@ -694,11 +698,13 @@ public class InvadersGameView extends SurfaceView implements Runnable {
         return true;
     }
     public void saveInfo(View view){
+        String photoDefault = encodeTobase64(avatarEmpty);
         SharedPreferences sharedPreferences = context.getSharedPreferences("Ranking2", Context.MODE_PRIVATE);
 
         SharedPreferences.Editor editor = sharedPreferences.edit();
         for (int i=1;i<=10;i++) {
             editor.putString("Rank "+i, "Empty-0");
+            editor.putString("Photo "+i,  photoDefault);
             editor.apply();
         }
     }
@@ -726,7 +732,8 @@ public class InvadersGameView extends SurfaceView implements Runnable {
         int pos=findPos(view, score);
         if (pos!=-1){
             sortPreferences(view,pos);
-            editor.putString("Rank "+pos,name+"-"+Integer.toString(score)+"-"+proFilePicEncoded);
+            editor.putString("Rank "+pos,name+"-"+Integer.toString(score));
+            editor.putString("Photo "+pos,proFilePicEncoded);
             editor.apply();
         }
     }
@@ -737,16 +744,17 @@ public class InvadersGameView extends SurfaceView implements Runnable {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         for (int i=n;i<10;i++){
             editor.putString("Rank "+(n+1),sharedPreferences.getString("Rank "+n,"0"));
+            editor.putString("Photo "+(n+1),sharedPreferences.getString("Photo "+n,"0"));
             editor.apply();
         }
     }
-    public void display(View view){
+    /*public void display(View view){
         SharedPreferences sharedPreferences = context.getSharedPreferences("Ranking2", Context.MODE_PRIVATE);
 
         System.out.println(sharedPreferences.getString("Rank 1","-1"));
         System.out.println(sharedPreferences.getString("Rank 2","-1"));
         System.out.println(sharedPreferences.getString("Rank 3","-1"));
-    }
+    }*/
 
     public String getRank(InvadersGameView view,int i){
         SharedPreferences sharedPreferences = context.getSharedPreferences("Ranking2", Context.MODE_PRIVATE);
@@ -784,5 +792,14 @@ public class InvadersGameView extends SurfaceView implements Runnable {
                 .decodeByteArray(decodedByte, 0, decodedByte.length);
     }
 
+    public static String encodeTobase64(Bitmap image) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        image.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        byte[] b = baos.toByteArray();
+        String imageEncoded = Base64.encodeToString(b, Base64.DEFAULT);
+
+        Log.d("Image Log:", imageEncoded);
+        return imageEncoded;
+    }
 
 }
