@@ -63,7 +63,7 @@ public class RankingActivity extends AppCompatActivity {
 
         encoder = new ImageEncoder((sharedPreferences.getString("Photo 1","-1")));
         i1 = findViewById(R.id.Top1);
-        i1.setImageBitmap(Bitmap.createScaledBitmap(encoder.getDecodedImage(),110,110,false));
+        i1.setImageBitmap(Bitmap.createScaledBitmap(encoder.getDecodedImage(),110,147,false));
 
         encoder = new ImageEncoder((sharedPreferences.getString("Photo 2","-1")));
         i2 = findViewById(R.id.Top2);
