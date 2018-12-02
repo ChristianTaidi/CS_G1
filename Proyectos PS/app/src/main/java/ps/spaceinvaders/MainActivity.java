@@ -23,6 +23,8 @@ public class MainActivity extends AppCompatActivity {
     private Bitmap profilePic;
     private String profilePicEncoded;
 
+    private ImageEncoder encoder;
+
     private static final int CAMERA_PIC_REQUEST = 1337;
 
     @Override
@@ -59,13 +61,15 @@ public class MainActivity extends AppCompatActivity {
             profilePic = (Bitmap) data.getExtras().get("data");
             ImageView imageview = (ImageView) findViewById(R.id.profilePic); //sets imageview as the bitmap
             imageview.setImageBitmap(profilePic);
-            profilePicEncoded = encodeTobase64(profilePic);
+            encoder = new ImageEncoder(profilePic);
+            profilePicEncoded = encoder.getEncodedImage();
         }
     }
 
     private void validate(int n){
         if (profilePicEncoded == null){
-            profilePicEncoded = encodeTobase64(Bitmap.createBitmap(BitmapFactory.decodeResource(this.getResources(),R.drawable.avatarvacio)));
+            encoder = new ImageEncoder(Bitmap.createBitmap(BitmapFactory.decodeResource(this.getResources(),R.drawable.avatarvacio)));
+            profilePicEncoded = encoder.getEncodedImage();
 
         }
         if(n<13){

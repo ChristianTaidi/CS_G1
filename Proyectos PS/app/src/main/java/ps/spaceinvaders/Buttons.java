@@ -17,9 +17,7 @@ public class Buttons {
     private float x;
     private float y;
 
-
-    public Buttons(Context context, int screenX, int screenY, int id){
-
+    public Buttons(Context context, int screenX, int screenY, int id, float scaleX, float scaleY){
 
         rect = new RectF();
 
@@ -27,8 +25,8 @@ public class Buttons {
         height = screenY/10;
 
         // Inicia la nave en el centro de la pantalla aproximadamente
-        x = screenX;
-        y = screenY;
+        x = scaleX;
+        y = scaleY;
 
         // Inicializa el bitmap
         bitmap = BitmapFactory.decodeResource(context.getResources(), id);
@@ -54,9 +52,15 @@ public class Buttons {
         return x;
     }
 
+    public float getY() {
+        return y;
+    }
+
     public float getLength(){
         return length;
     }
 
-
+    public float getHeight() {
+        return height;
+    }
 }

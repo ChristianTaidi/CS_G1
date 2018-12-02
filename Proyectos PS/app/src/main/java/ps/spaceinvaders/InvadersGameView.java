@@ -9,6 +9,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.media.Image;
 import android.media.MediaPlayer;
 import android.util.Base64;
 import android.util.Log;
@@ -117,18 +118,19 @@ public class InvadersGameView extends SurfaceView implements Runnable {
 
         avatarEmpty = Bitmap.createBitmap(BitmapFactory.decodeResource(context.getResources(),R.drawable.avatarvacio));
 
-        izq=new Buttons(context,x,y,R.drawable.izq);
-        der=new Buttons(context,x,y,R.drawable.der);
-        dis=new Buttons(context,x,y,R.drawable.scope);
-        arr=new Buttons(context,x,y,R.drawable.arr);
-        abj=new Buttons(context,x,y,R.drawable.abj);
+        izq=new Buttons(context,x,y,R.drawable.izq, x/20*1, y-200);
+        der=new Buttons(context,x,y,R.drawable.der, x/20*5, y-200);
+        dis=new Buttons(context,x,y,R.drawable.scope,x/20*9, y-200);
+        arr=new Buttons(context,x,y,R.drawable.arr,x/20*12, y-200);
+        abj=new Buttons(context,x,y,R.drawable.abj,x/20*17, y-200);
 
         gameOver = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.gameover), x/2, y/2, false);
         gameWon = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.win), x/2, y/2, false);
 
-        restart = new Buttons(context,x,y,R.drawable.replay);
-        home = new Buttons(context,x,y,R.drawable.home);
-        ranking = new Buttons(context,x,y,R.drawable.trophy);
+        //This buttons use a different constructor so its easier to access to their X and Y variables
+        restart = new Buttons(context,x,y,R.drawable.replay, x/8*4, y/8*6);
+        home = new Buttons(context,x,y,R.drawable.home, x/4, y/8*6);
+        ranking = new Buttons(context,x,y,R.drawable.trophy, x/4*3, y/8*6);
 
         this.context = context;
         this.name=name;
@@ -590,11 +592,11 @@ public class InvadersGameView extends SurfaceView implements Runnable {
 
             // Dibuja la nave espacial
 
-            canvas.drawBitmap(izq.getBitmap(), screenX/20*1, screenY - 200, paint);
-            canvas.drawBitmap(der.getBitmap(), screenX/20*5, screenY - 200, paint);
-            canvas.drawBitmap(dis.getBitmap(), screenX/20*9, screenY - 200, paint);
-            canvas.drawBitmap(arr.getBitmap(), screenX/20*13, screenY - 200, paint);
-            canvas.drawBitmap(abj.getBitmap(), screenX/20*17, screenY - 200, paint);
+            canvas.drawBitmap(izq.getBitmap(), izq.getX(), izq.getY(), paint);
+            canvas.drawBitmap(der.getBitmap(), der.getX(), der.getY(), paint);
+            canvas.drawBitmap(dis.getBitmap(), dis.getX(), dis.getY(), paint);
+            canvas.drawBitmap(arr.getBitmap(), arr.getX(), arr.getY(), paint);
+            canvas.drawBitmap(abj.getBitmap(), abj.getX(), abj.getY(), paint);
             canvas.drawBitmap(spaceShip.getBitmap(), spaceShip.getX(), spaceShip.getY(), paint);
             if(specialEnemy.isSpawned()) {
                 canvas.drawBitmap(specialEnemy.getBitmap(), specialEnemy.getX(), specialEnemy.getY(), paint);
@@ -658,12 +660,23 @@ public class InvadersGameView extends SurfaceView implements Runnable {
                 // El jugador ha pulsado la pantalla
                 case MotionEvent.ACTION_DOWN:
                     isPaused = false;
-                    if ((motionEvent.getX() > (screenX/20*1))&&(motionEvent.getX() < (screenX/20*1+izq.getLength())) && (motionEvent.getY() > (screenY - (screenY / 6)))) {
-                        spaceShip.setMovementState(spaceShip.LEFT); }
-                    else if ((motionEvent.getX() > (screenX/20*5))&&(motionEvent.getX() < (screenX/20*5+izq.getLength())) && (motionEvent.getY() > (screenY - (screenY / 6)))) {
+                    if( motionEvent.getX() >= izq.getX() && motionEvent.getX() <
+                            (izq.getX() + izq.getLength()) &&
+                            motionEvent.getY() >= izq.getY() && motionEvent.getY() <
+                            (izq.getY() + izq.getHeight())) {
+                        spaceShip.setMovementState(spaceShip.LEFT);
+                    }
+                    else if ( motionEvent.getX() >= der.getX() && motionEvent.getX() <
+                            (der.getX() + der.getLength()) &&
+                            motionEvent.getY() >= der.getY() && motionEvent.getY() <
+                            (der.getY() + der.getHeight())) {
                         spaceShip.setMovementState(spaceShip.RIGHT);
                     }
-                    if ((motionEvent.getX() > (screenX/20*9))&&(motionEvent.getX() < (screenX/20*9+izq.getLength())) && (motionEvent.getY() > (screenY - (screenY / 6)))) {
+                    if ( motionEvent.getX() >= dis.getX() && motionEvent.getX() <
+                            (dis.getX() + dis.getLength()) &&
+                            motionEvent.getY() >= dis.getY() && motionEvent.getY() <
+                            (dis.getY() + dis.getHeight())) {
+
                         if(!isReloading) {
                             playerShoot();
                             spaceShip.addShootsCount();
@@ -672,11 +685,18 @@ public class InvadersGameView extends SurfaceView implements Runnable {
                                 isReloading = true;
                             }
                         }
+
                     }
-                    else if ((motionEvent.getX() > (screenX/20*13))&&(motionEvent.getX() < (screenX/20*13+izq.getLength())) && (motionEvent.getY() > (screenY - (screenY / 6)))) {
+                    else if ( motionEvent.getX() >= arr.getX() && motionEvent.getX() <
+                            (arr.getX() + arr.getLength()) &&
+                            motionEvent.getY() >= arr.getY() && motionEvent.getY() <
+                            (arr.getY() + arr.getHeight())) {
                         spaceShip.setMovementState(spaceShip.UP);
                     }
-                    else if ((motionEvent.getX() > (screenX/20*17))&&(motionEvent.getX() < (screenX/20*17+izq.getLength())) && (motionEvent.getY() > (screenY - (screenY / 6)))) {
+                    else if ( motionEvent.getX() >= abj.getX() && motionEvent.getX() <
+                            (abj.getX() + abj.getLength()) &&
+                            motionEvent.getY() >= abj.getY() && motionEvent.getY() <
+                            (abj.getY() + abj.getHeight())) {
                         spaceShip.setMovementState(spaceShip.DOWN);
                     }
                     break;
@@ -693,15 +713,36 @@ public class InvadersGameView extends SurfaceView implements Runnable {
         }
         if(lost) {
             if(motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-                //iniLvl();
-                Intent intent2 = new Intent (context,RankingActivity.class);
-                context.startActivity(intent2);
+                //Button Replay
+                if(score >= 500 && motionEvent.getX() >= restart.getX() && motionEvent.getX() <
+                        (restart.getX() + restart.getLength()) &&
+                        motionEvent.getY() >= restart.getY() && motionEvent.getY() <
+                        (restart.getY() + restart.getHeight())) {
+                    iniLvl();
+                }
+                //Button Home
+                else if( motionEvent.getX() >= home.getX() && motionEvent.getX() <
+                        (home.getX() + home.getLength()) &&
+                        motionEvent.getY() >= home.getY() && motionEvent.getY() <
+                        (home.getY() + home.getHeight())) {
+                    Intent intentMain = new Intent(context,MainActivity.class);
+                    context.startActivity(intentMain);
+                }
+                //Button Ranking
+                else if( motionEvent.getX() >= ranking.getX() && motionEvent.getX() <
+                        (ranking.getX() + ranking.getLength()) &&
+                        motionEvent.getY() >= ranking.getY() && motionEvent.getY() <
+                        (ranking.getY() + ranking.getHeight())) {
+                    Intent intentRanking = new Intent (context,RankingActivity.class);
+                    context.startActivity(intentRanking);
+                }
             }
         }
         return true;
     }
     public void saveInfo(View view){
-        String photoDefault = encodeTobase64(avatarEmpty);
+        ImageEncoder encoder = new ImageEncoder(avatarEmpty);
+        String photoDefault = encoder.getEncodedImage();
         SharedPreferences sharedPreferences = context.getSharedPreferences("Ranking2", Context.MODE_PRIVATE);
 
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -751,13 +792,7 @@ public class InvadersGameView extends SurfaceView implements Runnable {
             editor.apply();
         }
     }
-    /*public void display(View view){
-        SharedPreferences sharedPreferences = context.getSharedPreferences("Ranking2", Context.MODE_PRIVATE);
 
-        System.out.println(sharedPreferences.getString("Rank 1","-1"));
-        System.out.println(sharedPreferences.getString("Rank 2","-1"));
-        System.out.println(sharedPreferences.getString("Rank 3","-1"));
-    }*/
 
     public String getRank(InvadersGameView view,int i){
         SharedPreferences sharedPreferences = context.getSharedPreferences("Ranking2", Context.MODE_PRIVATE);
@@ -777,32 +812,14 @@ public class InvadersGameView extends SurfaceView implements Runnable {
                 canvas.drawBitmap(gameOver, screenX/8*2.5f, screenY/8, paint);
             }
             if(score >= 500) {
-                canvas.drawBitmap(this.restart.getBitmap(), screenX/8*4, screenY/8*6, paint);
+                canvas.drawBitmap(this.restart.getBitmap(), restart.getX(), restart.getY(), paint);
             }
-            canvas.drawBitmap(decodeBase64(proFilePicEncoded),screenX/4*3, screenY/8*6, paint);
-            canvas.drawBitmap(this.ranking.getBitmap(), screenX/4*3, screenY/8*6, paint);
-            canvas.drawBitmap(this.home.getBitmap(), screenX/4, screenY/8*6, paint);
+            canvas.drawBitmap(this.ranking.getBitmap(), ranking.getX(), ranking.getY(), paint);
+            canvas.drawBitmap(this.home.getBitmap(), home.getX(), home.getY(), paint);
 
             holder.unlockCanvasAndPost(canvas);
         }
 
-    }
-
-
-    public static Bitmap decodeBase64(String input) {
-        byte[] decodedByte = Base64.decode(input, 0);
-        return BitmapFactory
-                .decodeByteArray(decodedByte, 0, decodedByte.length);
-    }
-
-    public static String encodeTobase64(Bitmap image) {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        image.compress(Bitmap.CompressFormat.PNG, 100, baos);
-        byte[] b = baos.toByteArray();
-        String imageEncoded = Base64.encodeToString(b, Base64.DEFAULT);
-
-        Log.d("Image Log:", imageEncoded);
-        return imageEncoded;
     }
 
 }
