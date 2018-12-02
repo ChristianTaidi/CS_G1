@@ -3,6 +3,7 @@ package ps.spaceinvaders;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
@@ -63,6 +64,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void validate(int n){
+        if (profilePicEncoded == null){
+            profilePicEncoded = encodeTobase64(Bitmap.createBitmap(BitmapFactory.decodeResource(this.getResources(),R.drawable.avatarvacio)));
+
+        }
         if(n<13){
             Intent intent = new Intent (MainActivity.this, PeacefulActivity.class);
             startActivity(intent);

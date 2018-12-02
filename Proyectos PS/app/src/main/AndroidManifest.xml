@@ -18,6 +18,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".PeacefulActivity"/>
+        <activity android:name=".RankingActivity"/>
         <activity android:name=".ViolentActivity"></activity>
     </application>
 </manifest>

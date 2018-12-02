@@ -1,6 +1,7 @@
 package ps.spaceinvaders;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -692,7 +693,9 @@ public class InvadersGameView extends SurfaceView implements Runnable {
         }
         if(lost) {
             if(motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-                iniLvl();
+                //iniLvl();
+                Intent intent2 = new Intent (context,RankingActivity.class);
+                context.startActivity(intent2);
             }
         }
         return true;
@@ -724,7 +727,7 @@ public class InvadersGameView extends SurfaceView implements Runnable {
 
     public void saveInfoR(View view,int score,String name, String proFilePicEncoded){
         SharedPreferences sharedPreferences = context.getSharedPreferences("Ranking2", Context.MODE_PRIVATE);
-        System.out.println(proFilePicEncoded);
+        //System.out.println(proFilePicEncoded);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         if (name.compareTo("")==0){
             name="Anonymous";
