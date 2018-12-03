@@ -24,7 +24,6 @@ public class Buttons {
         length = screenX/10;
         height = screenY/10;
 
-        // Inicia la nave en el centro de la pantalla aproximadamente
         x = scaleX;
         y = scaleY;
 

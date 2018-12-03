@@ -5,8 +5,12 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.RectF;
 
+import java.util.Random;
+
 public class SpaceShip {
 
+    private boolean isVulnerable;
+    private int tpTime;
     //Detector de impactos
     private RectF rect;
 
@@ -35,6 +39,8 @@ public class SpaceShip {
     private int shipMoving = STOPPED;
 
     public SpaceShip(Context context, int screenX, int screenY, Bitmap b){
+        isVulnerable = true;
+        tpTime = -1;
 
         rect = new RectF();
 
@@ -128,7 +134,37 @@ public class SpaceShip {
 
     }
 
+    public void teleport(){
+         x = (int) (Math.random() * (maxX-length)) + 1;
+         y = (int) (Math.random() * (maxY-height)) + 1;
 
+        rect.top = y;
+        rect.bottom = y + height;
+        rect.left = x;
+        rect.right = x + length;
+    }
 
+    public boolean isVulnerable() {
+        return isVulnerable;
+    }
 
+    public void setVulnerable(boolean b){
+        isVulnerable = b;
+    }
+
+    public void setRandomTp(){
+        tpTime =  (int) (Math.random() * 10) + 5;
+    }
+
+    public void setTpTime(int n){
+        this.tpTime = n;
+    }
+
+    public int getTpTime() {
+        return tpTime;
+    }
+
+    public void setBitmap(Bitmap bitmap) {
+        this.bitmap = bitmap;
+    }
 }

@@ -18,6 +18,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.os.Handler;
 import android.view.View;
+import android.widget.ImageView;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
@@ -88,15 +89,19 @@ public class InvadersGameView extends SurfaceView implements Runnable {
     boolean isReloading = false;
 
     private boolean animation = true;
+    private boolean invulnerableAnimation = true;
     private long timeAnim = 1000;
 
     private long lastTime = System.currentTimeMillis();
+    private long lastIvulnerableAnimation = System.currentTimeMillis();
     private long lastSpecialSpawned;
+    private long lastTp;
+    private long lastInvulnerable;
 
     private boolean changeColor=false;
 
     private Bitmap bulletBitmap, enemyAnim1Bitmap,enemyAnim2Bitmap,enemyAnim3Bitmap,enemyAnim4Bitmap, spaceshipBitmap,
-            gameOver, gameWon , specialEnemyBitMap, avatarEmpty;
+            spaceshipInvulnerable, gameOver, gameWon , specialEnemyBitMap, avatarEmpty, background;
 
     //Botones de movimiento y disparo
     private Buttons izq,der,dis,arr,abj, home, ranking, restart;
@@ -107,8 +112,10 @@ public class InvadersGameView extends SurfaceView implements Runnable {
     public InvadersGameView (Context context, int x, int y, boolean isViolent,String name, String profilePicEncoded){
         super(context);
         mp = MediaPlayer.create(context,R.raw.sound);
-        //mp.setLooping(true);
+        mp.setLooping(true);
+        background = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.background), x, y, false);
         specialEnemyBitMap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.ufo), x/10, y/10, false);
+        spaceshipInvulnerable = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.spaceshipinvulnerable), x/10, y/10, false);
         spaceshipBitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.spaceship), x/10, y/10, false);
         bulletBitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.bullet1), x/20, y/20, false);
         enemyAnim1Bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.invaderstart), x/20, y/20, false);
@@ -128,9 +135,11 @@ public class InvadersGameView extends SurfaceView implements Runnable {
         gameWon = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.win), x/2, y/2, false);
 
         //This buttons use a different constructor so its easier to access to their X and Y variables
-        restart = new Buttons(context,x,y,R.drawable.replay, x/8*4, y/8*6);
-        home = new Buttons(context,x,y,R.drawable.home, x/4, y/8*6);
-        ranking = new Buttons(context,x,y,R.drawable.trophy, x/4*3, y/8*6);
+        restart = new Buttons(context,x,y,R.drawable.replay, x/8*4-100, y/8*6);
+        home = new Buttons(context,x,y,R.drawable.home, x/8, y/8*6);
+        ranking = new Buttons(context,x,y,R.drawable.trophy, x/8*7-200, y/8*6);
+
+
 
         this.context = context;
         this.name=name;
@@ -235,8 +244,6 @@ public class InvadersGameView extends SurfaceView implements Runnable {
                 spawnedEnemies.clear();
                 score = 0;
                 bonus = 0;
-                lastSpecialSpawned = System.currentTimeMillis();
-
                 fullCapacity = false;
                 enemyBulletsCount = 0;
 
@@ -282,8 +289,10 @@ public class InvadersGameView extends SurfaceView implements Runnable {
                 boolean bumped = false;
                 // Actualiza todos los enemies activos
                 for (int i = 0; i < enemiesList.size(); i++) {
-                    if(RectF.intersects(spaceShip.getRect(), enemiesList.get(i).getRect())){
-                        lost = true;
+                    if(spaceShip.isVulnerable()) {
+                        if (RectF.intersects(spaceShip.getRect(), enemiesList.get(i).getRect())) {
+                            lost = true;
+                        }
                     }
                     enemiesList.get(i).angryEnemie(killedEnemies);
                         // Mueve enemy
@@ -378,8 +387,10 @@ public class InvadersGameView extends SurfaceView implements Runnable {
                     checkBlockBulletCollision(b);
 
                     //Si la bala choca con el jugador
-                    if (RectF.intersects(b.getRect(), spaceShip.getRect())) {
-                        lost = true;
+                    if(spaceShip.isVulnerable()) {
+                        if (RectF.intersects(b.getRect(), spaceShip.getRect())) {
+                            lost = true;
+                        }
                     }
                 }
             }
@@ -430,11 +441,13 @@ public class InvadersGameView extends SurfaceView implements Runnable {
     }
 
     public void checkPlayerBlockCollision(){
-        for(int i = 0; i < numDefences; i++){
-            if(blocks[i].getActive()){
-                RectF r = blocks[i].getRect();
-                if(RectF.intersects(r, spaceShip.getRect())) {
-                    lost = true;
+        if(spaceShip.isVulnerable()) {
+            for (int i = 0; i < numDefences; i++) {
+                if (blocks[i].getActive()) {
+                    RectF r = blocks[i].getRect();
+                    if (RectF.intersects(r, spaceShip.getRect())) {
+                        lost = true;
+                    }
                 }
             }
         }
@@ -475,9 +488,34 @@ public class InvadersGameView extends SurfaceView implements Runnable {
     public void run() {
         while(isPlaying) {
             long iniFrameTime = System.currentTimeMillis();
-
             if (!isPaused) {
                 update();
+
+                if((iniFrameTime - lastSpecialSpawned) > 10000) {
+                    lastSpecialSpawned = System.currentTimeMillis();
+                    specialEnemy = new SpecialEnemy(context,screenX, screenY, specialEnemyBitMap);
+                    specialEnemy.setSpawned(true);
+                }
+
+                if(spaceShip.getTpTime() == -1){
+                    spaceShip.setRandomTp();
+                }
+
+                if((iniFrameTime - lastTp) > spaceShip.getTpTime()*1000){
+                    lastTp = System.currentTimeMillis();
+                    spaceShip.teleport();
+                    spaceShip.setVulnerable(false);
+                    spaceShip.setTpTime(-1);
+                    spaceShip.setBitmap(spaceshipInvulnerable);
+                    lastInvulnerable = System.currentTimeMillis();
+                }
+                if(!spaceShip.isVulnerable()){
+                    if((iniFrameTime - lastInvulnerable) > 2000){
+                        lastInvulnerable = System.currentTimeMillis();
+                        spaceShip.setVulnerable(true);
+                        spaceShip.setBitmap(spaceshipBitmap);
+                    }
+                }
 
                 if((iniFrameTime - lastTime) > timeAnim){
                     lastTime = System.currentTimeMillis();
@@ -485,11 +523,12 @@ public class InvadersGameView extends SurfaceView implements Runnable {
                     animation = !animation;
                 }
 
-                if((iniFrameTime - lastSpecialSpawned) > 10000) {
-                    lastSpecialSpawned = System.currentTimeMillis();
-                    specialEnemy = new SpecialEnemy(context,screenX, screenY, specialEnemyBitMap);
-                    specialEnemy.setSpawned(true);
+                if((iniFrameTime - lastIvulnerableAnimation) > 200){
+                    lastIvulnerableAnimation = System.currentTimeMillis();
+
+                    invulnerableAnimation = !invulnerableAnimation;
                 }
+
 
             }
             if(!lost){
@@ -519,8 +558,10 @@ public class InvadersGameView extends SurfaceView implements Runnable {
             mp.start();
         }
         checkPlayerBlockCollision();
-        if(RectF.intersects(spaceShip.getRect(), specialEnemy.getRect())) {
-            lost = true;
+        if(spaceShip.isVulnerable()) {
+            if (RectF.intersects(spaceShip.getRect(), specialEnemy.getRect())) {
+                lost = true;
+            }
         }
         if(!spawnedEnemies.isEmpty()){
             lastSpawned = spawnedEnemies.get(spawnedEnemies.size()-1);
@@ -580,10 +621,11 @@ public class InvadersGameView extends SurfaceView implements Runnable {
         if (holder.getSurface().isValid()) {
             canvas = holder.lockCanvas();
 
-            canvas.drawColor(Color.argb(255, 0, 0, 0));
+            //canvas.drawColor(Color.argb(255, 0, 0, 0));
 
 
-            paint.setColor(Color.argb(255, 255, 255, 255));
+            //paint.setColor(Color.argb(255, 255, 255, 255));
+            canvas.drawBitmap(background, 0,0, paint);
 
             //Pintar la puntuación
             paint.setColor(Color.argb(255, 249, 129, 0));
@@ -597,7 +639,12 @@ public class InvadersGameView extends SurfaceView implements Runnable {
             canvas.drawBitmap(dis.getBitmap(), dis.getX(), dis.getY(), paint);
             canvas.drawBitmap(arr.getBitmap(), arr.getX(), arr.getY(), paint);
             canvas.drawBitmap(abj.getBitmap(), abj.getX(), abj.getY(), paint);
-            canvas.drawBitmap(spaceShip.getBitmap(), spaceShip.getX(), spaceShip.getY(), paint);
+            if(!spaceShip.isVulnerable() && invulnerableAnimation){
+                canvas.drawBitmap(spaceShip.getBitmap(), spaceShip.getX(), spaceShip.getY(), paint);
+            }
+            else if(spaceShip.isVulnerable()){
+                canvas.drawBitmap(spaceShip.getBitmap(), spaceShip.getX(), spaceShip.getY(), paint);
+            }
             if(specialEnemy.isSpawned()) {
                 canvas.drawBitmap(specialEnemy.getBitmap(), specialEnemy.getX(), specialEnemy.getY(), paint);
             }
@@ -659,6 +706,11 @@ public class InvadersGameView extends SurfaceView implements Runnable {
             switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
                 // El jugador ha pulsado la pantalla
                 case MotionEvent.ACTION_DOWN:
+                   if (isPaused){
+                       lastSpecialSpawned = System.currentTimeMillis();
+                       lastTp = System.currentTimeMillis();
+                       lastInvulnerable = System.currentTimeMillis();
+                   }
                     isPaused = false;
                     if( motionEvent.getX() >= izq.getX() && motionEvent.getX() <
                             (izq.getX() + izq.getLength()) &&
@@ -806,10 +858,10 @@ public class InvadersGameView extends SurfaceView implements Runnable {
 
             // Ajusta el bitmap a un tamaño proporcionado a la resolución de la pantalla
             if(win){
-                canvas.drawBitmap(gameWon, screenX/8*2.5f, screenY/8, paint);
+                canvas.drawBitmap(gameWon, screenX/8*2, screenY/8, paint);
             }
             else {
-                canvas.drawBitmap(gameOver, screenX/8*2.5f, screenY/8, paint);
+                canvas.drawBitmap(gameOver, screenX/8*2, screenY/8, paint);
             }
             if(score >= 500) {
                 canvas.drawBitmap(this.restart.getBitmap(), restart.getX(), restart.getY(), paint);

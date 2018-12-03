@@ -28,7 +28,7 @@ public class ImageEncoder {
         byte[] b = baos.toByteArray();
         String imageEncoded = Base64.encodeToString(b, Base64.DEFAULT);
 
-        Log.d("Image Log:", imageEncoded);
+        //Log.d("Image Log:", imageEncoded);
         return imageEncoded;
     }
 
