@@ -112,7 +112,7 @@ public class Bullet {
     public boolean shoot(float startX, float startY, int direction) {
         if (!isActive) {
             x = startX;
-            y = startY;
+            y = startY + height;
             shotDir = direction;
             isActive = true;
             return true;

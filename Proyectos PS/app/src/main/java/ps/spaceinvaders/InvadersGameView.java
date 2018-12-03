@@ -22,6 +22,8 @@ import android.widget.ImageView;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class InvadersGameView extends SurfaceView implements Runnable {
 
@@ -64,8 +66,8 @@ public class InvadersGameView extends SurfaceView implements Runnable {
     private Defence[] blocks = new Defence[400];
 
     //Controlar las balas
-    private ArrayList<Bullet> bullets = new ArrayList();
-    private ArrayList<Bullet> removedBullets = new ArrayList();
+    private List<Bullet> bullets = new CopyOnWriteArrayList<>();
+    private List<Bullet> removedBullets = new CopyOnWriteArrayList<>();
     //Las naves no pueden diparar mas N balas por vez
     private boolean fullCapacity;
     private int enemyBulletsCount;
@@ -126,13 +128,13 @@ public class InvadersGameView extends SurfaceView implements Runnable {
         avatarEmpty = Bitmap.createBitmap(BitmapFactory.decodeResource(context.getResources(),R.drawable.avatarvacio));
 
 
-        rock = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.rock), x/100, y/20, false);
+        rock = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.rock), x/20, y/80, false);
 
-        izq=new Buttons(context,x,y,R.drawable.izq, x/20*1, y-200);
-        der=new Buttons(context,x,y,R.drawable.der, x/20*5, y-200);
-        dis=new Buttons(context,x,y,R.drawable.scope,x/20*9, y-200);
-        arr=new Buttons(context,x,y,R.drawable.arr,x/20*12, y-200);
-        abj=new Buttons(context,x,y,R.drawable.abj,x/20*17, y-200);
+        izq=new Buttons(context,x,y,R.drawable.izq, x/20*1, y-400);
+        der=new Buttons(context,x,y,R.drawable.der, x/20*5, y-400);
+        dis=new Buttons(context,x,y,R.drawable.scope,x/20*9, y-400);
+        arr=new Buttons(context,x,y,R.drawable.arr,x/20*12, y-400);
+        abj=new Buttons(context,x,y,R.drawable.abj,x/20*17, y-400);
 
         gameOver = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.gameover), x/2, y/2, false);
         gameWon = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.win), x/2, y/2, false);
@@ -252,10 +254,14 @@ public class InvadersGameView extends SurfaceView implements Runnable {
 
                 // Construye las defensas
                 numDefences= 0;
-                for(int shelterNumber = 0; shelterNumber < 4; shelterNumber++){
-                    for(int column = 1; column < 9; column ++ ) {
-                        for (int row = 0; row < 5; row++) {
-                            if (!(row>3 && (column>3&&column<6))) {
+                for(int shelterNumber = 0; shelterNumber < 3; shelterNumber++){
+                    for(int column = 1; column < 12; column ++ ) {
+                        for (int row = 0; row < 7; row++) {
+                            if (!((row < 4 && column < 5 && row + column < 5)||
+                                    (row < 4 && column > 7 && column-row > 7)||
+                                    (row>=4 && column >=5 && column <=7)||
+                                    (row>=5 && column == 4)||
+                                    (row>=5 && column == 8))) {
                                 blocks[numDefences] = new Defence(row, column, shelterNumber, screenX, screenY);
                                 numDefences++;
                             }
@@ -266,8 +272,8 @@ public class InvadersGameView extends SurfaceView implements Runnable {
 
                 // Construye la formación enemiga
                 //numEnemies = 0;
-                for(int column = 0; column < 4; column ++ ){
-                    for(int row = 2; row <= 4; row ++ ){
+                for(int column = 2; column < 10; column ++ ){
+                    for(int row = 3; row <= 5; row ++ ){
                         Enemy e = new Enemy(context, row, column, screenX, screenY, enemyAnim1Bitmap, enemyAnim2Bitmap, enemyAnim3Bitmap, enemyAnim4Bitmap);
                         enemiesList.add(e);
                     }
@@ -297,7 +303,7 @@ public class InvadersGameView extends SurfaceView implements Runnable {
                             lost = true;
                         }
                     }
-                    enemiesList.get(i).angryEnemie(killedEnemies);
+                    //enemiesList.get(i).angryEnemie(killedEnemies);
                         // Mueve enemy
                         enemiesList.get(i).update(fps);
                         checkAlienBlockCollision(enemiesList.get(i));
@@ -373,12 +379,14 @@ public class InvadersGameView extends SurfaceView implements Runnable {
                     b.update(fps);
 
                     //Comprueba limites pantalla
-                    if (b.getImpactPointY() < 0 || b.getImpactPointY() > screenY) {
+                    if (b.getImpactPointY() < 0 || b.getImpactPointY() > screenY-80) {
                         b.changeDirection();
                         b.updateBounceCounts();
                         //Una bala solo puede rebotar 2 veces
                         if (b.getBounceCounts() == 2) {
                             removedBullets.add(b);
+                            continue;
+
                         }
                         b.setFriend(false);
                     }
@@ -480,7 +488,6 @@ public class InvadersGameView extends SurfaceView implements Runnable {
     }
 
     public void playerShoot() {
-        //bulletBitmap = Bitmap.createScaledBitmap(bulletBitmap, screenX/20, screenY/20, false);
         Bullet b = new Bullet(context, screenY, screenX, bulletBitmap);
         bullets.add(b);
         b.shoot(spaceShip.getX() + spaceShip.getLength() / 2, spaceShip.getY()
@@ -605,7 +612,7 @@ public class InvadersGameView extends SurfaceView implements Runnable {
             fullCapacity = false;
         }
 
-        if(System.currentTimeMillis() >= timer+2000){
+        if(System.currentTimeMillis() >= timer+250){
             isReloading = false;
             spaceShip.resetShootsCount();
         }
@@ -678,7 +685,7 @@ public class InvadersGameView extends SurfaceView implements Runnable {
             }
 
             // Dibuja las balas de los invaders
-            if(!bullets.isEmpty()) {
+            if(!bullets.isEmpty() && !bulletThread.isAlive()) {
                 for (Bullet b : bullets) {
                     if (!b.getEnemyBullet()) {
                         canvas.drawBitmap(b.getBitmap(), b.getX() - b.getLength() / 2, b.getY(), paint);
@@ -737,7 +744,7 @@ public class InvadersGameView extends SurfaceView implements Runnable {
                             playerShoot();
                             spaceShip.addShootsCount();
                             timer = System.currentTimeMillis();
-                            if(spaceShip.getShootsCount() >= 2) {
+                            if(spaceShip.getShootsCount() >= 1) {
                                 isReloading = true;
                             }
                         }

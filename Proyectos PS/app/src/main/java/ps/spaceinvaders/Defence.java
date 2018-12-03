@@ -10,8 +10,8 @@ public class Defence {
 
     public Defence(int row, int column, int shelterNumber, int screenX, int screenY){
 
-        int width = screenX / 90;
-        int height = screenY / 40;
+        int width = screenX / 40;
+        int height = screenY / 90;
 
         isDefending = true;
 

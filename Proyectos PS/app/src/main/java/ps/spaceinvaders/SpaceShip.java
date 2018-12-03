@@ -122,7 +122,7 @@ public class SpaceShip {
             y = y - shipVel / fps;
         }
 
-        if(shipMoving == DOWN && y<maxY-height ){
+        if(shipMoving == DOWN && y<maxY-height-80){
             y = y + shipVel / fps;
         }
 
@@ -136,7 +136,7 @@ public class SpaceShip {
 
     public void teleport(){
          x = (int) (Math.random() * (maxX-length)) + 1;
-         y = (int) (Math.random() * (maxY-height)) + 1;
+         y = (int) (Math.random() * (maxY-height-80)) + 1;
 
         rect.top = y;
         rect.bottom = y + height;
