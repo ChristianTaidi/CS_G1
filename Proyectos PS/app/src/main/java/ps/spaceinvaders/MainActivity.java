@@ -50,8 +50,10 @@ public class MainActivity extends AppCompatActivity {
         enterButton.setOnClickListener(new View.OnClickListener () {
             @Override
             public void onClick(View view){
-                int pAge = Integer.parseInt(playerAge.getText().toString());
-                validate(pAge);
+                if (playerAge.getText().toString().compareTo("")!=0){
+                    int pAge = Integer.parseInt(playerAge.getText().toString());
+                    validate(pAge);
+                }
             }
         });
     }
@@ -72,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
             profilePicEncoded = encoder.getEncodedImage();
 
         }
+
         if(n<13){
             Intent intent = new Intent (MainActivity.this, PeacefulActivity.class);
             startActivity(intent);

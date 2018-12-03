@@ -101,7 +101,7 @@ public class InvadersGameView extends SurfaceView implements Runnable {
     private boolean changeColor=false;
 
     private Bitmap bulletBitmap, enemyAnim1Bitmap,enemyAnim2Bitmap,enemyAnim3Bitmap,enemyAnim4Bitmap, spaceshipBitmap,
-            spaceshipInvulnerable, gameOver, gameWon , specialEnemyBitMap, avatarEmpty, background;
+            spaceshipInvulnerable, gameOver, gameWon , specialEnemyBitMap, avatarEmpty, background,rock;
 
     //Botones de movimiento y disparo
     private Buttons izq,der,dis,arr,abj, home, ranking, restart;
@@ -124,6 +124,9 @@ public class InvadersGameView extends SurfaceView implements Runnable {
         enemyAnim4Bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.invaderend2), x/20, y/20, false);
 
         avatarEmpty = Bitmap.createBitmap(BitmapFactory.decodeResource(context.getResources(),R.drawable.avatarvacio));
+
+
+        rock = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.rock), x/100, y/20, false);
 
         izq=new Buttons(context,x,y,R.drawable.izq, x/20*1, y-200);
         der=new Buttons(context,x,y,R.drawable.der, x/20*5, y-200);
@@ -250,9 +253,9 @@ public class InvadersGameView extends SurfaceView implements Runnable {
                 // Construye las defensas
                 numDefences= 0;
                 for(int shelterNumber = 0; shelterNumber < 4; shelterNumber++){
-                    for(int column = 0; column < 10; column ++ ) {
+                    for(int column = 1; column < 9; column ++ ) {
                         for (int row = 0; row < 5; row++) {
-                            if (!(row>1 && (column>1&&column<8))) {
+                            if (!(row>3 && (column>3&&column<6))) {
                                 blocks[numDefences] = new Defence(row, column, shelterNumber, screenX, screenY);
                                 numDefences++;
                             }
@@ -651,7 +654,8 @@ public class InvadersGameView extends SurfaceView implements Runnable {
             // Dibuja las defensas no destruidas
             for(int i = 0; i < numDefences; i++){
                 if(blocks[i].getActive()) {
-                    canvas.drawRect(blocks[i].getRect(), paint);
+                    //canvas.drawRect(blocks[i].getRect(), paint);
+                    canvas.drawBitmap(rock,blocks[i].getRect().left,blocks[i].getRect().top,paint);
                 }
             }
 

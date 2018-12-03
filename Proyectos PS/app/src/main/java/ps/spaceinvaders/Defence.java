@@ -15,7 +15,7 @@ public class Defence {
 
         isDefending = true;
 
-        int brickPadding = 0;
+        int brickPadding = 1;
 
         //Número de defensas
         int shelterPadding = screenX / 9;
