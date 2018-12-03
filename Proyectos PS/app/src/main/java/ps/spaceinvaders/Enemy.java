@@ -218,7 +218,7 @@ public class Enemy {
                 playerShipX + playerShipLength < x + length) || (playerShipX > x && playerShipX < x + length)) {
 
             // Una probabilidad de 1 en 150 de disparar
-            randomNumber = generator.nextInt(200);
+            randomNumber = generator.nextInt(100);
             if(randomNumber < 0){
                 randomNumber = generator.nextInt(MAX_PROBABILITY);
             }
