@@ -636,11 +636,6 @@ public class InvadersGameView extends SurfaceView implements Runnable {
     private void draw(){
         if (holder.getSurface().isValid()) {
             canvas = holder.lockCanvas();
-
-            //canvas.drawColor(Color.argb(255, 0, 0, 0));
-
-
-            //paint.setColor(Color.argb(255, 255, 255, 255));
             canvas.drawBitmap(background, 0,0, paint);
 
             //Pintar la puntuación
