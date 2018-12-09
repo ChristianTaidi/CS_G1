@@ -77,6 +77,8 @@ public class MainActivity extends AppCompatActivity {
 
         if(n<13){
             Intent intent = new Intent (MainActivity.this, PeacefulActivity.class);
+            intent.putExtra("name",Name.getText().toString());
+            intent.putExtra("profilePic", profilePicEncoded);
             startActivity(intent);
         }else {
             Intent intent = new Intent(MainActivity.this, ViolentActivity.class);

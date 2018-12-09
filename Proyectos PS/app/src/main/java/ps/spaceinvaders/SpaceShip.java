@@ -49,8 +49,8 @@ public class SpaceShip {
         maxX=screenX;
         maxY=screenY;
 
-        length = screenX/10;
-        height = screenY/10;
+        length = screenX/8;
+        height = screenY/15;
 
         // Inicia la nave en el centro de la pantalla aproximadamente
         x = screenX/20*9;

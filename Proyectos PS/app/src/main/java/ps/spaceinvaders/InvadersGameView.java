@@ -116,9 +116,9 @@ public class InvadersGameView extends SurfaceView implements Runnable {
         mp = MediaPlayer.create(context,R.raw.sound);
         mp.setLooping(true);
         background = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.background), x, y, false);
-        specialEnemyBitMap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.ufo), x/10, y/10, false);
-        spaceshipInvulnerable = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.spaceshipinvulnerable), x/10, y/10, false);
-        spaceshipBitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.spaceship), x/10, y/10, false);
+        specialEnemyBitMap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.ufo), x/6, y/8, false);
+        spaceshipInvulnerable = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.spaceshipinvulnerable), x/8, y/15, false);
+        spaceshipBitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.spaceship), x/8, y/15, false);
         bulletBitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.bullet1), x/20, y/20, false);
         enemyAnim1Bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.invaderstart), x/20, y/20, false);
         enemyAnim2Bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.invaderend), x/20, y/20, false);
@@ -308,19 +308,22 @@ public class InvadersGameView extends SurfaceView implements Runnable {
                         enemiesList.get(i).update(fps);
                         checkAlienBlockCollision(enemiesList.get(i));
                         // ¿Quiere hacer un disparo?
-                        if (!fullCapacity && enemiesList.get(i).randomShot(spaceShip.getX(),
-                                spaceShip.getLength(), killedEnemies)) {
-                            bulletBitmap = Bitmap.createScaledBitmap(bulletBitmap, screenX/20, screenY/20, false);
-                            Bullet b = new Bullet(context, screenY, screenX, bulletBitmap);
-                            b.setEnemyBullet(true);
-                            b.setFriend(true);
-                            bullets.add(b);
-                            enemyBulletsCount++;
-                            if (bullets.get(bullets.size() - 1).shoot(enemiesList.get(i).getX()
-                                            + enemiesList.get(i).getLength() / 2,
-                                    enemiesList.get(i).getY(), bullets.get(bullets.size() - 1).DOWN)) {
-                                if (enemyBulletsCount == maxEnemyBullets) {
-                                    fullCapacity = true;
+                        //Is Violent?
+                        if(mode) {
+                            if (!fullCapacity && enemiesList.get(i).randomShot(spaceShip.getX(),
+                                    spaceShip.getLength(), killedEnemies)) {
+                                bulletBitmap = Bitmap.createScaledBitmap(bulletBitmap, screenX / 20, screenY / 20, false);
+                                Bullet b = new Bullet(context, screenY, screenX, bulletBitmap);
+                                b.setEnemyBullet(true);
+                                b.setFriend(true);
+                                bullets.add(b);
+                                enemyBulletsCount++;
+                                if (bullets.get(bullets.size() - 1).shoot(enemiesList.get(i).getX()
+                                                + enemiesList.get(i).getLength() / 2,
+                                        enemiesList.get(i).getY(), bullets.get(bullets.size() - 1).DOWN)) {
+                                    if (enemyBulletsCount == maxEnemyBullets) {
+                                        fullCapacity = true;
+                                    }
                                 }
                             }
                         }
@@ -488,10 +491,13 @@ public class InvadersGameView extends SurfaceView implements Runnable {
     }
 
     public void playerShoot() {
-        Bullet b = new Bullet(context, screenY, screenX, bulletBitmap);
-        bullets.add(b);
-        b.shoot(spaceShip.getX() + spaceShip.getLength() / 2, spaceShip.getY()
-                - spaceShip.getHeight(), b.UP);
+        //Is Violent
+        if(mode) {
+            Bullet b = new Bullet(context, screenY, screenX, bulletBitmap);
+            bullets.add(b);
+            b.shoot(spaceShip.getX() + spaceShip.getLength() / 2, spaceShip.getY()
+                    - spaceShip.getHeight()-100, b.UP);
+        }
     }
 
     @Override
@@ -612,7 +618,7 @@ public class InvadersGameView extends SurfaceView implements Runnable {
             fullCapacity = false;
         }
 
-        if(System.currentTimeMillis() >= timer+250){
+        if(System.currentTimeMillis() >= timer+600){
             isReloading = false;
             spaceShip.resetShootsCount();
         }
@@ -646,7 +652,9 @@ public class InvadersGameView extends SurfaceView implements Runnable {
 
             canvas.drawBitmap(izq.getBitmap(), izq.getX(), izq.getY(), paint);
             canvas.drawBitmap(der.getBitmap(), der.getX(), der.getY(), paint);
-            canvas.drawBitmap(dis.getBitmap(), dis.getX(), dis.getY(), paint);
+            if(mode) {
+                canvas.drawBitmap(dis.getBitmap(), dis.getX(), dis.getY(), paint);
+            }
             canvas.drawBitmap(arr.getBitmap(), arr.getX(), arr.getY(), paint);
             canvas.drawBitmap(abj.getBitmap(), abj.getX(), abj.getY(), paint);
             if(!spaceShip.isVulnerable() && invulnerableAnimation){

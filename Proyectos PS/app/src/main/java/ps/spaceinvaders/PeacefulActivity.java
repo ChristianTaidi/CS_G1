@@ -6,6 +6,7 @@ import android.graphics.Point;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Display;
+import android.view.Window;
 import android.view.WindowManager;
 
 public class PeacefulActivity extends AppCompatActivity {
@@ -15,13 +16,15 @@ public class PeacefulActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+
         setContentView(R.layout.activity_peacefull);
         Intent intent=getIntent();
         Bundle bundle=intent.getExtras();
         String name=bundle.getString("name");
         String profilePicEncoded = bundle.getString("profilePic");
 
-        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
@@ -33,7 +36,6 @@ public class PeacefulActivity extends AppCompatActivity {
 
         // Inicializar gameView y establecerlo como la visualización
         invGameView = new InvadersGameView(this, size.x, size.y, false,name, profilePicEncoded);
-
         setContentView(invGameView);
 
     }
