@@ -9,21 +9,25 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
-import android.media.Image;
 import android.media.MediaPlayer;
-import android.util.Base64;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.os.Handler;
 import android.view.View;
-import android.widget.ImageView;
 
-import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
+
+import ps.spaceinvaders.Activity.MainActivity;
+import ps.spaceinvaders.Activity.RankingActivity;
+import ps.spaceinvaders.Entity.SpecialEnemy;
+import ps.spaceinvaders.Entity.Bullet;
+import ps.spaceinvaders.Entity.Buttons;
+import ps.spaceinvaders.Entity.Defence;
+import ps.spaceinvaders.Entity.Enemy;
+import ps.spaceinvaders.Entity.SpaceShip;
 
 public class InvadersGameView extends SurfaceView implements Runnable {
 
@@ -431,7 +435,7 @@ public class InvadersGameView extends SurfaceView implements Runnable {
         for(int i = 0; i < enemiesList.size(); i++) {
             //if (enemiesList.get(i).getVisibility()) {
                 if (!b.getFriend() && RectF.intersects(b.getRect(), enemiesList.get(i).getRect())) {
-                    if(enemiesList.get(i).isSpawned) {
+                    if(enemiesList.get(i).isSpawned()) {
                         spawnedEnemies.remove(enemiesList.get(i));
                     }
                     enemiesList.remove(enemiesList.get(i));
