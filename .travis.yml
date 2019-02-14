@@ -35,7 +35,7 @@ android:
     - addon-google_apis-google-$EMULATOR_API_LEVEL
     - sys-img-armeabi-v7a-addon-google_apis-google-$ANDROID_API_LEVEL
     - sys-img-armeabi-v7a-addon-google_apis-google-$EMULATOR_API_LEVEL
-    
+     
 before_script:
 - sdkmanager --list
   - echo no | android create avd --force -n test -k 'system-images;android-25;google_apis;x86'
