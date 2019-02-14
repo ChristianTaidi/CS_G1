@@ -2347,7 +2347,7 @@
     <property name="android.project.structure.proportion" value="0.15" />
     <property name="android.sdk.path" value="$USER_HOME$/AppData/Local/Android/Sdk" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1550158480421" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1550158503950" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../Citas_Practica" />
     <property name="SearchEverywhereHistoryKey" value="proje&#9;ACTION&#9;ActivateProjectToolWindow" />
   </component>
