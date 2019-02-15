@@ -32,6 +32,22 @@ public class Bullet {
 
     private int bounceCounts;
 
+    public Bullet(Context context, int screenY, int screenX, Bitmap b){
+        // Inicializa el bitmap
+        length = screenX/20;
+        height = screenY/20;
+
+        bitmap = b;
+
+        bounceCounts = 0;
+        enemyBullet = false;
+        friend = false;
+        //height = screenY /20;
+        isActive = false;
+
+        rect = new RectF();
+    }
+
     public Bullet(int screenY, int screenX, Bitmap b){
         // Inicializa el bitmap
         length = screenX/20;
@@ -58,6 +74,10 @@ public class Bullet {
 
     public void setInactive(){
         isActive = false;
+    }
+
+    public void setHeight(float height) {
+        this.height = height;
     }
 
     public void changeDirection() {
@@ -99,6 +119,17 @@ public class Bullet {
 
     public float getX() {
         return x;
+    }
+
+    public void setShotDir(int dir){
+        this.shotDir=dir;
+    }
+    public void setX(float x) {
+        this.x = x;
+    }
+
+    public void setY(float y) {
+        this.y = y;
     }
 
     public float getY() {
