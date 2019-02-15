@@ -22,7 +22,6 @@ public class Bullet {
 
     private int width = 1;
     private float height;
-    private float width2;
 
     private float length;
 
@@ -65,8 +64,8 @@ public class Bullet {
         this.height = height;
     }
 
-    public void setWidth(float width) {
-        this.width2 = width;
+    public void setWidth(int width) {
+        this.width = width;
     }
 
     public void changeDirection() {
@@ -108,7 +107,7 @@ public class Bullet {
 
     public float getImpactPointX() {
         if (shotDir == DOWN) {
-            return x + width2;
+            return x + width;
         } else {
             return x;
         }
@@ -155,6 +154,14 @@ public class Bullet {
 
     public void updateBounceCounts() {
         bounceCounts++;
+    }
+
+    public float getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(float speed) {
+        this.speed = speed;
     }
 
     public void update(long fps){
