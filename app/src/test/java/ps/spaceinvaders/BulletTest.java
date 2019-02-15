@@ -1,5 +1,6 @@
 package ps.spaceinvaders;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 
 import org.junit.Test;
@@ -10,7 +11,8 @@ public class BulletTest {
     Bitmap b = null;
     int screenY = 500;
     int screenX = 75;
-    Bullet bullet = new Bullet(screenY, screenX, b);
+    Context context = null;
+    Bullet bullet = new Bullet(context, screenY, screenX, b);
 
     @Test
     public void setInactive() {
@@ -23,16 +25,21 @@ public class BulletTest {
 
     @Test
     public void getImpactPointY(){
-        bullet.setX(50);
-        bullet.setY(50);
-        bullet.setHeight(500);
-        bullet.setShotDir(1);
-
-        float expected = 50+500;
-        float output = bullet.getImpactPointY();
         double delta = 0.1;
+        for (int i=0; i<100; i=i+1){
+            for (int j=0; j<500; j=j+1){
+                for (int k=0; k<1000; k=k+1){
+                    bullet.setX(i);
+                    bullet.setY(j);
+                    bullet.setHeight(k);
+                    bullet.setShotDir(1);
 
-        assertEquals(expected, output, delta);
+                    float expected = j+k;
+                    float output = bullet.getImpactPointY();
+                    assertEquals(expected, output, delta);
+                }
+            }
+        }
     }
 
 

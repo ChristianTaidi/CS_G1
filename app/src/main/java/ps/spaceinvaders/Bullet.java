@@ -48,22 +48,6 @@ public class Bullet {
         rect = new RectF();
     }
 
-    public Bullet(int screenY, int screenX, Bitmap b){
-        // Inicializa el bitmap
-        length = screenX/20;
-        height = screenY/20;
-
-        bitmap = b;
-
-        bounceCounts = 0;
-        enemyBullet = false;
-        friend = false;
-        //height = screenY /20;
-        isActive = false;
-
-        rect = new RectF();
-    }
-
     public RectF getRect(){
         return rect;
     }
