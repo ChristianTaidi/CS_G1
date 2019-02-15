@@ -40,7 +40,7 @@
       <file leaf-file-name="InvadersGameView.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/ps/spaceinvaders/InvadersGameView.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="17">
+            <state relative-caret-position="4947">
               <caret line="318" column="38" selection-start-line="318" selection-start-column="32" selection-end-line="318" selection-end-column="38" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -52,8 +52,8 @@
       <file leaf-file-name="BulletTest.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/test/java/ps/spaceinvaders/BulletTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="85">
-              <caret line="26" column="28" selection-start-line="26" selection-start-column="28" selection-end-line="26" selection-end-column="28" />
+            <state relative-caret-position="50">
+              <caret line="52" column="31" lean-forward="true" selection-start-line="52" selection-start-column="16" selection-end-line="52" selection-end-column="31" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -64,8 +64,8 @@
       <file leaf-file-name="Bullet.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/ps/spaceinvaders/Bullet.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
-              <caret line="69" column="9" selection-start-line="69" selection-start-column="9" selection-end-line="69" selection-end-column="9" />
+            <state relative-caret-position="-317">
+              <caret line="63" column="25" selection-start-line="63" selection-start-column="19" selection-end-line="63" selection-end-column="25" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -96,9 +96,10 @@
       <find>bitmap</find>
       <find>bulle</find>
       <find>x</find>
-      <find>height</find>
       <find>set</find>
       <find>bullet</find>
+      <find>sethe</find>
+      <find>height</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -2379,8 +2380,8 @@
     </navigator>
     <panes>
       <pane id="Scope" />
-      <pane id="PackagesPane" />
       <pane id="ProjectPane" />
+      <pane id="PackagesPane" />
       <pane id="AndroidView">
         <subPane>
           <expand>
@@ -2434,7 +2435,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Android JUnit.BulletTest.getImpactPointY">
+  <component name="RunManager" selected="Android JUnit.BulletTest.getImpactPointX">
     <configuration name="BulletTest" type="AndroidJUnit" factoryName="Android JUnit" temporary="true" nameIsGenerated="true">
       <module name="app" />
       <extension name="coverage">
@@ -2457,6 +2458,33 @@
         <value defaultName="singleModule" />
       </option>
       <patterns />
+    </configuration>
+    <configuration name="BulletTest.getImpactPointX" type="AndroidJUnit" factoryName="Android JUnit" temporary="true" nameIsGenerated="true">
+      <module name="app" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="ps.spaceinvaders.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="ps.spaceinvaders" />
+      <option name="MAIN_CLASS_NAME" value="ps.spaceinvaders.BulletTest" />
+      <option name="METHOD_NAME" value="getImpactPointX" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="file://$MODULE_DIR$" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <patterns />
+      <method>
+        <option name="Make" enabled="false" />
+        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
+      </method>
     </configuration>
     <configuration name="BulletTest.getImpactPointY" type="AndroidJUnit" factoryName="Android JUnit" temporary="true" nameIsGenerated="true">
       <module name="app" />
@@ -2631,9 +2659,11 @@
       <item itemvalue="Android JUnit.BulletTest" />
       <item itemvalue="Android JUnit.BulletTest.getImpactPointY" />
       <item itemvalue="Android JUnit.BulletTest.setInactive" />
+      <item itemvalue="Android JUnit.BulletTest.getImpactPointX" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Android JUnit.BulletTest.getImpactPointX" />
         <item itemvalue="Android JUnit.BulletTest.getImpactPointY" />
         <item itemvalue="Android JUnit.BulletTest.setInactive" />
         <item itemvalue="Android JUnit.BulletTest" />
@@ -2655,27 +2685,6 @@
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="BulletTest_getImpactPointY - 2019.02.15 at 15h 46m 45s.xml">
-      <configuration name="BulletTest.getImpactPointY" configurationId="AndroidJUnit" />
-    </history-entry>
-    <history-entry file="BulletTest_getImpactPointY - 2019.02.15 at 15h 46m 59s.xml">
-      <configuration name="BulletTest.getImpactPointY" configurationId="AndroidJUnit" />
-    </history-entry>
-    <history-entry file="BulletTest_getImpactPointY - 2019.02.15 at 15h 47m 19s.xml">
-      <configuration name="BulletTest.getImpactPointY" configurationId="AndroidJUnit" />
-    </history-entry>
-    <history-entry file="BulletTest_getImpactPointY - 2019.02.15 at 15h 48m 11s.xml">
-      <configuration name="BulletTest.getImpactPointY" configurationId="AndroidJUnit" />
-    </history-entry>
-    <history-entry file="BulletTest_getImpactPointY - 2019.02.15 at 15h 49m 52s.xml">
-      <configuration name="BulletTest.getImpactPointY" configurationId="AndroidJUnit" />
-    </history-entry>
-    <history-entry file="BulletTest_getImpactPointY - 2019.02.15 at 16h 15m 48s.xml">
-      <configuration name="BulletTest.getImpactPointY" configurationId="AndroidJUnit" />
-    </history-entry>
-    <history-entry file="BulletTest_getImpactPointY - 2019.02.15 at 16h 20m 09s.xml">
-      <configuration name="BulletTest.getImpactPointY" configurationId="AndroidJUnit" />
-    </history-entry>
     <history-entry file="BulletTest_getImpactPointY - 2019.02.15 at 16h 20m 32s.xml">
       <configuration name="BulletTest.getImpactPointY" configurationId="AndroidJUnit" />
     </history-entry>
@@ -2685,19 +2694,40 @@
     <history-entry file="BulletTest_getImpactPointY - 2019.02.15 at 16h 21m 25s.xml">
       <configuration name="BulletTest.getImpactPointY" configurationId="AndroidJUnit" />
     </history-entry>
+    <history-entry file="BulletTest_getImpactPointX - 2019.02.15 at 16h 45m 10s.xml">
+      <configuration name="BulletTest.getImpactPointX" configurationId="AndroidJUnit" />
+    </history-entry>
+    <history-entry file="BulletTest_getImpactPointX - 2019.02.15 at 16h 45m 44s.xml">
+      <configuration name="BulletTest.getImpactPointX" configurationId="AndroidJUnit" />
+    </history-entry>
+    <history-entry file="BulletTest_getImpactPointX - 2019.02.15 at 16h 46m 49s.xml">
+      <configuration name="BulletTest.getImpactPointX" configurationId="AndroidJUnit" />
+    </history-entry>
+    <history-entry file="BulletTest_getImpactPointX - 2019.02.15 at 16h 47m 03s.xml">
+      <configuration name="BulletTest.getImpactPointX" configurationId="AndroidJUnit" />
+    </history-entry>
+    <history-entry file="BulletTest_getImpactPointY - 2019.02.15 at 16h 49m 40s.xml">
+      <configuration name="BulletTest.getImpactPointY" configurationId="AndroidJUnit" />
+    </history-entry>
+    <history-entry file="BulletTest_getImpactPointX - 2019.02.15 at 16h 50m 23s.xml">
+      <configuration name="BulletTest.getImpactPointX" configurationId="AndroidJUnit" />
+    </history-entry>
+    <history-entry file="BulletTest_getImpactPointX - 2019.02.15 at 16h 52m 38s.xml">
+      <configuration name="BulletTest.getImpactPointX" configurationId="AndroidJUnit" />
+    </history-entry>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="-7" width="1295" height="735" extended-state="7" />
+    <frame x="-7" y="-7" width="1295" height="735" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info anchor="bottom" id="Android Profiler" order="7" />
+      <window_info anchor="bottom" id="Android Profiler" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="right" id="Palette&#9;" order="3" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Build Variants" order="2" side_tool="true" />
       <window_info anchor="right" id="Capture Analysis" order="3" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.36727878" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.29716194" />
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Terminal" order="7" />
       <window_info anchor="bottom" id="Logcat" order="7" />
@@ -2725,6 +2755,43 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/ps/spaceinvaders/InvadersGameView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5406">
+          <caret line="318" column="38" selection-start-line="318" selection-start-column="32" selection-end-line="318" selection-end-column="38" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/ps/spaceinvaders/Bullet.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="986">
+          <caret line="69" column="9" selection-start-line="69" selection-start-column="9" selection-end-line="69" selection-end-column="9" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/ps/spaceinvaders/Enemy.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="15" column="7" selection-start-line="15" selection-start-column="7" selection-end-line="15" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/test/java/ps/spaceinvaders/BulletTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="26" column="31" lean-forward="true" selection-start-line="26" selection-start-column="16" selection-end-line="26" selection-end-column="31" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/ps/spaceinvaders/InvadersGameView.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="5406">
@@ -2808,7 +2875,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/ps/spaceinvaders/InvadersGameView.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
+        <state relative-caret-position="4947">
           <caret line="318" column="38" selection-start-line="318" selection-start-column="32" selection-end-line="318" selection-end-column="38" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -2818,8 +2885,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/ps/spaceinvaders/Bullet.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="69" column="9" selection-start-line="69" selection-start-column="9" selection-end-line="69" selection-end-column="9" />
+        <state relative-caret-position="-317">
+          <caret line="63" column="25" selection-start-line="63" selection-start-column="19" selection-end-line="63" selection-end-column="25" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -2828,8 +2895,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/test/java/ps/spaceinvaders/BulletTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="26" column="28" selection-start-line="26" selection-start-column="28" selection-end-line="26" selection-end-column="28" />
+        <state relative-caret-position="50">
+          <caret line="52" column="31" lean-forward="true" selection-start-line="52" selection-start-column="16" selection-end-line="52" selection-end-column="31" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

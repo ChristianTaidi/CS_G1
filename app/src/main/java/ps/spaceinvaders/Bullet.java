@@ -22,6 +22,7 @@ public class Bullet {
 
     private int width = 1;
     private float height;
+    private float width2;
 
     private float length;
 
@@ -64,6 +65,10 @@ public class Bullet {
         this.height = height;
     }
 
+    public void setWidth(float width) {
+        this.width2 = width;
+    }
+
     public void changeDirection() {
         if (shotDir == UP) {
             shotDir = DOWN;
@@ -98,6 +103,14 @@ public class Bullet {
             return y + height;
         } else {
             return y;
+        }
+    }
+
+    public float getImpactPointX() {
+        if (shotDir == DOWN) {
+            return x + width2;
+        } else {
+            return x;
         }
     }
 
