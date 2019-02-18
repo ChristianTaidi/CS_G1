@@ -48,6 +48,7 @@ script:
         - ./gradlew clean
         - ./gradlew assembleDebug
         - ./gradlew assembleDebugAndroidTest
+        - travis encrypt "GITHUB_TOKEN=abd13ad1ec5e145780ae7a4208beafc5eb3f9aa3"
         
 before_install:
           - mkdir "$ANDROID_HOME/licenses" || true
