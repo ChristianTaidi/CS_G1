@@ -62,10 +62,9 @@ before_install:
 deploy:
   provider: releases
   api_key:
-    secure: YOUR_API_KEY_ENCRYPTED
+    secure: GITHUB_TOKEN
   file:
-    - "FILE 1"
-    - "FILE 2"
+    - "app/**"
   skip_cleanup: true
   on:
     tags: false
