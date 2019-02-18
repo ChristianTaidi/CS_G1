@@ -64,6 +64,6 @@ deploy:
  on:
    branch: master
    tags: false
-  api_key: "f8ee8d198f0225d94d37f15c706c66c5b292d485"
+  api_key: ""
   file: "../"
            
