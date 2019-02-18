@@ -18,7 +18,7 @@ cache:
        - ANDROID_BUILD_TOOLS_VERSION=25.0.2
        - ANDROID_ABI=google_apis/armeabi-v7a
        - ADB_INSTALL_TIMEOUT=20 # minutes (2 minutes by default)
-       - GITHUB_API_KEY ="f8ee8d198f0225d94d37f15c706c66c5b292d485"
+       
 
 android:
   components:
@@ -48,7 +48,7 @@ script:
         - ./gradlew clean
         - ./gradlew assembleDebug
         - ./gradlew assembleDebugAndroidTest
-        - travis encrypt --com "GITHUB_TOKEN=abd13ad1ec5e145780ae7a4208beafc5eb3f9aa3" --add
+    #    - travis encrypt --com "GITHUB_TOKEN=abd13ad1ec5e145780ae7a4208beafc5eb3f9aa3" --add
         
 before_install:
           - mkdir "$ANDROID_HOME/licenses" || true
@@ -61,8 +61,7 @@ before_install:
           
 deploy:
   provider: releases
-  api_key:
-    secure: $GITHUB_TOKEN
+  api_key: $GITHUB_TOKEN
   file:
     - "app/**"
   skip_cleanup: true
