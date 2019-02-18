@@ -48,7 +48,7 @@ script:
         - ./gradlew clean
         - ./gradlew assembleDebug
         - ./gradlew assembleDebugAndroidTest
-        - travis encrypt "GITHUB_TOKEN=abd13ad1ec5e145780ae7a4208beafc5eb3f9aa3"
+        - travis encrypt --com "GITHUB_TOKEN=abd13ad1ec5e145780ae7a4208beafc5eb3f9aa3" --add
         
 before_install:
           - mkdir "$ANDROID_HOME/licenses" || true
@@ -59,12 +59,13 @@ before_install:
           - yes | sdkmanager --update
           
 deploy:
-  provider: script
- skip_cleanup: true
- script: .travis/pu.sh
- on:
-   branch: master
-   tags: false
-  api_key: ""
-  file: "../"
+  provider: releases
+  api_key:
+    secure: YOUR_API_KEY_ENCRYPTED
+  file:
+    - "FILE 1"
+    - "FILE 2"
+  skip_cleanup: true
+  on:
+    tags: true
            
