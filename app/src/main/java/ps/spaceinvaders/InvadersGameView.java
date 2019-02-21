@@ -106,7 +106,7 @@ public class InvadersGameView extends SurfaceView implements Runnable {
 
     private boolean changeColor=false;
 
-    private Bitmap bulletBitmap, enemyAnim1Bitmap,enemyAnim2Bitmap,enemyAnim3Bitmap,enemyAnim4Bitmap, spaceshipBitmap,
+    private Bitmap bulletBitmap, specialBulletBitmap, enemyAnim1Bitmap,enemyAnim2Bitmap,enemyAnim3Bitmap,enemyAnim4Bitmap, spaceshipBitmap,
             spaceshipInvulnerable, gameOver, gameWon , specialEnemyBitMap, avatarEmpty, background,rock;
 
     //Botones de movimiento y disparo
@@ -114,6 +114,9 @@ public class InvadersGameView extends SurfaceView implements Runnable {
     //Elementos a guardar en el shared Preferences que llegan desde mainActivity
     private String name;
     private String proFilePicEncoded;
+
+    //Contador
+    private int count = 0;
 
     public InvadersGameView (Context context, int x, int y, boolean isViolent,String name, String profilePicEncoded){
         super(context);
@@ -124,6 +127,7 @@ public class InvadersGameView extends SurfaceView implements Runnable {
         spaceshipInvulnerable = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.spaceshipinvulnerable), x/8, y/15, false);
         spaceshipBitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.spaceship), x/8, y/15, false);
         bulletBitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.bullet1), x/20, y/20, false);
+        specialBulletBitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.bullet1), x/10, y/10, false);
         enemyAnim1Bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.invaderstart), x/20, y/20, false);
         enemyAnim2Bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.invaderend), x/20, y/20, false);
         enemyAnim3Bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.invaderstart2), x/20, y/20, false);
@@ -504,6 +508,15 @@ public class InvadersGameView extends SurfaceView implements Runnable {
         }
     }
 
+    public void playerSpecialShoot(){
+        if (mode) {
+            Bullet special = new Bullet(context, screenY, screenX, specialBulletBitmap);
+            bullets.add(special);
+            special.shoot(spaceShip.getX() + spaceShip.getLength() / 2, spaceShip.getY()
+                    - spaceShip.getHeight() - 100, special.UP);
+        }
+    }
+
     @Override
     public void run() {
         while(isPlaying) {
@@ -719,7 +732,6 @@ public class InvadersGameView extends SurfaceView implements Runnable {
 
     @Override
     public boolean onTouchEvent(MotionEvent motionEvent) {
-
         if(!lost) {
             switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
                 // El jugador ha pulsado la pantalla
@@ -746,9 +758,14 @@ public class InvadersGameView extends SurfaceView implements Runnable {
                             (dis.getX() + dis.getLength()) &&
                             motionEvent.getY() >= dis.getY() && motionEvent.getY() <
                             (dis.getY() + dis.getHeight())) {
-
                         if(!isReloading) {
-                            playerShoot();
+                            count++;
+                            if (count < 5){
+                                playerShoot();
+                            } else {
+                                playerSpecialShoot();
+                                count = 0;
+                            }
                             spaceShip.addShootsCount();
                             timer = System.currentTimeMillis();
                             if(spaceShip.getShootsCount() >= 1) {
