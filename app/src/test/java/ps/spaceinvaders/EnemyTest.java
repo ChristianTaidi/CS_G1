@@ -39,26 +39,19 @@ public class EnemyTest {
         double delta = 0.1;
         int expectedDIR;
         int outputDIR;
-        float expected;
-        float output;
 
-        //for para probar distintos valores
-        for(int x = 0; x<=100;x++){
-            enemy.setX(x);
+        //for para probar distintas direcciones
             for(int l = 1; l<=2;l++){
                 enemy.setEnemyMoving(l);
                 if(l==1){
                     expectedDIR = 2;
-                    expected = x + 10;
                 }else{
                     expectedDIR = 1;
-                    expected = x - 10;
                 }
+                enemy.enemyCicle();
                 outputDIR = enemy.getEnemyMoving();
-                output = enemy.getX();
-                assertEquals(expected, output, delta);
                 assertEquals(expectedDIR, outputDIR, delta);
             }
-        }
+
     }
 }
