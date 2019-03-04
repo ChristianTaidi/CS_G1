@@ -67,4 +67,12 @@ deploy:
   skip_cleanup: true
   on:
     tags: false
+    
+addons:
+  sonarcloud:
+    organization: "christiantaidi-github" # the key of the org you chose at step #3
+    
+script:
+  # other script steps might be done before running the actual analysis
+  - sonar-scanner
            
