@@ -61,7 +61,7 @@ before_install:
           - chmod +x gradlew
           - yes | sdkmanager --update
           - sudo apt-get install travis
-          - ./gradlew sonarqube  -Dsonar.projectKey=ChristianTaidi_CS_G1 -Dsonar.organization=christiantaidi-github -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=SONAR_TOKEN
+          - ./gradlew sonarqube  -Dsonar.projectKey=ChristianTaidi_CS_G1 -Dsonar.organization=christiantaidi-github -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=a925c998f169ede859cf8c9d0b66b2ae0509065d
 
           
 deploy:
