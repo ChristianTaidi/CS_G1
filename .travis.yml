@@ -47,7 +47,7 @@ before_script:
 script:
 script:
   # other script steps might be done before running the actual analysis
-#        - sonar-scanner
+        - sonar-scanner
 #        - ./gradlew sonarqube  -Dsonar.projectKey=ChristianTaidi_CS_G1 -Dsonar.organization=christiantaidi-github -Dsonar.host.url=https://sonarcloud.io
 #        -Dsonar.login="Christianaidi"
         - ./gradlew clean
