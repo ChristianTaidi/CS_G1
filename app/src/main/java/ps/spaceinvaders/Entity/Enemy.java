@@ -3,29 +3,22 @@ package ps.spaceinvaders.Entity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.PointF;
 import android.graphics.RectF;
 
+import java.util.ArrayList;
 import java.util.Random;
 
-public class Enemy {
+public class Enemy extends MovingEntity {
 
-    private RectF rect;
 
     Random generator = new Random();
 
-    //Bitmaps para la animación
-    private Bitmap anim1;
-    private Bitmap anim2;
-    private Bitmap anim3;
-    private Bitmap anim4;
 
     //Tamaño
     private float length;
     private float height;
 
-    //Coordenadas del invader
-    private float x;
-    private float y;
 
     private int row;
     private int column;
@@ -50,7 +43,7 @@ public class Enemy {
         this.row = row;
         this.column = column;
 
-        rect = new RectF();
+        this.setRectF(new RectF());
 
         length = screenX / 20;
         height = screenY / 20;
@@ -59,55 +52,30 @@ public class Enemy {
 
         this.padding = screenX / 25;
 
-        x = column * (length + padding);
-        y = row * (length + padding/4);
+        this.setPosition(new PointF(column * (length + padding), row * (length + padding / 4)));
 
-        anim1 = a1;
+        ArrayList<Bitmap> images = new ArrayList<>();
+        images.add(a1);
 
-        anim2 = a2;
+        images.add(a2);
 
-        anim3 = a3;
+        images.add(a3);
 
-        anim4 = a4;
+        images.add(a4);
+
+        this.setImage(images);
 
         enemySpeed = 80;
     }
 
-    public void setOff(){
+    public void setOff() {
         isVisible = false;
     }
 
-    public boolean getVisibility(){
+    public boolean getVisibility() {
         return isVisible;
     }
 
-    public RectF getRect(){
-        return rect;
-    }
-
-    public Bitmap getBitmap(){
-        return anim1;
-    }
-
-    public Bitmap getBitmap2(){
-        return anim2;
-    }
-
-    public Bitmap getBitmap3(){
-        return anim3;
-    }
-
-    public Bitmap getBitmap4(){
-        return anim4;
-    }
-
-    public float getX(){
-        return x;
-    }
-
-    public float getY(){
-        return y;
-    }
 
     public boolean isSpawned() {
         return isSpawned;
@@ -137,99 +105,90 @@ public class Enemy {
         isSpawned = spawned;
     }
 
-    public void setX(float x) {
-        this.x = x;
-    }
-
-    public void setY(float y) {
-        this.y = y;
-    }
-
     public void setEnemySpeed(float enemySpeed) {
         this.enemySpeed = enemySpeed;
     }
 
-    public float getHeight() {return height;}
+    public float getHeight() {
+        return height;
+    }
 
     public int getPadding() {
         return padding;
     }
 
-    public float getLength(){
+    public float getLength() {
         return length;
     }
 
-    public void update(long fps){
-        if(enemyMoving == LEFT){
-            x = x - enemySpeed / fps;
-            column = (int)x/(int)(length+padding);
+    @Override
+    public void update(long fps) {
+        if (enemyMoving == LEFT) {
+            this.getPosition().offset(-enemySpeed / fps, 0);
+            column = (int) this.getPosition().x / (int) (length + padding);
         }
 
-        if(enemyMoving == RIGHT){
-            x = x + enemySpeed / fps;
-            column = (int)x/(int)(length+padding);
+        if (enemyMoving == RIGHT) {
+            this.getPosition().offset(enemySpeed / fps, 0);
+            column = (int) this.getPosition().x / (int) (length + padding);
         }
 
         // Actualiza rect el cual es usado para detectar impactos
-        rect.top = y;
-        rect.bottom = y + height;
-        rect.left = x;
-        rect.right = x + length;
+        this.getRectF().top = this.getPosition().y;
+        this.getRectF().bottom = this.getPosition().y + height;
+        this.getRectF().left = this.getPosition().x;
+        this.getRectF().right = this.getPosition().x + length;
     }
 
-    public void angryEnemie(int killedEnemies){
+    public void angryEnemie(int killedEnemies) {
         float aux = enemySpeed;
-        aux += killedEnemies*0.5f;
-        if(aux < MAX_SPEED) {
+        aux += killedEnemies * 0.5f;
+        if (aux < MAX_SPEED) {
             enemySpeed = aux;
-        }
-        else {
+        } else {
             enemySpeed = MAX_SPEED;
         }
     }
 
-    public void enemyCicle(){
+    public void enemyCicle() {
         float aux = enemySpeed;
-        if(enemyMoving == LEFT){
+        if (enemyMoving == LEFT) {
             enemyMoving = RIGHT;
-            x += 10;
-        }else{
+            this.getPosition().offset(10, 0);
+        } else {
             enemyMoving = LEFT;
-            x -= 10;
-        }
-        y = y + height;
-        row = (int)y/((int)length+padding/4);
+            this.getPosition().offset(0, height);
+            row = (int) this.getPosition().y / ((int) length + padding / 4);
 
-        //aux *= 1.15f;
-        if(aux < MAX_SPEED) {
-            enemySpeed = aux;
-        }
-        else {
-            enemySpeed = MAX_SPEED;
+            //aux *= 1.15f;
+            if (aux < MAX_SPEED) {
+                enemySpeed = aux;
+            } else {
+                enemySpeed = MAX_SPEED;
+            }
         }
     }
 
-    public boolean randomShot(float playerShipX, float playerShipLength, int killedEnemies){
+        public boolean randomShot ( float playerShipX, float playerShipLength, int killedEnemies){
 
-        int randomNumber = -1;
+            int randomNumber = -1;
 
-        // Si está cerca del jugador
-        if((playerShipX + playerShipLength > x &&
-                playerShipX + playerShipLength < x + length) || (playerShipX > x && playerShipX < x + length)) {
+            // Si está cerca del jugador
+            if ((playerShipX + playerShipLength > this.getPosition().x &&
+                    playerShipX + playerShipLength < this.getPosition().x + length) || (playerShipX > this.getPosition().x && playerShipX < this.getPosition().x + length)) {
 
-            // Una probabilidad de 1 en 150 de disparar
-            randomNumber = generator.nextInt(100);
-            if(randomNumber < 0){
-                randomNumber = generator.nextInt(MAX_PROBABILITY);
+                // Una probabilidad de 1 en 150 de disparar
+                randomNumber = generator.nextInt(100);
+                if (randomNumber < 0) {
+                    randomNumber = generator.nextInt(MAX_PROBABILITY);
+                }
+
+                if (randomNumber == 0) {
+                    return true;
+                }
+
             }
 
-            if(randomNumber == 0) {
-                return true;
-            }
-
+            return false;
         }
-
-        return false;
-    }
-
 }
