@@ -7,7 +7,7 @@ import android.graphics.RectF;
 
 import java.util.Random;
 
-public class SpaceShip {
+public class SpaceShip extends MovingEntity{
 
     private boolean isVulnerable;
     private int tpTime;

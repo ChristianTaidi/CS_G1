@@ -22,6 +22,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import ps.spaceinvaders.Activity.MainActivity;
 import ps.spaceinvaders.Activity.RankingActivity;
+import ps.spaceinvaders.Entity.MovingEntity;
 import ps.spaceinvaders.Entity.SpecialEnemy;
 import ps.spaceinvaders.Entity.Bullet;
 import ps.spaceinvaders.Entity.Buttons;
@@ -307,7 +308,7 @@ public class InvadersGameView extends SurfaceView implements Runnable {
                 // Actualiza todos los enemies activos
                 for (int i = 0; i < enemiesList.size(); i++) {
                     if(spaceShip.isVulnerable()) {
-                        if (RectF.intersects(spaceShip.getRect(), enemiesList.get(i).getRect())) {
+                        if (RectF.intersects(spaceShip.getRect(), enemiesList.get(i).getRectF())) {
                             lost = true;
                         }
                     }
@@ -378,7 +379,7 @@ public class InvadersGameView extends SurfaceView implements Runnable {
                 for (Bullet b : bullets) {
 
                     if(specialEnemy.isSpawned()) {
-                        if(RectF.intersects(b.getRect(), specialEnemy.getRect())) {
+                        if(b.hasCollided(specialEnemy.getRect())) {
                             removedBullets.add(b);
                             bonus +=500;
                             score+=500;
@@ -410,7 +411,7 @@ public class InvadersGameView extends SurfaceView implements Runnable {
 
                     //Si la bala choca con el jugador
                     if(spaceShip.isVulnerable()) {
-                        if (RectF.intersects(b.getRect(), spaceShip.getRect())) {
+                        if (spaceShip.hasCollided( spaceShip.getRect())) {
                             lost = true;
                         }
                     }
@@ -438,7 +439,7 @@ public class InvadersGameView extends SurfaceView implements Runnable {
     public void checkEnemyCollision(Bullet b) {
         for(int i = 0; i < enemiesList.size(); i++) {
             //if (enemiesList.get(i).getVisibility()) {
-                if (!b.getFriend() && RectF.intersects(b.getRect(), enemiesList.get(i).getRect())) {
+                if (!b.getFriend() && b.hasCollided(enemiesList.get(i).getRectF())) {
                     if(enemiesList.get(i).isSpawned()) {
                         spawnedEnemies.remove(enemiesList.get(i));
                     }
@@ -455,7 +456,7 @@ public class InvadersGameView extends SurfaceView implements Runnable {
     public void checkAlienBlockCollision(Enemy e) {
         for(int i = 0; i < numDefences; i++) {
             if(blocks[i].getActive()) {
-                if(RectF.intersects(blocks[i].getRect(), e.getRect())) {
+                if(RectF.intersects(blocks[i].getRectF(), e.getRectF())) {
                     blocks[i].destoyDefence();
                 }
             }
@@ -466,7 +467,7 @@ public class InvadersGameView extends SurfaceView implements Runnable {
         if(spaceShip.isVulnerable()) {
             for (int i = 0; i < numDefences; i++) {
                 if (blocks[i].getActive()) {
-                    RectF r = blocks[i].getRect();
+                    RectF r = blocks[i].getRectF();
                     if (RectF.intersects(r, spaceShip.getRect())) {
                         lost = true;
                     }
@@ -478,8 +479,8 @@ public class InvadersGameView extends SurfaceView implements Runnable {
     public void checkBlockBulletCollision(Bullet b){
         for(int i = 0; i < numDefences; i++){
             if(blocks[i].getActive()){
-                RectF r = blocks[i].getRect();
-                if(RectF.intersects(b.getRect(), r)){
+                RectF r = blocks[i].getRectF();
+                if(b.hasCollided(r)){
                     //b.setInactive();
                     blocks[i].destoyDefence();
                     removedBullets.add(b);
@@ -682,7 +683,7 @@ public class InvadersGameView extends SurfaceView implements Runnable {
             for(int i = 0; i < numDefences; i++){
                 if(blocks[i].getActive()) {
                     //canvas.drawRect(blocks[i].getRect(), paint);
-                    canvas.drawBitmap(rock,blocks[i].getRect().left,blocks[i].getRect().top,paint);
+                    canvas.drawBitmap(rock,blocks[i].getRectF().left,blocks[i].getRectF().top,paint);
                 }
             }
 
