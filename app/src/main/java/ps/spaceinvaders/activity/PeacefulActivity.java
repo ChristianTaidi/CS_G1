@@ -1,4 +1,4 @@
-package ps.spaceinvaders.Activity;
+package ps.spaceinvaders.activity;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -49,6 +49,7 @@ public class PeacefulActivity extends AppCompatActivity {
         invGameView.resume();
     }
 
+    @Override
     protected void onPause(){
         super.onPause();
         invGameView.pause();

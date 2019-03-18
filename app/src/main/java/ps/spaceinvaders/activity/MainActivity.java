@@ -1,4 +1,4 @@
-package ps.spaceinvaders.Activity;
+package ps.spaceinvaders.activity;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -21,9 +21,9 @@ import ps.spaceinvaders.R;
 public class MainActivity extends AppCompatActivity {
 
     private EditText playerAge;
-    private Button enterButton;
-    private EditText Name;
-    private Bitmap profilePic;
+
+    private EditText name;
+
     private String profilePicEncoded;
 
     private ImageEncoder encoder;
@@ -32,13 +32,15 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Button enterButton;
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         playerAge=(EditText)findViewById(R.id.ageText);
-        Name=(EditText)findViewById(R.id.nameText);
+        name=(EditText)findViewById(R.id.nameText);
 
         findViewById(R.id.profilePic).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Bitmap profilePic;
         if (requestCode == CAMERA_PIC_REQUEST) {
             profilePic = (Bitmap) data.getExtras().get("data");
             ImageView imageview = (ImageView) findViewById(R.id.profilePic); //sets imageview as the bitmap
@@ -80,12 +83,12 @@ public class MainActivity extends AppCompatActivity {
 
         if(n<13){
             Intent intent = new Intent (MainActivity.this, PeacefulActivity.class);
-            intent.putExtra("name",Name.getText().toString());
+            intent.putExtra("name",name.getText().toString());
             intent.putExtra("profilePic", profilePicEncoded);
             startActivity(intent);
         }else {
             Intent intent = new Intent(MainActivity.this, ViolentActivity.class);
-            intent.putExtra("name",Name.getText().toString());
+            intent.putExtra("name",name.getText().toString());
             intent.putExtra("profilePic", profilePicEncoded);
             startActivity(intent);
         }

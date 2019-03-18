@@ -1,19 +1,12 @@
-package ps.spaceinvaders.Activity;
+package ps.spaceinvaders.activity;
 
 
-import android.annotation.TargetApi;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Base64;
-import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -24,16 +17,14 @@ import ps.spaceinvaders.R;
 
 public class RankingActivity extends AppCompatActivity {
 
-    private TextView t1,t2,t3,t4,t5,t6,t7,t8,t9,t10;
-    private ImageView i1,i2,i3,i4,i5,i6,i7,i8,i9,i10;
-    private ImageButton replay, home;
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("Ranking2", Context.MODE_PRIVATE);
         setContentView(R.layout.activity_ranking);
         ImageEncoder encoder;
+
+        ImageButton replay;
 
         replay = findViewById(R.id.Replay);
         replay.setOnClickListener(new View.OnClickListener() {
@@ -42,6 +33,17 @@ public class RankingActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+
+        TextView t1;
+        TextView t2;
+        TextView t3;
+        TextView t4;
+        TextView t5;
+        TextView t6;
+        TextView t7;
+        TextView t8;
+        TextView t9;
+        TextView t10;
 
         t1 = findViewById(R.id.textTop1);
         t1.setText(t1.getText()+sharedPreferences.getString("Rank 1","-1"));
@@ -63,6 +65,17 @@ public class RankingActivity extends AppCompatActivity {
         t9.setText(t9.getText()+sharedPreferences.getString("Rank 9","-1"));
         t10 = findViewById(R.id.textTop10);
         t10.setText(t10.getText()+sharedPreferences.getString("Rank 10","-1"));
+
+        ImageView i1;
+        ImageView i2;
+        ImageView i3;
+        ImageView i4;
+        ImageView i5;
+        ImageView i6;
+        ImageView i7;
+        ImageView i8;
+        ImageView i9;
+        ImageView i10;
 
         encoder = new ImageEncoder((sharedPreferences.getString("Photo 1","-1")));
         i1 = findViewById(R.id.Top1);

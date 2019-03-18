@@ -1,10 +1,9 @@
-package ps.spaceinvaders.Entity;
+package ps.spaceinvaders.entity;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.RectF;
-import android.graphics.drawable.Drawable;
 
 public class Buttons {
     RectF rect;
