@@ -22,6 +22,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import ps.spaceinvaders.Activity.MainActivity;
 import ps.spaceinvaders.Activity.RankingActivity;
+import ps.spaceinvaders.Entity.EntityImages;
 import ps.spaceinvaders.Entity.MovingEntity;
 import ps.spaceinvaders.Entity.SpecialEnemy;
 import ps.spaceinvaders.Entity.Bullet;
@@ -119,6 +120,8 @@ public class InvadersGameView extends SurfaceView implements Runnable {
     //Contador
     private int count = 0;
 
+    private EntityImages images;
+
     public InvadersGameView (Context context, int x, int y, boolean isViolent,String name, String profilePicEncoded){
         super(context);
         mp = MediaPlayer.create(context,R.raw.sound);
@@ -133,6 +136,8 @@ public class InvadersGameView extends SurfaceView implements Runnable {
         enemyAnim2Bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.invaderend), x/20, y/20, false);
         enemyAnim3Bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.invaderstart2), x/20, y/20, false);
         enemyAnim4Bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.invaderend2), x/20, y/20, false);
+
+        images=new EntityImages(spaceshipBitmap,enemyAnim1Bitmap,enemyAnim2Bitmap,enemyAnim3Bitmap,enemyAnim4Bitmap);
 
         avatarEmpty = Bitmap.createBitmap(BitmapFactory.decodeResource(context.getResources(),R.drawable.avatarvacio));
 
@@ -485,10 +490,7 @@ public class InvadersGameView extends SurfaceView implements Runnable {
                     blocks[i].destoyDefence();
                     removedBullets.add(b);
                     if(b.getEnemyBullet()) {
-                        changeColor =!changeColor;
-
-                        //ToDo crear una clase que recoja las imagenes que tiene que pintar de cada elemento,
-                        //ToDo esta clase deberá tener unos metodos getImage para la nave, los enemigos y las balas
+                        images.changeEnemyColor();
                     }
                 }
             }
@@ -543,21 +545,21 @@ public class InvadersGameView extends SurfaceView implements Runnable {
                     spaceShip.teleport();
                     spaceShip.setVulnerable(false);
                     spaceShip.setTpTime(-1);
-                    spaceShip.setBitmap(spaceshipInvulnerable);
+                    images.setShipImage(spaceshipInvulnerable);
                     lastInvulnerable = System.currentTimeMillis();
                 }
                 if(!spaceShip.isVulnerable()){
                     if((iniFrameTime - lastInvulnerable) > 2000){
                         lastInvulnerable = System.currentTimeMillis();
                         spaceShip.setVulnerable(true);
-                        spaceShip.setBitmap(spaceshipBitmap);
+                        images.setShipImage(spaceshipBitmap);
                     }
                 }
 
                 if((iniFrameTime - lastTime) > timeAnim){
                     lastTime = System.currentTimeMillis();
 
-                    animation = !animation;
+                    images.animate();
                 }
 
                 if((iniFrameTime - lastIvulnerableAnimation) > 200){
@@ -674,10 +676,10 @@ public class InvadersGameView extends SurfaceView implements Runnable {
             canvas.drawBitmap(arr.getBitmap(), arr.getX(), arr.getY(), paint);
             canvas.drawBitmap(abj.getBitmap(), abj.getX(), abj.getY(), paint);
             if(!spaceShip.isVulnerable() && invulnerableAnimation){
-                canvas.drawBitmap(spaceShip.getBitmap(), spaceShip.getX(), spaceShip.getY(), paint);
+                canvas.drawBitmap(images.getShipImage(), spaceShip.getX(), spaceShip.getY(), paint);
             }
             else if(spaceShip.isVulnerable()){
-                canvas.drawBitmap(spaceShip.getBitmap(), spaceShip.getX(), spaceShip.getY(), paint);
+                canvas.drawBitmap(images.getShipImage(), spaceShip.getX(), spaceShip.getY(), paint);
             }
             if(specialEnemy.isSpawned()) {
                 canvas.drawBitmap(specialEnemy.getBitmap(), specialEnemy.getX(), specialEnemy.getY(), paint);

@@ -2,6 +2,7 @@ package ps.spaceinvaders.Entity;
 
 import android.graphics.Bitmap;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class EntityImages {
@@ -15,6 +16,21 @@ public class EntityImages {
     private Bitmap shipImage;
 
     private Bitmap enemyImage;
+
+    public EntityImages(Bitmap spaceshipBitmap, Bitmap enemyAnim1Bitmap, Bitmap enemyAnim2Bitmap, Bitmap enemyAnim3Bitmap, Bitmap enemyAnim4Bitmap) {
+
+        this.shipImages = new ArrayList<>();
+        shipImages.add(spaceshipBitmap);
+        shipImage=spaceshipBitmap;
+
+        this.enemyColor1 = new ArrayList<>();
+        enemyColor1.add(enemyAnim1Bitmap);
+        enemyColor1.add(enemyAnim2Bitmap);
+
+        this.enemyColor2 = new ArrayList<>();
+        enemyColor2.add(enemyAnim3Bitmap);
+        enemyColor2.add(enemyAnim4Bitmap);
+    }
 
     public List<Bitmap> getShipImages() {
         return shipImages;
