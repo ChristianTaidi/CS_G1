@@ -9,10 +9,6 @@ import java.util.List;
 public abstract class MovingEntity extends Entity {
     private PointF position;
 
-    private List<Bitmap> image;
-
-    private Bitmap currentImage;
-
     private int width ;
     private float height;
 
@@ -22,14 +18,6 @@ public abstract class MovingEntity extends Entity {
 
     public void setPosition(PointF position) {
         this.position = position;
-    }
-
-    public List<Bitmap> getImage() {
-        return image;
-    }
-
-    public void setImage(List<Bitmap> image) {
-        this.image = image;
     }
 
     public abstract void update(long fps);
@@ -49,13 +37,6 @@ public abstract class MovingEntity extends Entity {
         this.position.y = y;
     }
 
-    public Bitmap getBitmap() {
-        return currentImage;
-    }
-
-    public void setBitmap(Bitmap currentImage) {
-        this.currentImage = currentImage;
-    }
 
     public int getWidth() {
         return width;
@@ -88,4 +69,8 @@ public abstract class MovingEntity extends Entity {
         getRectF().top = getY();
         getRectF().bottom = getY() + height;
     }
+
+
+
+
 }

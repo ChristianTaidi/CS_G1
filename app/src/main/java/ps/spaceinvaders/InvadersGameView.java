@@ -486,6 +486,9 @@ public class InvadersGameView extends SurfaceView implements Runnable {
                     removedBullets.add(b);
                     if(b.getEnemyBullet()) {
                         changeColor =!changeColor;
+
+                        //ToDo crear una clase que recoja las imagenes que tiene que pintar de cada elemento,
+                        //ToDo esta clase deberá tener unos metodos getImage para la nave, los enemigos y las balas
                     }
                 }
             }
@@ -689,29 +692,19 @@ public class InvadersGameView extends SurfaceView implements Runnable {
 
             // Dibuja a los invaders
             for(int i = 0; i < enemiesList.size(); i++) {
-                if (!changeColor) {
-                    if (animation) {
-                        canvas.drawBitmap(enemiesList.get(i).getBitmap(), enemiesList.get(i).getX(), enemiesList.get(i).getY(), paint);
-                    } else {
-                        canvas.drawBitmap(enemiesList.get(i).getBitmap2(), enemiesList.get(i).getX(), enemiesList.get(i).getY(), paint);
-                    }
-                } else {
-                    if (animation) {
-                        canvas.drawBitmap(enemiesList.get(i).getBitmap3(), enemiesList.get(i).getX(), enemiesList.get(i).getY(), paint);
-                    } else {
-                        canvas.drawBitmap(enemiesList.get(i).getBitmap4(), enemiesList.get(i).getX(), enemiesList.get(i).getY(), paint);
-                    }
 
-                }
+                canvas.drawBitmap(enemiesList.get(i).getBitmap(), enemiesList.get(i).getX(), enemiesList.get(i).getY(), paint);
+
+
             }
 
             // Dibuja las balas de los invaders
             if(!bullets.isEmpty() && !bulletThread.isAlive()) {
                 for (Bullet b : bullets) {
                     if (!b.getEnemyBullet()) {
-                        canvas.drawBitmap(b.getBitmap(), b.getX() - b.getLength() / 2, b.getY(), paint);
+                        canvas.drawBitmap(b.getBitmap(), b.getX() - b.getHeight() / 2, b.getY(), paint);
                     } else {
-                        canvas.drawBitmap(b.getBitmap(), b.getX() - b.getLength() / 2, b.getY(), paint);
+                        canvas.drawBitmap(b.getBitmap(), b.getX() - b.getHeight() / 2, b.getY(), paint);
                     }
                 }
             }

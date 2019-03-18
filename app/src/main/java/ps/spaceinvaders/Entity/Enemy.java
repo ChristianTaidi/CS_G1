@@ -7,6 +7,7 @@ import android.graphics.PointF;
 import android.graphics.RectF;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class Enemy extends MovingEntity {
@@ -54,16 +55,6 @@ public class Enemy extends MovingEntity {
 
         this.setPosition(new PointF(column * (length + padding), row * (length + padding / 4)));
 
-        ArrayList<Bitmap> images = new ArrayList<>();
-        images.add(a1);
-
-        images.add(a2);
-
-        images.add(a3);
-
-        images.add(a4);
-
-        this.setImage(images);
 
         enemySpeed = 80;
     }

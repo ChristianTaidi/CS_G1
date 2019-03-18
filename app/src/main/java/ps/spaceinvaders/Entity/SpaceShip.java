@@ -16,7 +16,7 @@ public class SpaceShip extends MovingEntity{
 
     private int shootsCount;
 
-    private Bitmap bitmap;
+
     private int maxX;
     private int maxY;
 
@@ -57,8 +57,6 @@ public class SpaceShip extends MovingEntity{
         y = screenY-height*2;
 
         // Inicializa el bitmap
-        bitmap = b;
-
         // velocidad nave en pixeles por segundo
         shipVel = 500;
     }
@@ -73,9 +71,6 @@ public class SpaceShip extends MovingEntity{
     }
 
     // define nuestra nave espacial para que este disponible en View
-    public Bitmap getBitmap(){
-        return bitmap;
-    }
 
     public float getX(){
         return x;
@@ -164,7 +159,4 @@ public class SpaceShip extends MovingEntity{
         return tpTime;
     }
 
-    public void setBitmap(Bitmap bitmap) {
-        this.bitmap = bitmap;
-    }
 }
