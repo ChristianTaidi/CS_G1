@@ -79,7 +79,7 @@ public abstract class MovingEntity extends Entity {
      * @return
      */
     public boolean hasCollided(RectF hitbox){
-        return hitbox.intersect(this.getRectF());
+        return hitbox.intersect(getRectF());
     }
 
     public void updateRect(){

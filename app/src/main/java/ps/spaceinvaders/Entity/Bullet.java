@@ -31,7 +31,6 @@ public class Bullet extends MovingEntity{
         bounceCounts = 0;
         enemyBullet = false;
         friend = false;
-        //height = screenY /20;
         isActive = false;
 
         setRectF(new RectF());
