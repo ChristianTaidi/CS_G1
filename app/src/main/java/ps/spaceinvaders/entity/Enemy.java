@@ -1,6 +1,5 @@
 package ps.spaceinvaders.entity;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.RectF;
 
@@ -35,16 +34,16 @@ public class Enemy {
     // Movimiento
     private float enemySpeed;
 
-    public final int LEFT = 1;
-    public final int RIGHT = 2;
+    public static final int LEFT = 1;
+    public static final int RIGHT = 2;
 
     // Movimiento y dirección
     private int enemyMoving = RIGHT;
-    private final float MAX_SPEED = 350f;
-    private final int MAX_PROBABILITY = 15;
+    private static final float MAX_SPEED = 350f;
+    private static final int MAX_PROBABILITY = 15;
     boolean isVisible;
 
-    public Enemy(Context context, int row, int column, int screenX, int screenY, Bitmap a1, Bitmap a2, Bitmap a3, Bitmap a4) {
+    public Enemy(int row, int column, int screenX, int screenY, Bitmap a1, Bitmap a2, Bitmap a3, Bitmap a4) {
         isSpawned = false;
         this.row = row;
         this.column = column;
@@ -53,8 +52,6 @@ public class Enemy {
 
         length = screenX / 20;
         height = screenY / 20;
-
-        //isVisible = true;
 
         this.padding = screenX / 25;
 
@@ -199,7 +196,6 @@ public class Enemy {
         y = y + height;
         row = (int)y/((int)length+padding/4);
 
-        //aux *= 1.15f;
         if(aux < MAX_SPEED) {
             enemySpeed = aux;
         }
@@ -208,7 +204,7 @@ public class Enemy {
         }
     }
 
-    public boolean randomShot(float playerShipX, float playerShipLength, int killedEnemies){
+    public boolean randomShot(float playerShipX, float playerShipLength){
 
         int randomNumber = -1;
 

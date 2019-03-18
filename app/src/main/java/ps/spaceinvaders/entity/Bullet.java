@@ -1,6 +1,5 @@
 package ps.spaceinvaders.entity;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.RectF;
 
@@ -13,8 +12,8 @@ public class Bullet {
     private Bitmap bitmap;
 
     //Dirección de disparo
-    public final int UP = 0;
-    public final int DOWN = 1;
+    public static final int UP = 0;
+    public static final int DOWN = 1;
 
     int shotDir = -1;
     float speed = 350;
@@ -31,7 +30,7 @@ public class Bullet {
 
     private int bounceCounts;
 
-    public Bullet(Context context, int screenY, int screenX, Bitmap b){
+    public Bullet(int screenY, int screenX, Bitmap b){
         // Inicializa el bitmap
         length = screenX/20;
         height = screenY/20;
@@ -41,7 +40,6 @@ public class Bullet {
         bounceCounts = 0;
         enemyBullet = false;
         friend = false;
-        //height = screenY /20;
         isActive = false;
 
         rect = new RectF();
