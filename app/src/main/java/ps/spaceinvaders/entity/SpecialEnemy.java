@@ -1,6 +1,5 @@
 package ps.spaceinvaders.entity;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.RectF;
 
@@ -10,8 +9,6 @@ public class SpecialEnemy {
     private RectF rect;
 
     private boolean isSpawned;
-
-    private int shootsCount;
 
     private Bitmap bitmap;
     private int maxX;
@@ -25,7 +22,7 @@ public class SpecialEnemy {
 
     private float shipVel;
 
-    public SpecialEnemy(Context context, int screenX, int screenY, Bitmap b){
+    public SpecialEnemy(int screenX, int screenY, Bitmap b){
         isSpawned = false;
 
         rect = new RectF();
