@@ -13,7 +13,6 @@ import android.media.MediaPlayer;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.os.Handler;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -57,7 +56,6 @@ public class InvadersGameView extends SurfaceView implements Runnable {
     private int screenY;
 
     private long fps;
-    private long timeFrame;
     private long timer;
     private long spawnTimer;
     private  int increments = 1;
@@ -80,7 +78,6 @@ public class InvadersGameView extends SurfaceView implements Runnable {
     int totalEnemies = 0;
     int killedEnemies = 0;
     private int numDefences;
-    private boolean firstSpawn;
     private int spawnCount;
     private Enemy lastSpawned;
     private long jumpTimer;
@@ -91,7 +88,6 @@ public class InvadersGameView extends SurfaceView implements Runnable {
     boolean lost = false;
     boolean win = false;
 
-    Handler handler = new Handler();
     boolean isReloading = false;
 
     private boolean animation = true;
@@ -106,17 +102,42 @@ public class InvadersGameView extends SurfaceView implements Runnable {
 
     private boolean changeColor=false;
 
-    private Bitmap bulletBitmap, specialBulletBitmap, enemyAnim1Bitmap,enemyAnim2Bitmap,enemyAnim3Bitmap,enemyAnim4Bitmap, spaceshipBitmap,
-            spaceshipInvulnerable, gameOver, gameWon , specialEnemyBitMap, avatarEmpty, background,rock;
+    private Bitmap bulletBitmap;
+    private Bitmap specialBulletBitmap;
+    private Bitmap enemyAnim1Bitmap;
+    private Bitmap enemyAnim2Bitmap;
+    private Bitmap enemyAnim3Bitmap;
+    private Bitmap enemyAnim4Bitmap;
+    private Bitmap spaceshipBitmap;
+    private Bitmap spaceshipInvulnerable;
+    private Bitmap gameOver;
+    private Bitmap gameWon;
+    private Bitmap specialEnemyBitMap;
+    private Bitmap avatarEmpty;
+    private Bitmap background;
+    private Bitmap rock;
+
 
     //Botones de movimiento y disparo
-    private Buttons izq,der,dis,arr,abj, home, ranking, restart;
+    private Buttons izq;
+    private Buttons der;
+    private Buttons dis;
+    private Buttons arr;
+    private Buttons abj;
+    private Buttons home;
+    private Buttons ranking;
+    private Buttons restart;
+
     //Elementos a guardar en el shared Preferences que llegan desde mainActivity
     private String name;
     private String proFilePicEncoded;
 
     //Contador
     private int count = 0;
+
+    private static final String RANKING2 = "RANKING2";
+    private static final String RANK = "RANK";
+    private static final String PHOTO = "Photo";
 
     public InvadersGameView (Context context, int x, int y, boolean isViolent,String name, String profilePicEncoded){
         super(context);
@@ -243,7 +264,6 @@ public class InvadersGameView extends SurfaceView implements Runnable {
                 win = false;
                 jumpTimer = -1;
                 lastSpawned = new Enemy(context, 0, 0, screenX, screenY, enemyAnim1Bitmap, enemyAnim2Bitmap, enemyAnim3Bitmap, enemyAnim4Bitmap);
-                firstSpawn = false;
                 spawnCount = 0;
                 increments = 1;
                 isReloading = false;
@@ -279,7 +299,6 @@ public class InvadersGameView extends SurfaceView implements Runnable {
                 }
 
                 // Construye la formación enemiga
-                //numEnemies = 0;
                 for(int column = 2; column < 10; column ++ ){
                     for(int row = 3; row <= 5; row ++ ){
                         Enemy e = new Enemy(context, row, column, screenX, screenY, enemyAnim1Bitmap, enemyAnim2Bitmap, enemyAnim3Bitmap, enemyAnim4Bitmap);
@@ -306,12 +325,9 @@ public class InvadersGameView extends SurfaceView implements Runnable {
                 boolean bumped = false;
                 // Actualiza todos los enemies activos
                 for (int i = 0; i < enemiesList.size(); i++) {
-                    if(spaceShip.isVulnerable()) {
-                        if (RectF.intersects(spaceShip.getRect(), enemiesList.get(i).getRect())) {
-                            lost = true;
-                        }
+                    if(spaceShip.isVulnerable() && RectF.intersects(spaceShip.getRect(), enemiesList.get(i).getRect())) {
+                        lost = true;
                     }
-                    //enemiesList.get(i).angryEnemie(killedEnemies);
                         // Mueve enemy
                         enemiesList.get(i).update(fps);
                         checkAlienBlockCollision(enemiesList.get(i));
@@ -377,14 +393,12 @@ public class InvadersGameView extends SurfaceView implements Runnable {
             try {
                 for (Bullet b : bullets) {
 
-                    if(specialEnemy.isSpawned()) {
-                        if(RectF.intersects(b.getRect(), specialEnemy.getRect())) {
-                            removedBullets.add(b);
-                            bonus +=500;
-                            score+=500;
-                            specialEnemy.setSpawned(false);
-                            continue;
-                        }
+                    if(specialEnemy.isSpawned() && RectF.intersects(b.getRect(), specialEnemy.getRect())) {
+                        removedBullets.add(b);
+                        bonus +=500;
+                        score+=500;
+                        specialEnemy.setSpawned(false);
+                        continue;
                     }
 
                     b.update(fps);
@@ -409,10 +423,8 @@ public class InvadersGameView extends SurfaceView implements Runnable {
                     checkBlockBulletCollision(b);
 
                     //Si la bala choca con el jugador
-                    if(spaceShip.isVulnerable()) {
-                        if (RectF.intersects(b.getRect(), spaceShip.getRect())) {
-                            lost = true;
-                        }
+                    if(spaceShip.isVulnerable() && RectF.intersects(b.getRect(), spaceShip.getRect())) {
+                        lost = true;
                     }
                 }
             }
@@ -437,7 +449,6 @@ public class InvadersGameView extends SurfaceView implements Runnable {
     //Si la bala choca con los enemigos
     public void checkEnemyCollision(Bullet b) {
         for(int i = 0; i < enemiesList.size(); i++) {
-            //if (enemiesList.get(i).getVisibility()) {
                 if (!b.getFriend() && RectF.intersects(b.getRect(), enemiesList.get(i).getRect())) {
                     if(enemiesList.get(i).isSpawned()) {
                         spawnedEnemies.remove(enemiesList.get(i));
@@ -448,16 +459,13 @@ public class InvadersGameView extends SurfaceView implements Runnable {
                     killedEnemies++;
                     checkVictory();
                 }
-            //}
         }
     }
 
     public void checkAlienBlockCollision(Enemy e) {
         for(int i = 0; i < numDefences; i++) {
-            if(blocks[i].getActive()) {
-                if(RectF.intersects(blocks[i].getRect(), e.getRect())) {
-                    blocks[i].destoyDefence();
-                }
+            if(blocks[i].getActive() && RectF.intersects(blocks[i].getRect(), e.getRect())) {
+                blocks[i].destoyDefence();
             }
         }
     }
@@ -480,11 +488,10 @@ public class InvadersGameView extends SurfaceView implements Runnable {
             if(blocks[i].getActive()){
                 RectF r = blocks[i].getRect();
                 if(RectF.intersects(b.getRect(), r)){
-                    //b.setInactive();
                     blocks[i].destoyDefence();
                     removedBullets.add(b);
                     if(b.getEnemyBullet()) {
-                        changeColor =!changeColor;
+                        changeColor = !changeColor;
                     }
                 }
             }
@@ -578,6 +585,7 @@ public class InvadersGameView extends SurfaceView implements Runnable {
                 drawR(this);
             }
 
+            long timeFrame;
 
             timeFrame = System.currentTimeMillis() - iniFrameTime;
             if (timeFrame >= 1) {
@@ -642,10 +650,7 @@ public class InvadersGameView extends SurfaceView implements Runnable {
 
         if(lost){
             saveInfoR(this,score,name,proFilePicEncoded);
-            //drawR(this);
             isPaused = true;
-            //iniLvl();
-
         }
     }
 
@@ -681,7 +686,6 @@ public class InvadersGameView extends SurfaceView implements Runnable {
             // Dibuja las defensas no destruidas
             for(int i = 0; i < numDefences; i++){
                 if(blocks[i].getActive()) {
-                    //canvas.drawRect(blocks[i].getRect(), paint);
                     canvas.drawBitmap(rock,blocks[i].getRect().left,blocks[i].getRect().top,paint);
                 }
             }
@@ -815,7 +819,7 @@ public class InvadersGameView extends SurfaceView implements Runnable {
                     Intent intentMain = new Intent(context,MainActivity.class);
                     context.startActivity(intentMain);
                 }
-                //Button Ranking
+                //Button RANKING2
                 else if( motionEvent.getX() >= ranking.getX() && motionEvent.getX() <
                         (ranking.getX() + ranking.getLength()) &&
                         motionEvent.getY() >= ranking.getY() && motionEvent.getY() <
@@ -830,23 +834,21 @@ public class InvadersGameView extends SurfaceView implements Runnable {
     public void saveInfo(View view){
         ImageEncoder encoder = new ImageEncoder(avatarEmpty);
         String photoDefault = encoder.getEncodedImage();
-        SharedPreferences sharedPreferences = context.getSharedPreferences("Ranking2", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = context.getSharedPreferences(RANKING2, Context.MODE_PRIVATE);
 
         SharedPreferences.Editor editor = sharedPreferences.edit();
         for (int i=1;i<=10;i++) {
-            editor.putString("Rank "+i, "Empty-0");
-            editor.putString("Photo "+i,  photoDefault);
+            editor.putString(RANK +i, "Empty-0");
+            editor.putString(PHOTO +i,  photoDefault);
             editor.apply();
         }
     }
 
     public int findPos(View view,int score){
-        int max=score;
         int pos=-1;
-        SharedPreferences sharedPreferences = context.getSharedPreferences("Ranking2", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = context.getSharedPreferences(RANKING2, Context.MODE_PRIVATE);
         for (int i=1;i<=10;i++){
-            if (score>=Integer.parseInt(sharedPreferences.getString("Rank "+i,"0").split("-")[1])){
-                max=Integer.parseInt(sharedPreferences.getString("Rank "+i,"0").split("-")[1]);
+            if (score>=Integer.parseInt(sharedPreferences.getString(RANK +i,"0").split("-")[1])){
                 return i;
             }
         }
@@ -854,8 +856,7 @@ public class InvadersGameView extends SurfaceView implements Runnable {
     }
 
     public void saveInfoR(View view,int score,String name, String proFilePicEncoded){
-        SharedPreferences sharedPreferences = context.getSharedPreferences("Ranking2", Context.MODE_PRIVATE);
-        //System.out.println(proFilePicEncoded);
+        SharedPreferences sharedPreferences = context.getSharedPreferences(RANKING2, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         if (name.compareTo("")==0){
             name="Anonymous";
@@ -863,27 +864,27 @@ public class InvadersGameView extends SurfaceView implements Runnable {
         int pos=findPos(view, score);
         if (pos!=-1){
             sortPreferences(view,pos);
-            editor.putString("Rank "+pos,name+"-"+Integer.toString(score));
-            editor.putString("Photo "+pos,proFilePicEncoded);
+            editor.putString(RANK +pos,name+"-"+Integer.toString(score));
+            editor.putString(PHOTO +pos,proFilePicEncoded);
             editor.apply();
         }
     }
 
     public void sortPreferences(View view, int n){
-        SharedPreferences sharedPreferences = context.getSharedPreferences("Ranking2", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = context.getSharedPreferences(RANKING2, Context.MODE_PRIVATE);
 
         SharedPreferences.Editor editor = sharedPreferences.edit();
         for (int i=n;i<10;i++){
-            editor.putString("Rank "+(n+1),sharedPreferences.getString("Rank "+n,"0"));
-            editor.putString("Photo "+(n+1),sharedPreferences.getString("Photo "+n,"0"));
+            editor.putString(RANK +(n+1),sharedPreferences.getString(RANK +n,"0"));
+            editor.putString(PHOTO +(n+1),sharedPreferences.getString(PHOTO +n,"0"));
             editor.apply();
         }
     }
 
 
     public String getRank(InvadersGameView view,int i){
-        SharedPreferences sharedPreferences = context.getSharedPreferences("Ranking2", Context.MODE_PRIVATE);
-        return sharedPreferences.getString("Rank "+i,"-1");
+        SharedPreferences sharedPreferences = context.getSharedPreferences(RANKING2, Context.MODE_PRIVATE);
+        return sharedPreferences.getString("RANK "+i,"-1");
     }
     private void drawR(InvadersGameView view){
         if (holder.getSurface().isValid()) {
