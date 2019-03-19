@@ -8,6 +8,7 @@ public class SpaceShip {
 
     private boolean isVulnerable;
     private int tpTime;
+
     //Detector de impactos
     private RectF rect;
 

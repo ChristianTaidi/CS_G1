@@ -7,6 +7,8 @@ import android.graphics.RectF;
 import org.junit.Before;
 import org.junit.Test;
 
+import ps.spaceinvaders.entity.Bullet;
+
 import static org.junit.Assert.*;
 
 public class BulletTest {

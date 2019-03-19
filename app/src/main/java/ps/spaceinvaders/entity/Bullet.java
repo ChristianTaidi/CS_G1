@@ -1,5 +1,6 @@
 package ps.spaceinvaders.entity;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.RectF;
 
@@ -30,7 +31,7 @@ public class Bullet {
 
     private int bounceCounts;
 
-    public Bullet(int screenY, int screenX, Bitmap b){
+    public Bullet(Context context, int screenY, int screenX, Bitmap b){
         // Inicializa el bitmap
         length = screenX/20;
         height = screenY/20;
@@ -55,6 +56,14 @@ public class Bullet {
 
     public void setInactive(){
         isActive = false;
+    }
+
+    public void setHeight(float height) {
+        this.height = height;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
     }
 
     public void changeDirection() {
@@ -94,6 +103,26 @@ public class Bullet {
         }
     }
 
+    public float getImpactPointX() {
+        if (shotDir == DOWN) {
+            return x + width;
+        } else {
+            return x;
+        }
+    }
+
+    public void setX(float x) {
+        this.x = x;
+    }
+
+    public void setY(float y) {
+        this.y = y;
+    }
+
+    public void setShotDir(int dir){
+        this.shotDir=dir;
+    }
+
     public float getX() {
         return x;
     }
@@ -124,6 +153,14 @@ public class Bullet {
 
     public void updateBounceCounts() {
         bounceCounts++;
+    }
+
+    public float getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(float speed) {
+        this.speed = speed;
     }
 
     public void update(long fps){

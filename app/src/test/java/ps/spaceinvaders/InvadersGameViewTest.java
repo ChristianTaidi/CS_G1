@@ -6,6 +6,8 @@ import android.graphics.Bitmap;
 import org.junit.Before;
 import org.junit.Test;
 
+import ps.spaceinvaders.entity.SpaceShip;
+
 import static org.junit.Assert.*;
 
 public class InvadersGameViewTest {

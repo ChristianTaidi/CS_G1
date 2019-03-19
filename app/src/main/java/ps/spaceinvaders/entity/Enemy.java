@@ -1,5 +1,6 @@
 package ps.spaceinvaders.entity;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.RectF;
 
@@ -43,7 +44,7 @@ public class Enemy {
     private static final int MAX_PROBABILITY = 15;
     boolean isVisible;
 
-    public Enemy(int row, int column, int screenX, int screenY, Bitmap a1, Bitmap a2, Bitmap a3, Bitmap a4) {
+    public Enemy(Context context, int row, int column, int screenX, int screenY, Bitmap a1, Bitmap a2, Bitmap a3, Bitmap a4) {
         isSpawned = false;
         this.row = row;
         this.column = column;

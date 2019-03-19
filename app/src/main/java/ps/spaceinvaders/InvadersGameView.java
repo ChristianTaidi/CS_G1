@@ -319,7 +319,7 @@ public class InvadersGameView extends SurfaceView implements Runnable {
                         //Is Violent?
                         if(mode) {
                             if (!fullCapacity && enemiesList.get(i).randomShot(spaceShip.getX(),
-                                    spaceShip.getLength(), killedEnemies)) {
+                                    spaceShip.getLength())) {
                                 bulletBitmap = Bitmap.createScaledBitmap(bulletBitmap, screenX / 20, screenY / 20, false);
                                 Bullet b = new Bullet(context, screenY, screenX, bulletBitmap);
                                 b.setEnemyBullet(true);
