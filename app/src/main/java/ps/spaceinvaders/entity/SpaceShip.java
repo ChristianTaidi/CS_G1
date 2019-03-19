@@ -1,5 +1,6 @@
 package ps.spaceinvaders.entity;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.RectF;
 
@@ -25,16 +26,16 @@ public class SpaceShip {
     private float shipVel;
 
     //Direcciones
-    public static final int STOPPED = 0;
-    public static final int LEFT = 1;
-    public static final int RIGHT = 2;
-    public static final int DOWN = 3;
-    public static final int UP = 4;
+    public final int STOPPED = 0;
+    public final int LEFT = 1;
+    public final int RIGHT = 2;
+    public final int DOWN = 3;
+    public final int UP = 4;
 
     //Estado actual de la nave
     private int shipMoving = STOPPED;
 
-    public SpaceShip(int screenX, int screenY, Bitmap b){
+    public SpaceShip(Context context, int screenX, int screenY, Bitmap b){
         isVulnerable = true;
         tpTime = -1;
 
