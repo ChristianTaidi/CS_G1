@@ -11,11 +11,7 @@ public class SpecialEnemy {
 
     private boolean isSpawned;
 
-    private int shootsCount;
-
     private Bitmap bitmap;
-    private int maxX;
-    private int maxY;
 
     private float length;
     private float height;
@@ -29,9 +25,6 @@ public class SpecialEnemy {
         isSpawned = false;
 
         rect = new RectF();
-
-        maxX=screenX;
-        maxY=screenY;
 
         length = screenX/10;
         height = screenY/10;

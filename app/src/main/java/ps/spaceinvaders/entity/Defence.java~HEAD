@@ -2,8 +2,9 @@ package ps.spaceinvaders.entity;
 
 import android.graphics.RectF;
 
-public class Defence extends Entity{
+public class Defence {
 
+    private RectF rect;
 
     private boolean isDefending;
 
@@ -20,17 +21,19 @@ public class Defence extends Entity{
         int shelterPadding = screenX / 9;
         int startHeight = screenY - (screenY /8 * 3);
 
-        this.setRectF( new RectF(column * width + brickPadding +
+        rect = new RectF(column * width + brickPadding +
                 (shelterPadding * shelterNumber) +
                 shelterPadding + shelterPadding * shelterNumber,
                 row * height + brickPadding + startHeight,
                 column * width + width - brickPadding +
                         (shelterPadding * shelterNumber) +
                         shelterPadding + shelterPadding * shelterNumber,
-                row * height + height - brickPadding + startHeight));
+                row * height + height - brickPadding + startHeight);
     }
 
-
+    public RectF getRect(){
+        return this.rect;
+    }
 
     public void destoyDefence(){
         isDefending = false;

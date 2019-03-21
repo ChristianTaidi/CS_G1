@@ -24,7 +24,7 @@ public class BulletTest {
         screenY = 500;
         screenX = 75;
         context = null;
-        bullet = new Bullet(context, screenY, screenX, b);
+        bullet = new Bullet( screenY, screenX, b);
     }
 
     @Test
