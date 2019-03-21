@@ -1,13 +1,10 @@
-package ps.spaceinvaders.Entity;
+package ps.spaceinvaders.entity;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.PointF;
 import android.graphics.RectF;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 public class Enemy extends MovingEntity {

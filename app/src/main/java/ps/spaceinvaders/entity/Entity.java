@@ -1,10 +1,6 @@
-package ps.spaceinvaders.Entity;
+package ps.spaceinvaders.entity;
 
-import android.graphics.Bitmap;
-import android.graphics.Point;
 import android.graphics.RectF;
-
-import java.util.List;
 
 public abstract class Entity {
     private RectF rectF;

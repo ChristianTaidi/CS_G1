@@ -1,4 +1,4 @@
-package ps.spaceinvaders.Entity;
+package ps.spaceinvaders.entity;
 
 import android.content.Context;
 import android.graphics.Bitmap;

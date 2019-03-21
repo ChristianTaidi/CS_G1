@@ -1,4 +1,4 @@
-package ps.spaceinvaders.Activity;
+package ps.spaceinvaders.activity;
 
 import android.app.Activity;
 import android.content.Intent;

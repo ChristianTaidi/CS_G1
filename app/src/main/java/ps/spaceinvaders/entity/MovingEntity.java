@@ -1,10 +1,7 @@
-package ps.spaceinvaders.Entity;
+package ps.spaceinvaders.entity;
 
-import android.graphics.Bitmap;
 import android.graphics.PointF;
 import android.graphics.RectF;
-
-import java.util.List;
 
 public abstract class MovingEntity extends Entity {
     private PointF position;

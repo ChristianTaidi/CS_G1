@@ -1,4 +1,4 @@
-package ps.spaceinvaders.Entity;
+package ps.spaceinvaders.entity;
 
 import android.graphics.RectF;
 

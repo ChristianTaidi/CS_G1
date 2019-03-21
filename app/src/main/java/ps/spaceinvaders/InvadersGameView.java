@@ -20,16 +20,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import ps.spaceinvaders.Activity.MainActivity;
-import ps.spaceinvaders.Activity.RankingActivity;
-import ps.spaceinvaders.Entity.EntityImages;
-import ps.spaceinvaders.Entity.MovingEntity;
-import ps.spaceinvaders.Entity.SpecialEnemy;
-import ps.spaceinvaders.Entity.Bullet;
-import ps.spaceinvaders.Entity.Buttons;
-import ps.spaceinvaders.Entity.Defence;
-import ps.spaceinvaders.Entity.Enemy;
-import ps.spaceinvaders.Entity.SpaceShip;
+import ps.spaceinvaders.activity.MainActivity;
+import ps.spaceinvaders.activity.RankingActivity;
+import ps.spaceinvaders.entity.EntityImages;
+import ps.spaceinvaders.entity.SpecialEnemy;
+import ps.spaceinvaders.entity.Bullet;
+import ps.spaceinvaders.entity.Buttons;
+import ps.spaceinvaders.entity.Defence;
+import ps.spaceinvaders.entity.Enemy;
+import ps.spaceinvaders.entity.SpaceShip;
 
 public class InvadersGameView extends SurfaceView implements Runnable {
 
