@@ -17,8 +17,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.PeacefulActivity"/>
+        <activity android:name=".activity.GameActivity"/>
         <activity android:name=".activity.RankingActivity"/>
-        <activity android:name=".activity.ViolentActivity"></activity>
     </application>
 </manifest>

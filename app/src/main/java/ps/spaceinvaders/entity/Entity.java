@@ -3,6 +3,7 @@ package ps.spaceinvaders.entity;
 import android.graphics.RectF;
 
 public abstract class Entity {
+
     private RectF rectF;
 
 

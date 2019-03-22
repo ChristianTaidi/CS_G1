@@ -16,7 +16,6 @@ import android.widget.ImageView;
 import java.io.ByteArrayOutputStream;
 
 import ps.spaceinvaders.ImageEncoder;
-import ps.spaceinvaders.R;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -81,17 +80,13 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
-        if(n<13){
-            Intent intent = new Intent (MainActivity.this, PeacefulActivity.class);
+
+            Intent intent = new Intent (MainActivity.this, GameActivity.class);
             intent.putExtra("name",name.getText().toString());
             intent.putExtra("profilePic", profilePicEncoded);
+            intent.putExtra("violent", n>13);
             startActivity(intent);
-        }else {
-            Intent intent = new Intent(MainActivity.this, ViolentActivity.class);
-            intent.putExtra("name",name.getText().toString());
-            intent.putExtra("profilePic", profilePicEncoded);
-            startActivity(intent);
-        }
+
     }
 
     public static String encodeTobase64(Bitmap image) {

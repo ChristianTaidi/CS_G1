@@ -17,7 +17,9 @@ public class EntityImages {
 
     private Bitmap enemyImage;
 
-    public EntityImages(Bitmap spaceshipBitmap, Bitmap enemyAnim1Bitmap, Bitmap enemyAnim2Bitmap, Bitmap enemyAnim3Bitmap, Bitmap enemyAnim4Bitmap) {
+    private Bitmap bulletImage;
+
+    public EntityImages(Bitmap spaceshipBitmap, Bitmap enemyAnim1Bitmap, Bitmap enemyAnim2Bitmap, Bitmap enemyAnim3Bitmap, Bitmap enemyAnim4Bitmap, Bitmap bulletImage) {
 
         this.shipImages = new ArrayList<>();
         shipImages.add(spaceshipBitmap);
@@ -30,6 +32,8 @@ public class EntityImages {
         this.enemyColor2 = new ArrayList<>();
         enemyColor2.add(enemyAnim3Bitmap);
         enemyColor2.add(enemyAnim4Bitmap);
+
+        this.bulletImage=bulletImage;
     }
 
     public List<Bitmap> getShipImages() {
@@ -71,6 +75,15 @@ public class EntityImages {
     public void setEnemyImage(Bitmap enemyImage) {
         this.enemyImage = enemyImage;
     }
+
+    public Bitmap getBulletImage() {
+        return bulletImage;
+    }
+
+    public void setBulletImage(Bitmap bulletImage) {
+        this.bulletImage = bulletImage;
+    }
+
     public void animate(){
         if(this.getEnemyImage().equals(this.enemyColor1.get(1))){
             this.setEnemyImage(enemyColor1.get(2));

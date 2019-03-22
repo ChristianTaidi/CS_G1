@@ -2,29 +2,25 @@ package ps.spaceinvaders.entity;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.PointF;
 import android.graphics.RectF;
 
 import java.util.Random;
 
-public class Enemy {
+public class Enemy extends MovingEntity{
 
-    private RectF rect;
+
 
     Random generator = new Random();
 
     //Bitmaps para la animación
-    private Bitmap anim1;
-    private Bitmap anim2;
-    private Bitmap anim3;
-    private Bitmap anim4;
+
 
     //Tamaño
     private float length;
     private float height;
 
     //Coordenadas del invader
-    private float x;
-    private float y;
 
     private int row;
     private int column;
@@ -49,23 +45,14 @@ public class Enemy {
         this.row = row;
         this.column = column;
 
-        rect = new RectF();
+        setRectF( new RectF());
 
         length = screenX / 20;
         height = screenY / 20;
 
         this.padding = screenX / 25;
 
-        x = column * (length + padding);
-        y = row * (length + padding/4);
-
-        anim1 = a1;
-
-        anim2 = a2;
-
-        anim3 = a3;
-
-        anim4 = a4;
+        setPosition(new PointF(column * (length + padding),row * (length + padding/4)));
 
         enemySpeed = 80;
     }
@@ -76,34 +63,6 @@ public class Enemy {
 
     public boolean getVisibility(){
         return isVisible;
-    }
-
-    public RectF getRect(){
-        return rect;
-    }
-
-    public Bitmap getBitmap(){
-        return anim1;
-    }
-
-    public Bitmap getBitmap2(){
-        return anim2;
-    }
-
-    public Bitmap getBitmap3(){
-        return anim3;
-    }
-
-    public Bitmap getBitmap4(){
-        return anim4;
-    }
-
-    public float getX(){
-        return x;
-    }
-
-    public float getY(){
-        return y;
     }
 
     public boolean isSpawned() {
@@ -134,14 +93,6 @@ public class Enemy {
         isSpawned = spawned;
     }
 
-    public void setX(float x) {
-        this.x = x;
-    }
-
-    public void setY(float y) {
-        this.y = y;
-    }
-
     public void setEnemySpeed(float enemySpeed) {
         this.enemySpeed = enemySpeed;
     }
@@ -158,20 +109,17 @@ public class Enemy {
 
     public void update(long fps){
         if(enemyMoving == LEFT){
-            x = x - enemySpeed / fps;
-            column = (int)x/(int)(length+padding);
+            getPosition().offset( - enemySpeed / fps,0);
+            column = (int)getPosition().x/(int)(length+padding);
         }
 
         if(enemyMoving == RIGHT){
-            x = x + enemySpeed / fps;
-            column = (int)x/(int)(length+padding);
+            getPosition().offset( + enemySpeed / fps,0);
+            column = (int)getPosition().x/(int)(length+padding);
         }
 
         // Actualiza rect el cual es usado para detectar impactos
-        rect.top = y;
-        rect.bottom = y + height;
-        rect.left = x;
-        rect.right = x + length;
+        updateRect();
     }
 
     public void angryEnemie(int killedEnemies){
@@ -189,13 +137,13 @@ public class Enemy {
         float aux = enemySpeed;
         if(enemyMoving == LEFT){
             enemyMoving = RIGHT;
-            x += 10;
+            getPosition().offset( 10,0);
         }else{
             enemyMoving = LEFT;
-            x -= 10;
+            getPosition().offset(- 10,0);
         }
-        y = y + height;
-        row = (int)y/((int)length+padding/4);
+        getPosition().offset(0, height);
+        row = (int)getPosition().y/((int)length+padding/4);
 
         if(aux < MAX_SPEED) {
             enemySpeed = aux;
@@ -210,8 +158,8 @@ public class Enemy {
         int randomNumber = -1;
 
         // Si está cerca del jugador
-        if((playerShipX + playerShipLength > x &&
-                playerShipX + playerShipLength < x + length) || (playerShipX > x && playerShipX < x + length)) {
+        if((playerShipX + playerShipLength > getPosition().x &&
+                playerShipX + playerShipLength < getPosition().x + length) || (playerShipX > getPosition().x && playerShipX < getPosition().x + length)) {
 
             // Una probabilidad de 1 en 150 de disparar
             randomNumber = generator.nextInt(100);

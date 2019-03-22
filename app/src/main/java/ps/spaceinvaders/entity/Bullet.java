@@ -19,13 +19,13 @@ public class Bullet extends MovingEntity{
     private boolean enemyBullet;
     private boolean friend;
 
+    private Bitmap bulletImage;
+
     private int bounceCounts;
 
     public Bullet(Context context, int screenY, int screenX, Bitmap b){
         // Inicializa el bitmap
         setHeight( screenY/20);
-
-        setBitmap(b);
 
         bounceCounts = 0;
         enemyBullet = false;
@@ -34,6 +34,8 @@ public class Bullet extends MovingEntity{
 
         setRectF(new RectF());
     }
+
+
 
 
     public boolean getStatus(){
@@ -69,6 +71,8 @@ public class Bullet extends MovingEntity{
     public boolean getEnemyBullet() {
         return enemyBullet;
     }
+
+
 
     public float getImpactPointY() {
         if (shotDir == DOWN) {
@@ -113,6 +117,7 @@ public class Bullet extends MovingEntity{
 
 
     }
+
 
 
 

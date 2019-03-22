@@ -10,9 +10,9 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import ps.spaceinvaders.InvadersGameView;
-import ps.spaceinvaders.R;
 
-public class PeacefulActivity extends AppCompatActivity {
+
+public class GameActivity extends AppCompatActivity {
 
     InvadersGameView invGameView;
 
@@ -26,6 +26,7 @@ public class PeacefulActivity extends AppCompatActivity {
         Bundle bundle=intent.getExtras();
         String name=bundle.getString("name");
         String profilePicEncoded = bundle.getString("profilePic");
+        Boolean violent = bundle.getBoolean("violent");
 
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
@@ -38,7 +39,7 @@ public class PeacefulActivity extends AppCompatActivity {
         display.getSize(size);
 
         // Inicializar gameView y establecerlo como la visualización
-        invGameView = new InvadersGameView(this, size.x, size.y, false,name, profilePicEncoded);
+        invGameView = new InvadersGameView(this, size.x, size.y, violent,name, profilePicEncoded);
         setContentView(invGameView);
 
     }

@@ -13,7 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import ps.spaceinvaders.ImageEncoder;
-import ps.spaceinvaders.R;
+
 
 public class RankingActivity extends AppCompatActivity {
 
