@@ -1,4 +1,4 @@
-package ps.spaceinvaders.activity;
+package cs.spaceinvaders.activity;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -15,8 +15,9 @@ import android.widget.ImageView;
 
 import java.io.ByteArrayOutputStream;
 
-import ps.spaceinvaders.ImageEncoder;
+import cs.spaceinvaders.ImageEncoder;
 
+import
 public class MainActivity extends AppCompatActivity {
 
     private EditText playerAge;

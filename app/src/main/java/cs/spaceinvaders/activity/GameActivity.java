@@ -1,4 +1,4 @@
-package ps.spaceinvaders.activity;
+package cs.spaceinvaders.activity;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -9,7 +9,7 @@ import android.view.Display;
 import android.view.Window;
 import android.view.WindowManager;
 
-import ps.spaceinvaders.InvadersGameView;
+import cs.spaceinvaders.InvadersGameView;
 
 
 public class GameActivity extends AppCompatActivity {

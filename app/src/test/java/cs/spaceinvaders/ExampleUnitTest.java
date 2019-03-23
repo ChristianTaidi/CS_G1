@@ -1,4 +1,4 @@
-package ps.spaceinvaders;
+package cs.spaceinvaders;
 
 import org.junit.Test;
 

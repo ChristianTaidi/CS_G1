@@ -77,7 +77,4 @@ deploy:
 addons:
   sonarcloud:
     organization: "christiantaidi-github" # the key of the org you chose at step #3
-    token:
-      secure :"cRA/ph0naht9i5YlnWGtd7zPXtDLUObS8Q9VIU9CLZKhy+MXlEl2eagHcTSrxXn6snLsYTW2ctsqPifMekY+RpyMq0YHoq2a2Uz/U/2Ttp2+vZ1wPqokhYPrOXQcASoVnaU5Mu9RNxDKKThnJbPN/Iz52RJx0z/e/ocrTgX8kne8sUeJqufAV3J6UMFFhEJgJyak64op80vl1BkkhCO8UKkp+uIv5Zd8cMQzO8WFdgaFX+VSY/NOt0g5jiT6vyNYP4jtwf8FRr9FFlL2gWU1Wc8UfL6lO73Ci7HnQPweQh/Swds21NW/kvyX/p5OFnKiE2xA5I0qjxfZGt8nz4w/k7nqkifBip1+R8n/A8hqGMtespkZww32b/CYz/UGss/dnJQ+8M5HWnNdYmiIEvfrPcJWFG/bEspyTv2CH3X/rZPBaTrm12lsEIjzwFzT7N98NkZ8eAYTxZpox5WYMJbMJNsMrTesk7w2wUBuiqVQE7efgHvWoZHnMw+6i15EexjnuHf7XEeGSiWvosObggykCEX0yAhpL7oodak1E2a0uImDMrSxlG3JG5JZlpIJH43lXFoaJkfY+2aVw9nXXzRw3rsAr3GhivmsM0DaxhfZ9LffQdaHBu+SL+GjtNXw12bdSS1yW1ZFJkmA8eiUmj95vXwS60rOi/0mEi/5xhzsvhM="    
-
-           
+   

@@ -1,4 +1,4 @@
-package ps.spaceinvaders;
+package cs.spaceinvaders;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

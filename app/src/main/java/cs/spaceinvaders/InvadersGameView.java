@@ -1,4 +1,4 @@
-package ps.spaceinvaders;
+package cs.spaceinvaders;
 
 import android.content.Context;
 import android.content.Intent;
@@ -19,16 +19,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import ps.spaceinvaders.activity.MainActivity;
-import ps.spaceinvaders.activity.RankingActivity;
+import cs.spaceinvaders.activity.MainActivity;
+import cs.spaceinvaders.activity.RankingActivity;
 
-import ps.spaceinvaders.entity.EntityImages;
-import ps.spaceinvaders.entity.SpecialEnemy;
-import ps.spaceinvaders.entity.Bullet;
-import ps.spaceinvaders.entity.Buttons;
-import ps.spaceinvaders.entity.Defence;
-import ps.spaceinvaders.entity.Enemy;
-import ps.spaceinvaders.entity.SpaceShip;
+import cs.spaceinvaders.entity.EntityImages;
+import cs.spaceinvaders.entity.SpecialEnemy;
+import cs.spaceinvaders.entity.Bullet;
+import cs.spaceinvaders.entity.Buttons;
+import cs.spaceinvaders.entity.Defence;
+import cs.spaceinvaders.entity.Enemy;
+import cs.spaceinvaders.entity.SpaceShip;
 
 public class InvadersGameView extends SurfaceView implements Runnable {
 

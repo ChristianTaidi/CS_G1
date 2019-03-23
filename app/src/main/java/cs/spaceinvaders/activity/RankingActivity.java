@@ -1,4 +1,4 @@
-package ps.spaceinvaders.activity;
+package cs.spaceinvaders.activity;
 
 
 import android.content.Context;
@@ -12,7 +12,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import ps.spaceinvaders.ImageEncoder;
+import cs.spaceinvaders.ImageEncoder;
 
 
 public class RankingActivity extends AppCompatActivity {

@@ -1,4 +1,4 @@
-package ps.spaceinvaders;
+package cs.spaceinvaders;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

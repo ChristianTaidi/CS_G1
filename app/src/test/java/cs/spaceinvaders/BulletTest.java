@@ -1,4 +1,4 @@
-package ps.spaceinvaders;
+package cs.spaceinvaders;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -7,7 +7,7 @@ import android.graphics.RectF;
 import org.junit.Before;
 import org.junit.Test;
 
-import ps.spaceinvaders.entity.Bullet;
+import cs.spaceinvaders.entity.Bullet;
 
 import static org.junit.Assert.*;
 
