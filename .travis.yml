@@ -50,8 +50,8 @@ script:
 #        - sonar-scanner
         - ./gradlew sonarqube  -Dsonar.projectKey=ChristianTaidi_CS_G1 -Dsonar.organization=christiantaidi-github -Dsonar.host.url=https://sonarcloud.io
         - ./gradlew clean
-        - ./gradlew assembleDebug
-        - ./gradlew assembleDebugAndroidTest
+#        - ./gradlew assembleDebug
+#        - ./gradlew assembleDebugAndroidTest
     #    - travis encrypt --com "GITHUB_TOKEN=abd13ad1ec5e145780ae7a4208beafc5eb3f9aa3" --add
         
 before_install:
