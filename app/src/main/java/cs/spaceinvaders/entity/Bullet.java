@@ -23,7 +23,7 @@ public class Bullet extends MovingEntity{
 
     private int bounceCounts;
 
-    public Bullet(Context context, int screenY, int screenX, Bitmap b){
+    public Bullet( int screenY, int screenX, Bitmap b){
         // Inicializa el bitmap
         setHeight( screenY/20);
 
@@ -73,6 +73,41 @@ public class Bullet extends MovingEntity{
     }
 
 
+    public int getShotDir() {
+        return shotDir;
+    }
+
+    public float getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(float speed) {
+        this.speed = speed;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
+    }
+
+    public boolean isEnemyBullet() {
+        return enemyBullet;
+    }
+
+    public boolean isFriend() {
+        return friend;
+    }
+
+    public Bitmap getBulletImage() {
+        return bulletImage;
+    }
+
+    public void setBulletImage(Bitmap bulletImage) {
+        this.bulletImage = bulletImage;
+    }
 
     public float getImpactPointY() {
         if (shotDir == DOWN) {
@@ -80,6 +115,18 @@ public class Bullet extends MovingEntity{
         } else {
             return getY();
         }
+    }
+
+    public float getImpactPointX() {
+        if (shotDir == DOWN) {
+            return getX() + getWidth();
+        } else {
+            return getX();
+        }
+    }
+
+    public void setShotDir(int dir){
+        this.shotDir=dir;
     }
 
 

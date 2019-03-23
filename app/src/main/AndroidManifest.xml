@@ -10,14 +10,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="cs.spaceinvaders.activity.MainActivity">
+        <activity android:name="cs.spaceinvaders.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="cs.spaceinvaders.activity.GameActivity"/>
-        <activity android:name="cs.spaceinvaders.activity.RankingActivity"/>
+        <activity android:name="cs.spaceinvaders.GameActivity"/>
+        <activity android:name="cs.spaceinvaders.RankingActivity"/>
     </application>
 </manifest>

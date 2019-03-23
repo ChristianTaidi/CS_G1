@@ -1,4 +1,4 @@
-package cs.spaceinvaders.activity;
+package cs.spaceinvaders;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -15,9 +15,6 @@ import android.widget.ImageView;
 
 import java.io.ByteArrayOutputStream;
 
-import cs.spaceinvaders.ImageEncoder;
-
-import
 public class MainActivity extends AppCompatActivity {
 
     private EditText playerAge;
@@ -39,8 +36,8 @@ public class MainActivity extends AppCompatActivity {
 
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        playerAge=(EditText)findViewById(R.id.ageText);
-        name=(EditText)findViewById(R.id.nameText);
+        playerAge = (EditText) findViewById(R.id.ageText);
+        name = (EditText) findViewById(R.id.nameText);
 
         findViewById(R.id.profilePic).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,12 +47,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        enterButton=(Button)findViewById(R.id.enterBtn);
+        enterButton = (Button) findViewById(R.id.enterBtn);
 
-        enterButton.setOnClickListener(new View.OnClickListener () {
+        enterButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view){
-                if (playerAge.getText().toString().compareTo("")!=0){
+            public void onClick(View view) {
+                if (playerAge.getText().toString().compareTo("") != 0) {
                     int pAge = Integer.parseInt(playerAge.getText().toString());
                     validate(pAge);
                 }
@@ -74,19 +71,19 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void validate(int n){
-        if (profilePicEncoded == null){
-            encoder = new ImageEncoder(Bitmap.createBitmap(BitmapFactory.decodeResource(this.getResources(),R.drawable.avatarvacio)));
+    private void validate(int n) {
+        if (profilePicEncoded == null) {
+            encoder = new ImageEncoder(Bitmap.createBitmap(BitmapFactory.decodeResource(this.getResources(), R.drawable.avatarvacio)));
             profilePicEncoded = encoder.getEncodedImage();
 
         }
 
 
-            Intent intent = new Intent (MainActivity.this, GameActivity.class);
-            intent.putExtra("name",name.getText().toString());
-            intent.putExtra("profilePic", profilePicEncoded);
-            intent.putExtra("violent", n>13);
-            startActivity(intent);
+        Intent intent = new Intent(MainActivity.this, GameActivity.class);
+        intent.putExtra("name", name.getText().toString());
+        intent.putExtra("profilePic", profilePicEncoded);
+        intent.putExtra("violent", n > 13);
+        startActivity(intent);
 
     }
 

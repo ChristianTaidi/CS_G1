@@ -19,9 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import cs.spaceinvaders.activity.MainActivity;
-import cs.spaceinvaders.activity.RankingActivity;
-
 import cs.spaceinvaders.entity.EntityImages;
 import cs.spaceinvaders.entity.SpecialEnemy;
 import cs.spaceinvaders.entity.Bullet;
@@ -344,7 +341,7 @@ public class InvadersGameView extends SurfaceView implements Runnable {
                             if (!fullCapacity && enemiesList.get(i).randomShot(spaceShip.getX(),
                                     spaceShip.getLength())) {
                                 bulletBitmap = Bitmap.createScaledBitmap(bulletBitmap, screenX / 20, screenY / 20, false);
-                                Bullet b = new Bullet(context, screenY, screenX, bulletBitmap);
+                                Bullet b = new Bullet( screenY, screenX, bulletBitmap);
                                 b.setEnemyBullet(true);
                                 b.setFriend(true);
                                 bullets.add(b);
@@ -528,7 +525,7 @@ public class InvadersGameView extends SurfaceView implements Runnable {
     public void playerShoot() {
         //Is Violent
         if(mode) {
-            Bullet b = new Bullet(context, screenY, screenX, bulletBitmap);
+            Bullet b = new Bullet( screenY, screenX, bulletBitmap);
             bullets.add(b);
             b.shoot(spaceShip.getX() + spaceShip.getLength() / 2, spaceShip.getY()
                     - spaceShip.getHeight()-100, b.UP);
@@ -537,7 +534,7 @@ public class InvadersGameView extends SurfaceView implements Runnable {
 
     public void playerSpecialShoot(){
         if (mode) {
-            Bullet special = new Bullet(context, screenY, screenX, specialBulletBitmap);
+            Bullet special = new Bullet( screenY, screenX, specialBulletBitmap);
             bullets.add(special);
             special.shoot(spaceShip.getX() + spaceShip.getLength() / 2, spaceShip.getY()
                     - spaceShip.getHeight() - 100, special.UP);

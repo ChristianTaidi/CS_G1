@@ -1,4 +1,4 @@
-package cs.spaceinvaders.activity;
+package cs.spaceinvaders;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -21,7 +21,7 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 
-        setContentView(R.layout.activity_peacefull);
+        setContentView(R.layout.activity_game);
         Intent intent=getIntent();
         Bundle bundle=intent.getExtras();
         String name=bundle.getString("name");

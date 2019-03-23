@@ -1,4 +1,4 @@
-package cs.spaceinvaders.activity;
+package cs.spaceinvaders;
 
 
 import android.content.Context;

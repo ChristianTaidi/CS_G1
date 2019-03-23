@@ -101,7 +101,7 @@ public class BulletTest {
                         bullet.setShotDir(dir);
 
                         bullet.update(fps);
-                        output = bullet.getRect();
+                        output = bullet.getRectF();
 
                         outputX1 = output.left;
                         outputX2 = output.right;
@@ -136,7 +136,7 @@ public class BulletTest {
                             bullet.setSpeed(speed);
                             bullet.update(fps);
 
-                            output = bullet.getRect();
+                            output = bullet.getRectF();
                             outputY1 = output.bottom;
                             outputY2 = output.top;
                             if (dir == 0) {
