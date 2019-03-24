@@ -1,20 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="AndroidLayouts">
-    <shared>
-      <config />
-    </shared>
-  </component>
-  <component name="AndroidLogFilters">
-    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="No Filters" />
-  </component>
   <component name="CMakeSettings">
     <configurations>
       <configuration PROFILE_NAME="Debug" CONFIG_NAME="Debug" />
     </configurations>
   </component>
   <component name="ChangeListManager">
+<<<<<<< HEAD
     <list default="true" id="e9796ee8-4044-44de-b0ed-c226de772ac8" name="Default" comment="" />
+=======
+    <list default="true" id="881acb79-18f5-45c1-b618-5ebca116ad2a" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
+    </list>
+>>>>>>> 112c4ed37cac26f73abaeb2e8eda7af9768b1940
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -30,47 +28,18 @@
   <component name="ExternalProjectsManager">
     <system id="GRADLE">
       <state>
+<<<<<<< HEAD
         <task path="$PROJECT_DIR$">
           <activation />
         </task>
         <task path="$PROJECT_DIR$/app">
           <activation />
         </task>
+=======
+>>>>>>> 112c4ed37cac26f73abaeb2e8eda7af9768b1940
         <projects_view />
       </state>
     </system>
-  </component>
-  <component name="FUSProjectUsageTrigger">
-    <session id="965283136">
-      <usages-collector id="statistics.lifecycle.project">
-        <counts>
-          <entry key="project.open.time.12" value="1" />
-          <entry key="project.opened" value="1" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.file.extensions.open">
-        <counts>
-          <entry key="gradle" value="1" />
-          <entry key="java" value="2" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.file.types.open">
-        <counts>
-          <entry key="Groovy" value="1" />
-          <entry key="JAVA" value="2" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.file.extensions.edit">
-        <counts>
-          <entry key="java" value="1055" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.file.types.edit">
-        <counts>
-          <entry key="JAVA" value="1055" />
-        </counts>
-      </usages-collector>
-    </session>
   </component>
   <component name="FileEditorManager">
     <leaf>
@@ -86,40 +55,18 @@
       <file leaf-file-name="build.gradle" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/build.gradle">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
             <state relative-caret-position="87">
               <caret line="27" column="60" lean-forward="true" selection-start-line="27" selection-start-column="60" selection-end-line="27" selection-end-column="60" />
+=======
+            <state relative-caret-position="408">
+              <caret line="24" column="1" lean-forward="true" selection-start-line="24" selection-start-column="1" selection-end-line="24" selection-end-column="1" />
+>>>>>>> 112c4ed37cac26f73abaeb2e8eda7af9768b1940
             </state>
           </provider>
         </entry>
       </file>
     </leaf>
-  </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="JUnit4 Test Class" />
-        <option value="Class" />
-      </list>
-    </option>
-  </component>
-  <component name="FindInProjectRecents">
-    <findStrings>
-      <find>bulletbitmap</find>
-      <find>bulletBitmap</find>
-      <find>players</find>
-      <find>shoot</find>
-      <find>special</find>
-      <find>special.shoot</find>
-      <find>playerSpecial</find>
-      <find>playerShoot</find>
-      <find>timer</find>
-      <find>count &lt; 5</find>
-      <find>count</find>
-      <find>widt</find>
-      <find>color</find>
-      <find>changeColor</find>
-      <find>bitmap</find>
-    </findStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -2243,49 +2190,24 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" />
-        <option value="$PROJECT_DIR$/app/src/test/java/ps/spaceinvaders/InvadersGameViewTest.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/ps/spaceinvaders/Entity/Entity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/ps/spaceinvaders/Entity/Defence.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/ps/spaceinvaders/Entity/Bullet.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/ps/spaceinvaders/Bullet.java" />
-        <option value="$PROJECT_DIR$/app/src/test/java/ps/spaceinvaders/BulletTest.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/ps/spaceinvaders/Entity/SpaceShip.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/ps/spaceinvaders/Entity/Enemy.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/ps/spaceinvaders/Entity/MovingEntity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/ps/spaceinvaders/Entity/EntityImages.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/ps/spaceinvaders/entity/Enemy.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/ps/spaceinvaders/entity/Entity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/ps/spaceinvaders/entity/Bullet.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/ps/spaceinvaders/entity/EntityImages.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/ps/spaceinvaders/InvadersGameView.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/ps/spaceinvaders/activity/RankingActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/ps/spaceinvaders/activity/ViolentActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/ps/spaceinvaders/activity/PeacefulActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/ps/spaceinvaders/activity/GameActivity.java" />
-        <option value="$PROJECT_DIR$/build.gradle" />
         <option value="$PROJECT_DIR$/app/build.gradle" />
-        <option value="$PROJECT_DIR$/app/src/main/java/ps/spaceinvaders/activity/MainActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/cs/spaceinvaders/activity/MainActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/cs/spaceinvaders/MainActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/cs/spaceinvaders/GameActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/test/java/cs/spaceinvaders/BulletTest.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/cs/spaceinvaders/entity/Bullet.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/cs/spaceinvaders/InvadersGameView.java" />
       </list>
     </option>
   </component>
+<<<<<<< HEAD
   <component name="ProjectFrameBounds">
     <option name="x" value="97" />
     <option name="y" value="245" />
+=======
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="248" />
+    <option name="y" value="188" />
+>>>>>>> 112c4ed37cac26f73abaeb2e8eda7af9768b1940
     <option name="width" value="1296" />
     <option name="height" value="776" />
   </component>
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
     <navigator proportions="" version="1">
-      <hideEmptyPackages AndroidView="false" />
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
@@ -2310,27 +2232,9 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="SearchEverywhereHistoryKey" value="grad&#9;ACTION&#9;ActivateGradleToolWindow" />
-    <property name="android.project.structure.last.selected" value="Ads" />
-    <property name="android.project.structure.proportion" value="0.15" />
     <property name="android.sdk.path" value="$USER_HOME$/AppData/Local/Android/Sdk" />
-    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit4" />
-    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit4" value="" />
-    <property name="device.picker.selection" value="Nexus_5X_API_28_2" />
-    <property name="last_directory_selection" value="$PROJECT_DIR$/app/src/test/java/ps/spaceinvaders" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="preferences.externalDependencies" />
-  </component>
-  <component name="RecentsManager">
-    <key name="CreateTestDialog.RecentsKey">
-      <recent name="ps.spaceinvaders" />
-    </key>
-    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
-      <recent name="cs.spaceinvaders" />
-    </key>
-    <key name="CreateTestDialog.Recents.Supers">
-      <recent name="" />
-    </key>
+    <property name="settings.editor.selected.configurable" value="AndroidSdkUpdater" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -2344,7 +2248,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Gradle.CS:app [build]">
+  <component name="RunManager">
     <configuration default="true" type="AndroidJUnit" factoryName="Android JUnit">
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
@@ -2365,7 +2269,7 @@
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="app" type="AndroidRunConfigurationType" factoryName="Android App" activateToolWindowBeforeRun="false">
+    <configuration name="app" type="AndroidRunConfigurationType" factoryName="Android App">
       <module name="app" />
       <option name="DEPLOY" value="true" />
       <option name="DEPLOY_APK_FROM_BUNDLE" value="false" />
@@ -2416,94 +2320,6 @@
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <method>
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="CS [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value="build" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-    </configuration>
-    <configuration name="CS [cleanBuildCache]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value="cleanBuildCache" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-    </configuration>
-    <configuration name="CS [lintFix]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value="lintFix" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-    </configuration>
-    <configuration name="CS:app [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$/app" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value="build" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-    </configuration>
-    <configuration name="CS:app [clean]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$/app" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value="clean" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
     </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
@@ -2514,7 +2330,7 @@
       <option name="METHOD_NAME" />
       <option name="GROUP_NAME" />
       <option name="TEST_OBJECT" value="CLASS" />
-      <option name="VM_PARAMETERS" />
+      <option name="VM_PARAMETERS" value="-ea" />
       <option name="PARAMETERS" />
       <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
       <option name="OUTPUT_DIRECTORY" />
@@ -2526,88 +2342,31 @@
       <option name="PROPERTIES_FILE" />
       <properties />
       <listeners />
-      <method>
-        <option name="Make" enabled="true" />
-      </method>
     </configuration>
     <configuration name="&lt;template&gt;" type="JUnit" default="true" selected="false">
       <option name="VM_PARAMETERS" value="-ea" />
       <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
     </configuration>
-    <list>
-      <item itemvalue="Android App.app" />
-      <item itemvalue="Gradle.CS [lintFix]" />
-      <item itemvalue="Gradle.CS [cleanBuildCache]" />
-      <item itemvalue="Gradle.CS [build]" />
-      <item itemvalue="Gradle.CS:app [clean]" />
-      <item itemvalue="Gradle.CS:app [build]" />
-    </list>
-    <recent_temporary>
-      <list>
-        <item itemvalue="Gradle.CS:app [build]" />
-        <item itemvalue="Gradle.CS:app [clean]" />
-        <item itemvalue="Gradle.CS [build]" />
-        <item itemvalue="Gradle.CS [cleanBuildCache]" />
-        <item itemvalue="Gradle.CS [lintFix]" />
-      </list>
-    </recent_temporary>
   </component>
   <component name="SvnConfiguration">
     <configuration />
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="e9796ee8-4044-44de-b0ed-c226de772ac8" name="Default" comment="" />
-      <created>1550494280124</created>
+      <changelist id="881acb79-18f5-45c1-b618-5ebca116ad2a" name="Default" comment="" />
+      <created>1553442566261</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1550494280124</updated>
+      <updated>1553442566261</updated>
     </task>
     <servers />
   </component>
-  <component name="TestHistory">
-    <history-entry file="InvadersGameViewTest_shoots - 2019.02.22 at 13h 27m 55s.xml">
-      <configuration name="InvadersGameViewTest.shoots" configurationId="AndroidJUnit" />
-    </history-entry>
-    <history-entry file="InvadersGameViewTest_shoots - 2019.02.22 at 13h 28m 08s.xml">
-      <configuration name="InvadersGameViewTest.shoots" configurationId="AndroidJUnit" />
-    </history-entry>
-    <history-entry file="InvadersGameViewTest_shoots - 2019.02.22 at 13h 28m 18s.xml">
-      <configuration name="InvadersGameViewTest.shoots" configurationId="AndroidJUnit" />
-    </history-entry>
-    <history-entry file="InvadersGameViewTest_shoots - 2019.02.22 at 13h 28m 35s.xml">
-      <configuration name="InvadersGameViewTest.shoots" configurationId="AndroidJUnit" />
-    </history-entry>
-    <history-entry file="InvadersGameViewTest_shoots - 2019.02.22 at 13h 28m 51s.xml">
-      <configuration name="InvadersGameViewTest.shoots" configurationId="AndroidJUnit" />
-    </history-entry>
-    <history-entry file="InvadersGameViewTest_shoots - 2019.02.22 at 13h 28m 58s.xml">
-      <configuration name="InvadersGameViewTest.shoots" configurationId="AndroidJUnit" />
-    </history-entry>
-    <history-entry file="InvadersGameViewTest_shoots - 2019.02.22 at 13h 29m 11s.xml">
-      <configuration name="InvadersGameViewTest.shoots" configurationId="AndroidJUnit" />
-    </history-entry>
-    <history-entry file="InvadersGameViewTest_shoots - 2019.02.22 at 13h 29m 18s.xml">
-      <configuration name="InvadersGameViewTest.shoots" configurationId="AndroidJUnit" />
-    </history-entry>
-    <history-entry file="InvadersGameViewTest_shoots - 2019.02.22 at 13h 29m 25s.xml">
-      <configuration name="InvadersGameViewTest.shoots" configurationId="AndroidJUnit" />
-    </history-entry>
-    <history-entry file="InvadersGameViewTest_shoots - 2019.03.18 at 13h 48m 50s.xml">
-      <configuration name="InvadersGameViewTest.shoots" configurationId="AndroidJUnit" />
-    </history-entry>
-  </component>
-  <component name="TodoView" selected-index="3">
-    <todo-panel id="selected-file">
-      <is-autoscroll-to-source value="true" />
-    </todo-panel>
-    <todo-panel id="all">
-      <are-packages-shown value="true" />
-      <is-autoscroll-to-source value="true" />
-    </todo-panel>
-  </component>
   <component name="ToolWindowManager">
+<<<<<<< HEAD
     <frame x="97" y="245" width="1296" height="776" extended-state="0" />
+=======
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+>>>>>>> 112c4ed37cac26f73abaeb2e8eda7af9768b1940
     <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -2624,14 +2383,20 @@
       <window_info id="Captures" order="2" weight="0.25" />
       <window_info id="Capture Tool" />
       <window_info id="Designer" />
+<<<<<<< HEAD
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.37944984" />
       <window_info anchor="bottom" id="Build" visible="true" weight="0.47335422" />
+=======
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25" />
+      <window_info anchor="bottom" id="Build" visible="true" weight="0.32897604" />
+>>>>>>> 112c4ed37cac26f73abaeb2e8eda7af9768b1940
       <window_info anchor="right" id="Gradle" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Theme Preview" />
       <window_info id="Favorites" side_tool="true" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="right" id="Device File Explorer" side_tool="true" />
+<<<<<<< HEAD
       <window_info anchor="bottom" id="Build" order="7" weight="0.3470982" />
       <window_info id="Designer" order="2" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.47727272" />
@@ -2662,25 +2427,22 @@
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32954547" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+=======
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+>>>>>>> 112c4ed37cac26f73abaeb2e8eda7af9768b1940
     </layout>
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/cs/spaceinvaders/InvadersGameView.java</url>
-          <line>291</line>
-          <properties />
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-      <option name="time" value="2" />
-    </breakpoint-manager>
-  </component>
   <component name="editorHistoryManager">
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/app/src/test/java/cs/spaceinvaders/InvadersGameViewTest.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="816">
@@ -2923,6 +2685,8 @@
         </state>
       </provider>
     </entry>
+=======
+>>>>>>> 112c4ed37cac26f73abaeb2e8eda7af9768b1940
     <entry file="file://$PROJECT_DIR$/app/src/main/java/cs/spaceinvaders/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
@@ -2930,20 +2694,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/cs/spaceinvaders/RankingActivity.java">
+    <entry file="file://$PROJECT_DIR$/app/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-680">
-          <caret line="49" column="27" selection-start-line="49" selection-start-column="27" selection-end-line="49" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/cs/spaceinvaders/InvadersGameView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="527" column="34" selection-start-line="527" selection-start-column="34" selection-end-line="527" selection-end-column="34" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state relative-caret-position="408">
+          <caret line="24" column="1" lean-forward="true" selection-start-line="24" selection-start-column="1" selection-end-line="24" selection-end-column="1" />
         </state>
       </provider>
     </entry>

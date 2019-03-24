@@ -2,6 +2,7 @@ package cs.spaceinvaders.entity;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.PointF;
 import android.graphics.RectF;
 
 public class Bullet extends MovingEntity{
@@ -26,6 +27,8 @@ public class Bullet extends MovingEntity{
     public Bullet( int screenY, int screenX, Bitmap b){
         // Inicializa el bitmap
         setHeight( screenY/20);
+
+        setPosition(new PointF());
 
         bounceCounts = 0;
         enemyBullet = false;
@@ -141,6 +144,7 @@ public class Bullet extends MovingEntity{
 
         return false;
     }
+
 
     public int getBounceCounts() {
         return bounceCounts;
