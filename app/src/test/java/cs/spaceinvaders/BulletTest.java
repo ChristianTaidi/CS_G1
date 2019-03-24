@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import cs.spaceinvaders.entity.Bullet;
+import cs.spaceinvaders.entity.MovingEntity;
 
 import static org.junit.Assert.*;
 
