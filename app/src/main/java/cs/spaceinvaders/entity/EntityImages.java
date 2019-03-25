@@ -33,6 +33,8 @@ public class EntityImages {
         enemyColor2.add(enemyAnim3Bitmap);
         enemyColor2.add(enemyAnim4Bitmap);
 
+        this.enemyImage=enemyColor1.get(0);
+
         this.bulletImage=bulletImage;
     }
 
@@ -85,10 +87,10 @@ public class EntityImages {
     }
 
     public void animate(){
-        if(this.getEnemyImage().equals(this.enemyColor1.get(1))){
-            this.setEnemyImage(enemyColor1.get(2));
-        }else{
+        if(this.getEnemyImage().equals(this.enemyColor1.get(0))){
             this.setEnemyImage(enemyColor1.get(1));
+        }else{
+            this.setEnemyImage(enemyColor1.get(0));
         }
     }
 

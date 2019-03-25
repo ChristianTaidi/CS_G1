@@ -721,7 +721,7 @@ public class InvadersGameView extends SurfaceView implements Runnable {
             if(!bullets.isEmpty() && !bulletThread.isAlive()) {
                 for (Bullet b : bullets) {
                     if (!b.getEnemyBullet()) {
-                        canvas.drawBitmap(images.getEnemyImage(), b.getX() - b.getHeight() / 2, b.getY(), paint);
+                        canvas.drawBitmap(images.getBulletImage(), b.getX() - b.getHeight() / 2, b.getY(), paint);
                     } else {
                         canvas.drawBitmap(images.getBulletImage(), b.getX() - b.getHeight() / 2, b.getY(), paint);
                     }
