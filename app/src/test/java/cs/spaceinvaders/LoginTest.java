@@ -7,6 +7,7 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import android.content.Context;
+import org.mockito.Mockito.mock;
 
 
 public class LoginTest {
@@ -82,7 +83,7 @@ public class LoginTest {
 
    @Given("^I want to collide with the barrier$")
    public void iWantToCollideWithTheBarrier() {
-      
+
    }
 
    @When("^The ship collides with barrier$")
