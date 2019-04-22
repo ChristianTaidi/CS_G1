@@ -6,8 +6,7 @@ import cs.spaceinvaders.entity.SpaceShip;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-
-import javax.naming.Context;
+import android.content.Context;
 
 
 public class LoginTest {
@@ -19,7 +18,7 @@ public class LoginTest {
    public void iWantToMoveTheShipDown() {
       context = mock(Context.class);
       spaceShipBitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.spaceship), x/8, y/15, false);
-      this.spaceShip = new SpaceShip(context,20,20, );
+      this.spaceShip = new SpaceShip(context,20,20, spaceShipBitmap);
    }
 
    @When("^We press down buttom$")
@@ -34,7 +33,9 @@ public class LoginTest {
 
    @Given("^I want to move the ship to the left$")
    public void iWantToMoveTheShipToTheLeft() {
-
+      context = mock(Context.class);
+      spaceShipBitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.spaceship), x/8, y/15, false);
+      this.spaceShip = new SpaceShip(context,20,20, spaceShipBitmap);
    }
 
    @When("^We press left buttom$")
@@ -64,7 +65,9 @@ public class LoginTest {
 
    @Given("^I want to move the ship up$")
    public void iWantToMoveTheShipUp() {
-
+      context = mock(Context.class);
+      spaceShipBitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.spaceship), x/8, y/15, false);
+      this.spaceShip = new SpaceShip(context,20,20, spaceShipBitmap);
    }
 
    @When("^We press up buttom$")
@@ -79,6 +82,7 @@ public class LoginTest {
 
    @Given("^I want to collide with the barrier$")
    public void iWantToCollideWithTheBarrier() {
+      
    }
 
    @When("^The ship collides with barrier$")
