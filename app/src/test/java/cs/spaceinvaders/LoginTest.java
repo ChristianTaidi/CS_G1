@@ -9,6 +9,8 @@ import cucumber.api.java.en.When;
 import android.content.Context;
 import org.mockito.Mockito.mock;
 
+import static org.junit.Assert.assertEquals;
+
 
 public class LoginTest {
    public Context context;
@@ -24,12 +26,14 @@ public class LoginTest {
 
    @When("^We press down buttom$")
    public void wePressDownButtom() {
-
+      spaceShip.setMovementState(4);
+      spaceShip.setY(25);
    }
 
    @Then("^Space Ship move down$")
    public void spaceShipMoveDown() {
-
+      spaceShip.update(1000);
+      assertEquals(25, spaceShip.getY(),0);
    }
 
    @Given("^I want to move the ship to the left$")
@@ -41,12 +45,14 @@ public class LoginTest {
 
    @When("^We press left buttom$")
    public void wePressLeftButtom() {
-
+      spaceShip.setMovementState(4);
+      spaceShip.setY(25);
    }
 
    @Then("^Space Ship move left$")
    public void spaceShipMoveLeft() {
-
+      spaceShip.update(1000);
+      assertEquals(25, spaceShip.getY(),0);
    }
 
    @Given("^I want to shot$")
@@ -73,12 +79,14 @@ public class LoginTest {
 
    @When("^We press up buttom$")
    public void wePressUpButtom() {
-
+      spaceShip.setMovementState(4);
+      spaceShip.setY(25);
    }
 
    @Then("^Space Ship move up$")
    public void spaceShipMoveUp() {
-
+      spaceShip.update(1000);
+      assertEquals(25, spaceShip.getY(),0);
    }
 
    @Given("^I want to collide with the barrier$")
