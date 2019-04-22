@@ -22,15 +22,10 @@ public class scenariosSteps {
    private Bitmap shootBitmap;
    private Defence barrier;
    private Bitmap barrierBitmap;
-   private int x;
-   private int y;
-   private int row;
-   private int column;
-   private int shelterNumber;
    private InvadersGameView spaceShipCollides;
 
    @Given("^I want to move the ship down$")
-   public void iWantToMoveTheShipDown() {
+   public void iWantToMoveTheShipDown(int x, int y) {
       context = mock(Context.class);
       spaceShipBitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.spaceship), x/8, y/15, false);
       this.spaceShip = new SpaceShip(context,20,20, spaceShipBitmap);
@@ -49,7 +44,7 @@ public class scenariosSteps {
    }
 
    @Given("^I want to move the ship to the left$")
-   public void iWantToMoveTheShipToTheLeft() {
+   public void iWantToMoveTheShipToTheLeft(int x, int y) {
       context = mock(Context.class);
       spaceShipBitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.spaceship), x/8, y/15, false);
       this.spaceShip = new SpaceShip(context,20,20, spaceShipBitmap);
@@ -68,7 +63,7 @@ public class scenariosSteps {
    }
 
    @Given("^I want to shot$")
-   public void iWantToShot() {
+   public void iWantToShot(int x, int y) {
       context = mock(Context.class);
       shootBitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.bullet1), x/20, y/20, false);
       this.bullet = new Bullet(20,20, shootBitmap);
@@ -87,7 +82,7 @@ public class scenariosSteps {
    }
 
    @Given("^I want to move the ship up$")
-   public void iWantToMoveTheShipUp() {
+   public void iWantToMoveTheShipUp(int x, int y) {
       context = mock(Context.class);
       spaceShipBitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.spaceship), x/8, y/15, false);
       this.spaceShip = new SpaceShip(context,20,20, spaceShipBitmap);
@@ -106,7 +101,7 @@ public class scenariosSteps {
    }
 
    @Given("^I want to collide with the barrier$")
-   public void iWantToCollideWithTheBarrier() {
+   public void iWantToCollideWithTheBarrier(int x, int y, int shelterNumber, int row, int column) {
       context = mock(Context.class);
       barrierBitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.rock), x/20, y/80, false);
       this.barrier = new Defence(row, column, shelterNumber, x, y);
