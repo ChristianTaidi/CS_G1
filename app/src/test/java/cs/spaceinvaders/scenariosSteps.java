@@ -2,6 +2,8 @@ package cs.spaceinvaders;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import cs.spaceinvaders.entity.Bullet;
+import cs.spaceinvaders.entity.Defence;
 import cs.spaceinvaders.entity.SpaceShip;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -12,10 +14,20 @@ import org.mockito.Mockito.mock;
 import static org.junit.Assert.assertEquals;
 
 
-public class LoginTest {
-   public Context context;
-   public SpaceShip spaceShip;
-   public Bitmap spaceShipBitmap;
+public class scenariosSteps {
+   private Context context;
+   private SpaceShip spaceShip;
+   private Bitmap spaceShipBitmap;
+   private Bullet bullet;
+   private Bitmap shootBitmap;
+   private Defence barrier;
+   private Bitmap barrierBitmap;
+   private int x;
+   private int y;
+   private int row;
+   private int column;
+   private int shelterNumber;
+   private InvadersGameView spaceShipCollides;
 
    @Given("^I want to move the ship down$")
    public void iWantToMoveTheShipDown() {
@@ -24,7 +36,7 @@ public class LoginTest {
       this.spaceShip = new SpaceShip(context,20,20, spaceShipBitmap);
    }
 
-   @When("^We press down buttom$")
+   @When("^We press down button$")
    public void wePressDownButtom() {
       spaceShip.setMovementState(4);
       spaceShip.setY(25);
@@ -43,7 +55,7 @@ public class LoginTest {
       this.spaceShip = new SpaceShip(context,20,20, spaceShipBitmap);
    }
 
-   @When("^We press left buttom$")
+   @When("^We press left button$")
    public void wePressLeftButtom() {
       spaceShip.setMovementState(4);
       spaceShip.setY(25);
@@ -57,17 +69,21 @@ public class LoginTest {
 
    @Given("^I want to shot$")
    public void iWantToShot() {
-
+      context = mock(Context.class);
+      shootBitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.bullet1), x/20, y/20, false);
+      this.bullet = new Bullet(20,20, shootBitmap);
    }
 
-   @When("^We press shot buttom$")
+   @When("^We press shot button$")
    public void wePressShotButtom() {
-
+      bullet.setShotDir(6);
+      bullet.setY(25);
    }
 
    @Then("^Space Ship shot a laser$")
    public void spaceShipShotALaser() {
-
+      bullet.update(1000);
+      assertEquals(25, bullet.getY(),0);
    }
 
    @Given("^I want to move the ship up$")
@@ -77,7 +93,7 @@ public class LoginTest {
       this.spaceShip = new SpaceShip(context,20,20, spaceShipBitmap);
    }
 
-   @When("^We press up buttom$")
+   @When("^We press up button$")
    public void wePressUpButtom() {
       spaceShip.setMovementState(4);
       spaceShip.setY(25);
@@ -91,16 +107,18 @@ public class LoginTest {
 
    @Given("^I want to collide with the barrier$")
    public void iWantToCollideWithTheBarrier() {
-
+      context = mock(Context.class);
+      barrierBitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.rock), x/20, y/80, false);
+      this.barrier = new Defence(row, column, shelterNumber, x, y);
    }
 
    @When("^The ship collides with barrier$")
    public void theShipCollidesWithBarrier() {
-
+      spaceShipCollides.checkPlayerBlockCollision();
    }
 
-   @Then("^The barrier disapears$")
+   @Then("^The barrier disappears$")
    public void theBarrierDisapears() {
-
+      barrier.destoyDefence();
    }
 }
