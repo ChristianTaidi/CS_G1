@@ -35,7 +35,7 @@ public class scenariosSteps {
    }
 
    @When("^We press down button$")
-   public void wePressDownButtom() {
+   public void wePressDownButton() {
       spaceShip.setPositionY(25);
       spaceShip.setMovementState(3);
    }
@@ -54,7 +54,7 @@ public class scenariosSteps {
    }
 
    @When("^We press left button$")
-   public void wePressLeftButtom() {
+   public void wePressLeftButton() {
       spaceShip.setPositionY(25);
       spaceShip.setMovementState(1);
    }
@@ -73,7 +73,7 @@ public class scenariosSteps {
    }
 
    @When("^We press shot button$")
-   public void wePressShotButtom() {
+   public void wePressShotButton() {
       bullet.setShotDir(0);
       bullet.setPositionY(25);
    }
@@ -92,7 +92,7 @@ public class scenariosSteps {
    }
 
    @When("^We press up button$")
-   public void wePressUpButtom() {
+   public void wePressUpButton() {
       spaceShip.setPositionY(25);
       spaceShip.setMovementState(4);
    }
@@ -117,7 +117,7 @@ public class scenariosSteps {
    }
 
    @Then("^The barrier disappears$")
-   public void theBarrierDisapears() {
+   public void theBarrierDisappears() {
       barrier.destoyDefence();
    }
 }
