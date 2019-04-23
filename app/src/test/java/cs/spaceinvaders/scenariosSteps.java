@@ -36,14 +36,14 @@ public class scenariosSteps {
 
    @When("^We press down button$")
    public void wePressDownButtom() {
-      spaceShip.setMovementState(3);
       spaceShip.setY(25);
+      spaceShip.setMovementState(3);
    }
 
    @Then("^Space Ship move down$")
    public void spaceShipMoveDown() {
       spaceShip.update(1000);
-      assertEquals(25, spaceShip.getY(),0);
+      assertEquals(18, spaceShip.getY(),0);
    }
 
    @Given("^I want to move the ship to the left$")
@@ -55,14 +55,14 @@ public class scenariosSteps {
 
    @When("^We press left button$")
    public void wePressLeftButtom() {
-      spaceShip.setMovementState(1);
       spaceShip.setY(25);
+      spaceShip.setMovementState(1);
    }
 
    @Then("^Space Ship move left$")
    public void spaceShipMoveLeft() {
       spaceShip.update(1000);
-      assertEquals(25, spaceShip.getY(),0);
+      assertEquals(18, spaceShip.getY(),0);
    }
 
    @Given("^I want to shot$")
@@ -93,14 +93,14 @@ public class scenariosSteps {
 
    @When("^We press up button$")
    public void wePressUpButtom() {
-      spaceShip.setMovementState(4);
       spaceShip.setY(25);
+      spaceShip.setMovementState(4);
    }
 
    @Then("^Space Ship move up$")
    public void spaceShipMoveUp() {
       spaceShip.update(1000);
-      assertEquals(25, spaceShip.getY(),0);
+      assertEquals(17.5, spaceShip.getY(),0);
    }
 
    @Given("^I want to collide with the barrier$")

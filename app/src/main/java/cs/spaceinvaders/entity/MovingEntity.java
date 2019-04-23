@@ -5,7 +5,7 @@ import android.graphics.RectF;
 
 public abstract class MovingEntity extends Entity {
     private PointF position;
-
+    private float y;
     private int width ;
     private float height;
 
@@ -27,12 +27,21 @@ public abstract class MovingEntity extends Entity {
         this.position.x = x;
     }
 
-    public float getY() {
-        return position.y;
-    }
+   //public float getY() {
+    //    return position.y;
+    //}
+
     public void setY(float y) {
-        this.position.y = y;
+        this.y = y;
     }
+
+    public float getY() {
+       return this.y;
+    }
+
+    //public void setY(float y) {
+    //    this.position.y = y;
+    //}
 
 
     public int getWidth() {
