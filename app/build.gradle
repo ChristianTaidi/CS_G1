@@ -40,14 +40,6 @@ dependencies {
     testImplementation "org.mockito:mockito-core:1.10.19"
     testImplementation 'io.cucumber:cucumber-java:4.2.0'
     testImplementation 'io.cucumber:cucumber-junit:4.2.0'
-    implementation files('.idea/libraries/client-combined-3.141.59-sources.jar')
-    implementation files('.idea/libraries/client-combined-3.141.59.jar')
-    implementation files('.idea/libraries/java-client-7.0.0.jar')
-    implementation files('.idea/libraries/libs/byte-buddy-1.8.15.jar')
-    implementation files('.idea/libraries/libs/commons-exec-1.3.jar')
-    implementation files('.idea/libraries/libs/guava-25.0-jre.jar')
-    implementation files('.idea/libraries/libs/okhttp-3.11.0.jar')
-    implementation files('.idea/libraries/libs/okio-1.14.0.jar')
 }
 
 repositories {
