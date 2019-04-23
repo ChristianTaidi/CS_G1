@@ -33,7 +33,7 @@ public class scenariosSteps {
 
    @When("^We press down button$")
    public void wePressDownButtom() {
-      spaceShip.setMovementState(4);
+      spaceShip.setMovementState(3);
       spaceShip.setY(25);
    }
 
@@ -52,7 +52,7 @@ public class scenariosSteps {
 
    @When("^We press left button$")
    public void wePressLeftButtom() {
-      spaceShip.setMovementState(4);
+      spaceShip.setMovementState(1);
       spaceShip.setY(25);
    }
 
@@ -71,7 +71,7 @@ public class scenariosSteps {
 
    @When("^We press shot button$")
    public void wePressShotButtom() {
-      bullet.setShotDir(6);
+      bullet.setShotDir(0);
       bullet.setY(25);
    }
 
