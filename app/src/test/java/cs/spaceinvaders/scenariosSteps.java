@@ -36,14 +36,14 @@ public class scenariosSteps {
 
    @When("^We press down button$")
    public void wePressDownButtom() {
-      spaceShip.setY(25);
+      spaceShip.setPositionY(25);
       spaceShip.setMovementState(3);
    }
 
    @Then("^Space Ship move down$")
    public void spaceShipMoveDown() {
       spaceShip.update(1000);
-      assertEquals(18, spaceShip.getY(),0);
+      assertEquals(25, spaceShip.getPositionY(),0);
    }
 
    @Given("^I want to move the ship to the left$")
@@ -55,14 +55,14 @@ public class scenariosSteps {
 
    @When("^We press left button$")
    public void wePressLeftButtom() {
-      spaceShip.setY(25);
+      spaceShip.setPositionY(25);
       spaceShip.setMovementState(1);
    }
 
    @Then("^Space Ship move left$")
    public void spaceShipMoveLeft() {
       spaceShip.update(1000);
-      assertEquals(18, spaceShip.getY(),0);
+      assertEquals(25, spaceShip.getPositionY(),0);
    }
 
    @Given("^I want to shot$")
@@ -75,13 +75,13 @@ public class scenariosSteps {
    @When("^We press shot button$")
    public void wePressShotButtom() {
       bullet.setShotDir(0);
-      bullet.setY(25);
+      bullet.setPositionY(25);
    }
 
    @Then("^Space Ship shot a laser$")
    public void spaceShipShotALaser() {
       bullet.update(1000);
-      assertEquals(25, bullet.getY(),0);
+      assertEquals(25, bullet.getPositionY(),0);
    }
 
    @Given("^I want to move the ship up$")
@@ -93,14 +93,14 @@ public class scenariosSteps {
 
    @When("^We press up button$")
    public void wePressUpButtom() {
-      spaceShip.setY(25);
+      spaceShip.setPositionY(25);
       spaceShip.setMovementState(4);
    }
 
    @Then("^Space Ship move up$")
    public void spaceShipMoveUp() {
       spaceShip.update(1000);
-      assertEquals(17.5, spaceShip.getY(),0);
+      assertEquals(25, spaceShip.getPositionY(),0);
    }
 
    @Given("^I want to collide with the barrier$")
@@ -112,6 +112,7 @@ public class scenariosSteps {
 
    @When("^The ship collides with barrier$")
    public void theShipCollidesWithBarrier() {
+      spaceShipCollides = mock(InvadersGameView.class);
       spaceShipCollides.checkPlayerBlockCollision();
    }
 
